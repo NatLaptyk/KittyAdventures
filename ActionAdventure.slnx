@@ -1,0 +1,5 @@
+﻿<Solution>
+  <Project Path="Assembly-CSharp.csproj" />
+  <Project Path="EZhex1991.EZSoftBone.csproj" />
+  <Project Path="EZhex1991.EZSoftBone.Editor.csproj" />
+</Solution>
