@@ -1,0 +1,60 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &7291337899046091881
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 510185197147248592}
+  - component: {fileID: 3495705744166895831}
+  m_Layer: 0
+  m_Name: AudioManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &510185197147248592
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7291337899046091881}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.15601018, y: 0.48482245, z: -0.51753694}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &3495705744166895831
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7291337899046091881}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 115c261f864614b448bea32ac4c72ada, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sfxSource: {fileID: 0}
+  jump: {fileID: 8300000, guid: 94f25e8461667aa4983e0e349539a89d, type: 3}
+  land: {fileID: 8300000, guid: 86c6582401932534793b46c1c9497a9b, type: 3}
+  lightAttack: {fileID: 8300000, guid: fb4a3c92cbf34c44a9a8a58cdc6a9562, type: 3}
+  heavyAttack: {fileID: 8300000, guid: 4295b46dd7251d44eb7143224d755a68, type: 3}
+  playerDamaged: {fileID: 8300000, guid: 3dc9a485d57cfa54283f9d42064fc210, type: 3}
+  steps: {fileID: 8300000, guid: 0384e79b3f705194194b8b5fcdffada7, type: 3}
+  treesMoving: {fileID: 8300000, guid: 1fecc0ccdb49a954283138182bb9e852, type: 3}
+  signRight: {fileID: 8300000, guid: b4e9fd57f25467c419bb396f229c7251, type: 3}
+  signWrong: {fileID: 8300000, guid: 8f5c82ef846f06844b01be4f6ee5abbf, type: 3}
+  spiderAttack: {fileID: 8300000, guid: 4eaa996ef505999429c5390b70761e85, type: 3}
+  spiderDed: {fileID: 8300000, guid: a2fcaed2d6dd76442bfa250d252dc8ad, type: 3}
+  wispAttack: {fileID: 8300000, guid: b3fdb29029736d04285f61addaf25c7f, type: 3}
+  wispDed: {fileID: 8300000, guid: 8742a46edc5dcf644b872e5c056788f2, type: 3}
