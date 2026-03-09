@@ -54,19 +54,40 @@ public class SpiderAI : EnemyAI
     [Tooltip("Circler dashes in to attack at this range")]
     public float dashInRange    = 2.5f;
 
+    [Header("Spider — Separation")]
+    [Tooltip("Spiders push away from each other within this radius.")]
+    public float separationRadius = 2.5f;
+    [Tooltip("How strongly spiders push away from each other.")]
+    public float separationForce  = 1.8f;
+    [Tooltip("Each spider approaches Kitty from a slightly different angle. " +
+             "Higher = more spread out.")]
+    public float approachAngleVariance = 45f;
+
     // Private state
     float _orbitAngle;
     float _variationOffset;
+    float _approachAngle;       // unique angle offset for this spider's approach
+    float _repositionTimer;     // periodically pick a new approach angle
 
     protected override void Awake()
     {
         base.Awake();
-        _agent.speed        = normalSpeed;
-        _agent.acceleration = 12f;
+        _agent.speed            = normalSpeed;
+        _agent.acceleration     = 12f;
         _agent.stoppingDistance = _stats.attackRange * 0.8f;
 
+        // Each spider gets a unique random identity so they never move in sync
+        _orbitAngle       = Random.Range(0f, 360f);
+        _variationOffset  = Random.Range(0f, Mathf.PI * 2f);
+        _approachAngle    = Random.Range(-approachAngleVariance, approachAngleVariance);
+        _repositionTimer  = Random.Range(2f, 5f);
 
-
+        // Circlers spread evenly — divide 360° by spider count approximation
+        // by seeding orbit angle based on instance ID so no two start at same angle
+        int seed = gameObject.GetInstanceID();
+        Random.InitState(seed);
+        _orbitAngle = Random.Range(0f, 360f);
+        Random.InitState((int)Time.realtimeSinceStartup);
     }
 
     protected override void Update()
@@ -77,6 +98,57 @@ public class SpiderAI : EnemyAI
             UpdateCharge();
         else
             UpdateCircler();
+
+        ApplySeparation();
+        UpdateApproachAngle();
+    }
+
+    void ApplySeparation()
+    {
+        if (_kitty == null || !_agent.isOnNavMesh) return;
+
+        // Find all other spiders nearby and push away from them
+        Collider[] nearby = Physics.OverlapSphere(transform.position, separationRadius,
+                            LayerMask.GetMask("Enemy"));
+
+        Vector3 separation = Vector3.zero;
+        int     count      = 0;
+
+        foreach (var col in nearby)
+        {
+            if (col.gameObject == gameObject) continue;
+            if (col.GetComponent<SpiderAI>() == null) continue;
+
+            Vector3 away = transform.position - col.transform.position;
+            float   dist = away.magnitude;
+            if (dist < 0.01f) continue;
+
+            // Closer spiders push harder
+            separation += away.normalized * (1f - dist / separationRadius);
+            count++;
+        }
+
+        if (count == 0) return;
+
+        // Apply separation as a destination offset
+        separation /= count;
+        separation  = Vector3.ProjectOnPlane(separation, Vector3.up);
+
+        Vector3 dest = _agent.destination + separation * separationForce;
+
+        if (UnityEngine.AI.NavMesh.SamplePosition(dest, out var hit, 2f, UnityEngine.AI.NavMesh.AllAreas))
+            _agent.SetDestination(hit.position);
+    }
+
+    void UpdateApproachAngle()
+    {
+        // Periodically shift approach angle so spiders don't lock into the same spot
+        _repositionTimer -= Time.deltaTime;
+        if (_repositionTimer <= 0f)
+        {
+            _approachAngle   = Random.Range(-approachAngleVariance, approachAngleVariance);
+            _repositionTimer = Random.Range(3f, 6f);
+        }
     }
 
     void UpdateCircler()
@@ -85,8 +157,9 @@ public class SpiderAI : EnemyAI
 
         float distToKitty = Vector3.Distance(transform.position, _kitty.position);
 
-        // Orbit around Kitty at preferred distance
-        _orbitAngle += orbitSpeed * Time.deltaTime * (1f + 0.3f * Mathf.Sin(Time.time + _variationOffset));
+        // Orbit around Kitty — direction flips per spider using variation offset
+        float dir = Mathf.Sign(Mathf.Sin(_variationOffset));   // +1 or -1
+        _orbitAngle += orbitSpeed * dir * Time.deltaTime * (1f + 0.4f * Mathf.Sin(Time.time * 0.7f + _variationOffset));
 
         Vector3 orbitPos = _kitty.position + new Vector3(
             Mathf.Cos(_orbitAngle * Mathf.Deg2Rad) * orbitDistance,

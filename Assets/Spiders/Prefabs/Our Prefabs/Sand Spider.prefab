@@ -101,6 +101,9 @@ MonoBehaviour:
   orbitDistance: 4
   orbitSpeed: 2.5
   dashInRange: 2.5
+  separationRadius: 2.5
+  separationForce: 1.8
+  approachAngleVariance: 45
 --- !u!136 &2626340000607459910
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -120,10 +123,10 @@ CapsuleCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 1.8426179
+  m_Radius: 1.3780173
   m_Height: 5.3615613
   m_Direction: 2
-  m_Center: {x: 0, y: 1.1659318, z: 0.42319858}
+  m_Center: {x: 0, y: 1, z: 0.4231986}
 --- !u!1001 &9129464009988740913
 PrefabInstance:
   m_ObjectHideFlags: 0

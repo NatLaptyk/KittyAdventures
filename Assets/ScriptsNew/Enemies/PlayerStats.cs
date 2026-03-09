@@ -102,6 +102,9 @@ public class PlayerStats : MonoBehaviour, IDamageable
         // Shake camera on hit
         _cam?.Shake(0.4f);
 
+        // Combat visual FX
+        CombatFX.Instance?.OnKittyDamaged(sourcePosition);
+
         // Trigger hit or death animation
         _animator?.SetTrigger(Health <= 0f ? "Death" : "TakeDamage");
 

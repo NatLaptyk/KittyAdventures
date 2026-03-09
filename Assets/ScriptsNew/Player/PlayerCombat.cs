@@ -178,18 +178,20 @@ public class PlayerCombat : MonoBehaviour
         else if (mouse.rightButton.wasPressedThisFrame)
             StartCoroutine(HeavyAttack());
 
-        // Middle Mouse = parry / block
-        if (mouse.middleButton.wasPressedThisFrame)
+        // Middle Mouse OR Q key = parry / block
+        bool blockPressed = mouse.middleButton.wasPressedThisFrame
+                         || Keyboard.current.qKey.wasPressedThisFrame;
+        if (blockPressed)
         {
-            Debug.Log("[Combat] Middle mouse pressed");
+            Debug.Log($"[Combat] Block pressed | state={_state} | stamina={(_stats != null ? _stats.Stamina : -1)}");
             if (_state != CombatState.Free)
-            {
-                Debug.Log("[Combat] Blocked — state is " + _state);
-            }
-            else if (_stats != null && _stats.SpendStamina(parryStaminaCost))
-                StartCoroutine(Parry());
+                Debug.Log("[Combat] Blocked by state: " + _state);
+            else if (_stats == null)
+                Debug.Log("[Combat] _stats is NULL — PlayerStats not found!");
+            else if (!_stats.SpendStamina(parryStaminaCost))
+                Debug.Log($"[Combat] Not enough stamina — need {parryStaminaCost}, have {_stats.Stamina}");
             else
-                Debug.Log("[Combat] Not enough stamina to parry!");
+                StartCoroutine(Parry());
         }
     }
 
@@ -289,13 +291,13 @@ public class PlayerCombat : MonoBehaviour
         _state       = CombatState.Parrying;
         _parryActive = true;
 
-        animator?.SetBool("isBlock", true);
+        animator?.SetTrigger("isBlock");
 
         // Parry window — Kitty can deflect incoming hits
         yield return new WaitForSeconds(parryWindow);
 
         _parryActive = false;
-        animator?.SetBool("isBlock", false);
+        // isBlock is a trigger — clears itself automatically
 
         // Brief recovery after parry window closes
         yield return new WaitForSeconds(0.2f);
@@ -357,7 +359,24 @@ public class PlayerCombat : MonoBehaviour
     /// </summary>
     void ApplyHit(Collider hit, float damage, bool applyKnockback)
     {
-        hit.GetComponent<IDamageable>()?.TakeDamage(damage, transform.position);
+        // Check the hit collider first, then walk up to parent in case
+        // EnemyStats is on the root but the collider is on a child object
+        var damageable = hit.GetComponent<IDamageable>()
+                      ?? hit.GetComponentInParent<IDamageable>();
+
+        if (damageable != null)
+        {
+            damageable.TakeDamage(damage, transform.position);
+
+            // Trigger combat FX — heavy attacks use the stronger effect
+            bool isHeavy = damage >= heavyDamage;
+            if (isHeavy)
+                CombatFX.Instance?.OnHeavyHit(hit.transform.position);
+            else
+                CombatFX.Instance?.OnLightHit(hit.transform.position);
+        }
+
+        Debug.Log($"[Combat] Hit {hit.gameObject.name} damageable={damageable != null}");
 
         if (applyKnockback)
         {

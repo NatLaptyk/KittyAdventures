@@ -29,8 +29,8 @@ Transform:
   m_GameObject: {fileID: 1005553965286598864}
   serializedVersion: 2
   m_LocalRotation: {x: 1, y: 0, z: 0, w: 0}
-  m_LocalPosition: {x: 523.81, y: 11.125, z: 189.76}
-  m_LocalScale: {x: 0.73574734, y: 0.73574734, z: 0.73574734}
+  m_LocalPosition: {x: 523.76, y: 11.233, z: 189.68}
+  m_LocalScale: {x: 0.58619195, y: 0.58619195, z: 0.58619195}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 4161083740938151124}
@@ -55,10 +55,10 @@ CapsuleCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.85669625
+  m_Radius: 0.564286
   m_Height: 2.8004475
   m_Direction: 2
-  m_Center: {x: -0.28780836, y: -0.93798405, z: 0.0956805}
+  m_Center: {x: -0.4070626, y: -0.76482815, z: 0.0956805}
 --- !u!195 &677124171423197784
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -124,6 +124,9 @@ MonoBehaviour:
   orbitDistance: 4
   orbitSpeed: 2.5
   dashInRange: 2.5
+  separationRadius: 2.5
+  separationForce: 1.8
+  approachAngleVariance: 45
 --- !u!1001 &4482659294436180799
 PrefabInstance:
   m_ObjectHideFlags: 0
