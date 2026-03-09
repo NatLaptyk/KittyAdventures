@@ -145,6 +145,15 @@ public partial class @KittyInputActions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Block"",
+                    ""type"": ""Button"",
+                    ""id"": ""301bbaa5-e535-4c30-9473-dceb425aaa04"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -257,6 +266,17 @@ public partial class @KittyInputActions: IInputActionCollection2, IDisposable
                     ""action"": ""Climb"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""8cb03aa3-1af9-410d-bf8f-c2c308e1fc60"",
+                    ""path"": ""<Mouse>/middleButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Block"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -271,6 +291,7 @@ public partial class @KittyInputActions: IInputActionCollection2, IDisposable
         m_Kitty_Jump = m_Kitty.FindAction("Jump", throwIfNotFound: true);
         m_Kitty_Dodge = m_Kitty.FindAction("Dodge", throwIfNotFound: true);
         m_Kitty_Climb = m_Kitty.FindAction("Climb", throwIfNotFound: true);
+        m_Kitty_Block = m_Kitty.FindAction("Block", throwIfNotFound: true);
     }
 
     ~@KittyInputActions()
@@ -357,6 +378,7 @@ public partial class @KittyInputActions: IInputActionCollection2, IDisposable
     private readonly InputAction m_Kitty_Jump;
     private readonly InputAction m_Kitty_Dodge;
     private readonly InputAction m_Kitty_Climb;
+    private readonly InputAction m_Kitty_Block;
     /// <summary>
     /// Provides access to input actions defined in input action map "Kitty".
     /// </summary>
@@ -392,6 +414,10 @@ public partial class @KittyInputActions: IInputActionCollection2, IDisposable
         /// Provides access to the underlying input action "Kitty/Climb".
         /// </summary>
         public InputAction @Climb => m_Wrapper.m_Kitty_Climb;
+        /// <summary>
+        /// Provides access to the underlying input action "Kitty/Block".
+        /// </summary>
+        public InputAction @Block => m_Wrapper.m_Kitty_Block;
         /// <summary>
         /// Provides access to the underlying input action map instance.
         /// </summary>
@@ -436,6 +462,9 @@ public partial class @KittyInputActions: IInputActionCollection2, IDisposable
             @Climb.started += instance.OnClimb;
             @Climb.performed += instance.OnClimb;
             @Climb.canceled += instance.OnClimb;
+            @Block.started += instance.OnBlock;
+            @Block.performed += instance.OnBlock;
+            @Block.canceled += instance.OnBlock;
         }
 
         /// <summary>
@@ -465,6 +494,9 @@ public partial class @KittyInputActions: IInputActionCollection2, IDisposable
             @Climb.started -= instance.OnClimb;
             @Climb.performed -= instance.OnClimb;
             @Climb.canceled -= instance.OnClimb;
+            @Block.started -= instance.OnBlock;
+            @Block.performed -= instance.OnBlock;
+            @Block.canceled -= instance.OnBlock;
         }
 
         /// <summary>
@@ -547,5 +579,12 @@ public partial class @KittyInputActions: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnClimb(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "Block" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnBlock(InputAction.CallbackContext context);
     }
 }

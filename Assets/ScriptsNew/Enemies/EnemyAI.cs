@@ -99,7 +99,9 @@ public abstract class EnemyAI : MonoBehaviour
         }
 
         // Update animator speed
-        _animator?.SetFloat("Speed", _agent.velocity.magnitude);
+        float spd = _agent.isOnNavMesh ? _agent.velocity.magnitude : 0f;
+        _animator?.SetFloat("Speed", spd);
+        _animator?.SetBool("isWalk", spd > 0.1f);
     }
 
     // ─────────────────────────────────────────────
@@ -127,7 +129,8 @@ public abstract class EnemyAI : MonoBehaviour
         }
 
         // Move toward patrol target
-        if (!_agent.pathPending && _agent.remainingDistance < 0.5f)
+        if (!_agent.pathPending && _agent.isOnNavMesh
+            && _agent.remainingDistance < 0.5f)
         {
             _waitingAtPatrolPoint = true;
             _patrolWaitTimer      = 0f;
@@ -145,7 +148,8 @@ public abstract class EnemyAI : MonoBehaviour
             if (NavMesh.SamplePosition(randomPoint, out NavMeshHit hit, 2f, NavMesh.AllAreas))
             {
                 _patrolTarget = hit.position;
-                _agent.SetDestination(_patrolTarget);
+                if (_agent.isOnNavMesh)
+                    _agent.SetDestination(_patrolTarget);
                 return;
             }
         }
@@ -177,7 +181,7 @@ public abstract class EnemyAI : MonoBehaviour
     // Override in subclasses for different chase behaviours
     protected virtual void ChaseTarget()
     {
-        if (_kitty != null)
+        if (_kitty != null && _agent.isOnNavMesh)
             _agent.SetDestination(_kitty.position);
     }
 
@@ -194,17 +198,24 @@ public abstract class EnemyAI : MonoBehaviour
             return;
         }
 
-        // Stop moving while attacking
-        _agent.SetDestination(transform.position);
+        // Stop moving AND disable NavMeshAgent rotation during attack
+        if (_agent.isOnNavMesh)
+        {
+            _agent.isStopped           = true;
+            _agent.updateRotation      = false;  // prevent agent from rotating us
+            _agent.SetDestination(transform.position);
+        }
 
-        // Face Kitty
+        // Snap to face Kitty every frame during attack
         if (_kitty != null)
         {
             Vector3 dir = (_kitty.position - transform.position).normalized;
             dir.y = 0f;
             if (dir != Vector3.zero)
-                transform.rotation = Quaternion.Slerp(transform.rotation,
-                    Quaternion.LookRotation(dir), 10f * Time.deltaTime);
+            {
+                transform.rotation = Quaternion.LookRotation(dir);
+                Debug.Log($"[Attack] forward={transform.forward} dirToKitty={dir} rotation={transform.eulerAngles}");
+            }
         }
 
         // Attack cooldown
@@ -218,7 +229,7 @@ public abstract class EnemyAI : MonoBehaviour
 
     protected virtual void PerformAttack()
     {
-        _animator?.SetTrigger("Attack");
+        _animator?.SetTrigger("isAttack");
 
         // Deal damage if Kitty is still in range
         if (_kitty == null) return;
@@ -237,7 +248,7 @@ public abstract class EnemyAI : MonoBehaviour
         TransitionTo(State.Dead);
         _agent.isStopped = true;
         _agent.enabled   = false;
-        _animator?.SetTrigger("Die");
+        _animator?.SetTrigger("isDed");
     }
 
     // ─────────────────────────────────────────────
@@ -251,7 +262,15 @@ public abstract class EnemyAI : MonoBehaviour
         OnStateChanged(newState);
     }
 
-    protected virtual void OnStateChanged(State newState) { }
+    protected virtual void OnStateChanged(State newState)
+    {
+        // Re-enable NavMeshAgent rotation when leaving attack state
+        if (newState != State.Attack)
+        {
+            _agent.updateRotation = true;
+            _agent.isStopped      = false;
+        }
+    }
 
     // ─────────────────────────────────────────────
     //  GIZMOS

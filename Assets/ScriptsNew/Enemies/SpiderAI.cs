@@ -21,11 +21,18 @@
 //  5. Set GameObject layer to "Enemy".
 // ─────────────────────────────────────────────────────────────────────────────
 
+using System.Collections;
 using UnityEngine;
 using UnityEngine.AI;
 
 public class SpiderAI : EnemyAI
 {
+    public enum BehaviourType { Charger, Circler }
+
+    [Header("Spider — Behaviour")]
+    public BehaviourType behaviour          = BehaviourType.Charger;
+    public bool          randomiseVariation = true;
+
     [Header("Spider — Aggression")]
     [Tooltip("When this close, spider charges at full speed")]
     public float chargeRange    = 6f;
@@ -39,18 +46,64 @@ public class SpiderAI : EnemyAI
     bool  _inWindup     = false;
     float _windupTimer  = 0f;
 
+    [Header("Spider — Circler")]
+    [Tooltip("Distance circler tries to maintain from Kitty")]
+    public float orbitDistance  = 4f;
+    [Tooltip("How fast it orbits around Kitty")]
+    public float orbitSpeed     = 2.5f;
+    [Tooltip("Circler dashes in to attack at this range")]
+    public float dashInRange    = 2.5f;
+
+    // Private state
+    float _orbitAngle;
+    float _variationOffset;
+
     protected override void Awake()
     {
         base.Awake();
         _agent.speed        = normalSpeed;
         _agent.acceleration = 12f;
         _agent.stoppingDistance = _stats.attackRange * 0.8f;
+
+
+
     }
 
     protected override void Update()
     {
         base.Update();
 
+        if (behaviour == BehaviourType.Charger)
+            UpdateCharge();
+        else
+            UpdateCircler();
+    }
+
+    void UpdateCircler()
+    {
+        if (_kitty == null || !_agent.isOnNavMesh) return;
+
+        float distToKitty = Vector3.Distance(transform.position, _kitty.position);
+
+        // Orbit around Kitty at preferred distance
+        _orbitAngle += orbitSpeed * Time.deltaTime * (1f + 0.3f * Mathf.Sin(Time.time + _variationOffset));
+
+        Vector3 orbitPos = _kitty.position + new Vector3(
+            Mathf.Cos(_orbitAngle * Mathf.Deg2Rad) * orbitDistance,
+            0f,
+            Mathf.Sin(_orbitAngle * Mathf.Deg2Rad) * orbitDistance);
+
+        // Sample NavMesh to make sure orbit point is valid
+        if (UnityEngine.AI.NavMesh.SamplePosition(orbitPos, out var hit, 3f, UnityEngine.AI.NavMesh.AllAreas))
+            _agent.SetDestination(hit.position);
+
+        // Dash in when close enough
+        if (distToKitty <= dashInRange)
+            _agent.SetDestination(_kitty.position);
+    }
+
+    void UpdateCharge()
+    {
         // Handle charge windup timer
         if (_inWindup)
         {
@@ -80,7 +133,7 @@ public class SpiderAI : EnemyAI
             _inWindup    = true;
             _windupTimer = lungeWindup;
             _agent.isStopped = true;
-            _animator?.SetTrigger("Windup");
+            // Windup — no parameter in animator
         }
         else if (_isCharging || (!_inWindup && dist > chargeRange))
         {
@@ -101,9 +154,9 @@ public class SpiderAI : EnemyAI
         _agent.isStopped = false;
 
         if (newState == State.Chase)
-            _animator?.SetBool("IsChasing", true);
+            _animator?.SetBool("isWalk", true);
         else
-            _animator?.SetBool("IsChasing", false);
+            _animator?.SetBool("isWalk", false);
     }
 
     // ─────────────────────────────────────────────
@@ -116,5 +169,22 @@ public class SpiderAI : EnemyAI
         _agent.speed = normalSpeed;
 
         base.PerformAttack();
+    }
+    Transform FindDeepChild(Transform parent, string childName)
+    {
+        foreach (Transform child in parent)
+        {
+            if (child.name == childName) return child;
+            var result = FindDeepChild(child, childName);
+            if (result != null) return result;
+        }
+        return null;
+    }
+
+    string GetPath(Transform t)
+    {
+        string path = t.name;
+        while (t.parent != null) { t = t.parent; path = t.name + "/" + path; }
+        return path;
     }
 }

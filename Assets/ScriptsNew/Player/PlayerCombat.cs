@@ -150,6 +150,10 @@ public class PlayerCombat : MonoBehaviour
 
     void Update()
     {
+        // TEMP DEBUG — remove once working
+        if (Mouse.current != null && Mouse.current.middleButton.wasPressedThisFrame)
+            Debug.Log("[PlayerCombat] Update sees middle mouse!");
+
         TickComboTimer();
         ReadInput();
     }
@@ -166,17 +170,26 @@ public class PlayerCombat : MonoBehaviour
         var mouse = Mouse.current;
         if (mouse == null) return;
 
-        // Left click = light attack
+        // Left Mouse = light attack
         if (mouse.leftButton.wasPressedThisFrame)
             StartCoroutine(LightAttack());
 
-        // Right click = parry if stamina available, else heavy attack
+        // Right Mouse = heavy attack
         else if (mouse.rightButton.wasPressedThisFrame)
+            StartCoroutine(HeavyAttack());
+
+        // Middle Mouse = parry / block
+        if (mouse.middleButton.wasPressedThisFrame)
         {
-            if (_stats != null && _stats.SpendStamina(parryStaminaCost))
+            Debug.Log("[Combat] Middle mouse pressed");
+            if (_state != CombatState.Free)
+            {
+                Debug.Log("[Combat] Blocked — state is " + _state);
+            }
+            else if (_stats != null && _stats.SpendStamina(parryStaminaCost))
                 StartCoroutine(Parry());
             else
-                StartCoroutine(HeavyAttack());
+                Debug.Log("[Combat] Not enough stamina to parry!");
         }
     }
 
@@ -210,8 +223,8 @@ public class PlayerCombat : MonoBehaviour
         _comboCount = (_comboCount % maxCombo) + 1;
         _comboTimer = comboResetTime;
 
-        animator?.SetTrigger("LightAttack");
-        animator?.SetInteger("ComboIndex", _comboCount);
+        animator?.SetTrigger("isLAttack");
+        // ComboIndex not in existing animator — skipping
 
         // Wait for the "impact" moment — roughly 40% through the animation
         yield return new WaitForSeconds(lightDuration * 0.4f);
@@ -238,7 +251,7 @@ public class PlayerCombat : MonoBehaviour
         _state = CombatState.Attacking;
         _comboCount = 0;  // heavy attack resets combo
 
-        animator?.SetTrigger("HeavyAttack");
+        animator?.SetTrigger("isHAttack");
 
         // Wind-up — the player is committed once they press
         yield return new WaitForSeconds(heavyDuration * 0.4f);
@@ -276,12 +289,13 @@ public class PlayerCombat : MonoBehaviour
         _state       = CombatState.Parrying;
         _parryActive = true;
 
-        animator?.SetTrigger("Parry");
+        animator?.SetBool("isBlock", true);
 
         // Parry window — Kitty can deflect incoming hits
         yield return new WaitForSeconds(parryWindow);
 
         _parryActive = false;
+        animator?.SetBool("isBlock", false);
 
         // Brief recovery after parry window closes
         yield return new WaitForSeconds(0.2f);

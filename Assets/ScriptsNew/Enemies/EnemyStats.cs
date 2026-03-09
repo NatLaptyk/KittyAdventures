@@ -1,5 +1,3 @@
-
-
 // ─────────────────────────────────────────────────────────────────────────────
 //  EnemyStats.cs
 //
@@ -14,7 +12,7 @@
 // ─────────────────────────────────────────────────────────────────────────────
 
 using System;
-
+using System.Collections;
 using UnityEngine;
 
 public class EnemyStats : MonoBehaviour, IDamageable
@@ -59,9 +57,12 @@ public class EnemyStats : MonoBehaviour, IDamageable
     //  LIFECYCLE
     // ─────────────────────────────────────────────
 
+    Animator _animator;
+
     void Awake()
     {
-        Health = maxHealth;
+        Health    = maxHealth;
+        _animator = GetComponentInChildren<Animator>();
     }
 
     // ─────────────────────────────────────────────
@@ -76,6 +77,9 @@ public class EnemyStats : MonoBehaviour, IDamageable
         OnDamaged?.Invoke(amount);
         OnHealthChanged?.Invoke(Health, maxHealth);
 
+        // Play hit animation
+        _animator?.SetTrigger("TakeDamage");
+
         // Flash red to show hit — works if enemy has a Renderer
         var renderer = GetComponentInChildren<Renderer>();
         if (renderer != null)
@@ -89,6 +93,11 @@ public class EnemyStats : MonoBehaviour, IDamageable
     //  DEATH
     // ─────────────────────────────────────────────
 
+    [Header("Death Timing")]
+    [Tooltip("How long to wait after death before destroying the GameObject. " +
+             "Set this to match the length of your death animation clip.")]
+    public float destroyDelay = 3f;
+
     void Die(Vector3 sourcePosition)
     {
         IsDead = true;
@@ -101,9 +110,19 @@ public class EnemyStats : MonoBehaviour, IDamageable
             Destroy(fx, deathEffectDuration);
         }
 
-        // Disable enemy — Animator can play death anim before this
-        // If you have a death animation, replace Destroy with a coroutine
-        Destroy(gameObject, 0.1f);
+        // Wait for death animation to finish before destroying
+        StartCoroutine(DestroyAfterDeathAnim());
+    }
+
+    IEnumerator DestroyAfterDeathAnim()
+    {
+        // Disable collider and agent immediately so enemy stops interacting
+        var col = GetComponent<Collider>();
+        if (col != null) col.enabled = false;
+
+        // Wait for animation to play
+        yield return new WaitForSeconds(destroyDelay);
+        Destroy(gameObject);
     }
 
     // ─────────────────────────────────────────────

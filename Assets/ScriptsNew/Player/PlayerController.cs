@@ -43,6 +43,9 @@ public class PlayerController : MonoBehaviour
     public float climbCheckDist  = 0.5f;
     public LayerMask climbMask;
 
+    [Header("Animation")]
+    public Animator animator;
+
     // ─────────────────────────────────────────────
     //  PRIVATE
     // ─────────────────────────────────────────────
@@ -50,6 +53,8 @@ public class PlayerController : MonoBehaviour
     CharacterController _cc;
     InputReader         _input;
     CameraController    _cam;
+    Animator            _animator;
+    bool                _wasGrounded = true;
 
     Vector3 _velocity;
 
@@ -66,9 +71,11 @@ public class PlayerController : MonoBehaviour
 
     void Start()
     {
-        _cc    = GetComponent<CharacterController>();
-        _input = GetComponent<InputReader>();
-        _cam   = FindFirstObjectByType<CameraController>();
+        _cc       = GetComponent<CharacterController>();
+        _input    = GetComponent<InputReader>();
+        _cam      = FindFirstObjectByType<CameraController>();
+        // Use assigned animator or search children as fallback
+        _animator = animator != null ? animator : GetComponentInChildren<Animator>();
 
         if (_input == null)
             Debug.LogError("[PlayerController] InputReader not found on Kitty!");
@@ -90,11 +97,33 @@ public class PlayerController : MonoBehaviour
         UpdateDodge();
 
         _cc.Move(_velocity * Time.deltaTime);
+        UpdateAnimator();
     }
 
     // ─────────────────────────────────────────────
     //  MOVEMENT
     // ─────────────────────────────────────────────
+
+    void UpdateAnimator()
+    {
+        if (_animator == null) return;
+
+        // isRun — true whenever Kitty is moving horizontally
+        float horizontalSpeed = new Vector3(_velocity.x, 0f, _velocity.z).magnitude;
+        _animator.SetBool("isRun", horizontalSpeed > 0.1f);
+
+        // isLand — fire trigger on the frame Kitty touches the ground
+        bool grounded = _cc.isGrounded;
+        if (grounded && !_wasGrounded)
+            _animator.SetTrigger("isLand");
+        _wasGrounded = grounded;
+    }
+
+    bool IsNearGround()
+    {
+        return Physics.Raycast(transform.position + Vector3.up * 0.2f,
+                               Vector3.down, 0.4f);
+    }
 
     void UpdateMovement()
     {
@@ -131,7 +160,10 @@ public class PlayerController : MonoBehaviour
             if (_velocity.y < 0f) _velocity.y = -2f;
 
             if (_input != null && _input.JumpPressed)
+            {
                 _velocity.y = jumpForce;
+                _animator?.SetTrigger("isJump");
+            }
         }
         else
         {

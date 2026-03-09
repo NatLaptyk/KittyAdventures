@@ -21,6 +21,7 @@
 //  4. Set GameObject layer to "Enemy".
 // ─────────────────────────────────────────────────────────────────────────────
 
+using System.Collections;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -110,7 +111,8 @@ public class SpiritAI : EnemyAI
             target = transform.position + away * 2f;
         }
 
-        if (NavMesh.SamplePosition(target, out NavMeshHit hit, 3f, NavMesh.AllAreas))
+        if (_agent.isOnNavMesh &&
+            NavMesh.SamplePosition(target, out NavMeshHit hit, 3f, NavMesh.AllAreas))
             _agent.SetDestination(hit.position);
 
         // Always face Kitty

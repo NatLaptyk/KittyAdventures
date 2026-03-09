@@ -10,6 +10,7 @@
 // ─────────────────────────────────────────────────────────────────────────────
 
 using System;
+using System.Collections;
 using UnityEngine;
 
 public class PlayerStats : MonoBehaviour, IDamageable
@@ -58,10 +59,15 @@ public class PlayerStats : MonoBehaviour, IDamageable
     //  LIFECYCLE
     // ─────────────────────────────────────────────
 
+    Animator         _animator;
+    CameraController _cam;
+
     void Awake()
     {
-        Health  = maxHealth;
-        Stamina = maxStamina;
+        Health    = maxHealth;
+        Stamina   = maxStamina;
+        _animator = GetComponentInChildren<Animator>();
+        _cam      = FindFirstObjectByType<CameraController>();
     }
 
     void Start()
@@ -92,6 +98,12 @@ public class PlayerStats : MonoBehaviour, IDamageable
 
         OnDamaged?.Invoke(amount);
         OnHealthChanged?.Invoke(Health, maxHealth);
+
+        // Shake camera on hit
+        _cam?.Shake(0.4f);
+
+        // Trigger hit or death animation
+        _animator?.SetTrigger(Health <= 0f ? "Death" : "TakeDamage");
 
         if (Health <= 0f)
         {
