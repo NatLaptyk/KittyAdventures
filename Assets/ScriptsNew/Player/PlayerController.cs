@@ -32,6 +32,21 @@ public class PlayerController : MonoBehaviour
 
     [Header("Jump")]
     public float jumpForce = 7f;
+
+    [Tooltip("Stamina cost for a regular jump.")]
+    public float jumpStaminaCost   = 10f;
+
+    [Header("Stomp Attack")]
+    [Tooltip("Damage dealt when Kitty lands on an enemy from above.")]
+    public float stompDamage       = 25f;
+    [Tooltip("Stamina cost for a stomp.")]
+    public float stompStaminaCost  = 15f;
+    [Tooltip("How fast Kitty must be falling to trigger a stomp.")]
+    public float stompMinFallSpeed = 2f;
+    [Tooltip("Radius around Kitty's feet to check for enemies on landing.")]
+    public float stompRadius       = 0.8f;
+    [Tooltip("Layer mask for enemies.")]
+    public LayerMask enemyLayers;
     public float gravity   = -25f;
 
     [Header("Dodge")]
@@ -56,7 +71,9 @@ public class PlayerController : MonoBehaviour
     Animator            _animator;
     bool                _wasGrounded = true;
 
-    Vector3 _velocity;
+    Vector3     _velocity;
+    float       _fallSpeed    = 0f;   // tracked for stomp
+    PlayerStats _stats;
 
     // Dodge
     bool    _isDodging;
@@ -112,10 +129,22 @@ public class PlayerController : MonoBehaviour
         float horizontalSpeed = new Vector3(_velocity.x, 0f, _velocity.z).magnitude;
         _animator.SetBool("isRun", horizontalSpeed > 0.1f);
 
+        // Track fall speed for stomp detection
+        if (!_cc.isGrounded)
+            _fallSpeed = Mathf.Abs(Mathf.Min(_velocity.y, 0f));
+
         // isLand — fire trigger on the frame Kitty touches the ground
         bool grounded = _cc.isGrounded;
         if (grounded && !_wasGrounded)
-            _animator.SetTrigger("isLand");
+        {
+            _animator?.SetTrigger("isLand");
+
+            // Check for stomp attack on landing
+            if (_fallSpeed >= stompMinFallSpeed)
+                TryStompAttack();
+
+            _fallSpeed = 0f;
+        }
         _wasGrounded = grounded;
     }
 
@@ -161,6 +190,9 @@ public class PlayerController : MonoBehaviour
 
             if (_input != null && _input.JumpPressed)
             {
+                // Spend stamina on jump — still jump even if out of stamina
+                _stats?.SpendStamina(jumpStaminaCost);
+
                 _velocity.y = jumpForce;
                 _animator?.SetTrigger("isJump");
             }
@@ -291,5 +323,41 @@ public class PlayerController : MonoBehaviour
         Gizmos.DrawLine(
             transform.position + Vector3.up * 0.5f,
             transform.position + Vector3.up * 0.5f + transform.forward * climbCheckDist);
+
+        // Stomp radius
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(transform.position, stompRadius);
+    }
+
+    // ─────────────────────────────────────────────
+    //  STOMP ATTACK
+    // ─────────────────────────────────────────────
+
+    void TryStompAttack()
+    {
+        Vector3    feetPos = transform.position;
+        Collider[] hits    = Physics.OverlapSphere(feetPos, stompRadius, enemyLayers);
+
+        if (hits.Length == 0) return;
+
+        bool hasStamina = _stats != null && _stats.SpendStamina(stompStaminaCost);
+
+        foreach (var hit in hits)
+        {
+            var damageable = hit.GetComponent<IDamageable>()
+                          ?? hit.GetComponentInParent<IDamageable>();
+
+            if (damageable == null) continue;
+
+            float dmg = hasStamina ? stompDamage : stompDamage * 0.5f;
+            damageable.TakeDamage(dmg, transform.position);
+
+            // Bounce Kitty upward slightly
+            _velocity.y = jumpForce * 0.5f;
+
+            CombatFX.Instance?.OnHeavyHit(hit.transform.position);
+
+            Debug.Log($"[Stomp] Hit {hit.gameObject.name} for {dmg} dmg | stamina={hasStamina}");
+        }
     }
 }

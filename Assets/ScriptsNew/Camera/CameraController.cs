@@ -152,7 +152,7 @@ public class CameraController : MonoBehaviour
         HandleMouseInput();
         HandleZoom();
         HandleSnapBack();
-        UpdateShake();
+        //UpdateShake();
         ApplyOrbit();
     }
 
@@ -323,7 +323,7 @@ public class CameraController : MonoBehaviour
     //  SHAKE
     // ─────────────────────────────────────────────
 
-    void UpdateShake()
+   void UpdateShake()
     {
         if (_shakeIntensity > 0.005f)
         {
