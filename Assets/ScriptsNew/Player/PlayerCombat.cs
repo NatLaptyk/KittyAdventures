@@ -294,18 +294,20 @@ public class PlayerCombat : MonoBehaviour
 
     IEnumerator Parry()
     {
-        _state       = CombatState.Parrying;
+        _state = CombatState.Parrying;
         _parryActive = true;
 
-        animator?.SetTrigger("isBlock");
+        animator?.SetBool("isBlock", true);
 
-        // Parry window — Kitty can deflect incoming hits
+        // Parry window
         yield return new WaitForSeconds(parryWindow);
 
         _parryActive = false;
-        // isBlock is a trigger — clears itself automatically
 
-        // Brief recovery after parry window closes
+        // Exit block animation
+        animator?.SetBool("isBlock", false);
+
+        // Recovery
         yield return new WaitForSeconds(0.2f);
 
         _state = CombatState.Free;
