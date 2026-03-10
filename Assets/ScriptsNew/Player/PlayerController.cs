@@ -138,6 +138,7 @@ public class PlayerController : MonoBehaviour
         if (grounded && !_wasGrounded)
         {
             _animator?.SetTrigger("isLand");
+            AudioManager.instance.PlaySFX(AudioManager.instance.land, 0f);
 
             // Check for stomp attack on landing
             if (_fallSpeed >= stompMinFallSpeed)
@@ -195,6 +196,7 @@ public class PlayerController : MonoBehaviour
 
                 _velocity.y = jumpForce;
                 _animator?.SetTrigger("isJump");
+                AudioManager.instance.PlaySFX(AudioManager.instance.jump, 0f);
             }
         }
         else

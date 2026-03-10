@@ -779,7 +779,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8042415762335029219, guid: f038865d5c285784dae2e0e6eaae5a0f, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 56.065
+      value: 54.464996
       objectReference: {fileID: 0}
     - target: {fileID: 8042415762335029219, guid: f038865d5c285784dae2e0e6eaae5a0f, type: 3}
       propertyPath: m_LocalPosition.z
@@ -1242,7 +1242,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6918565507665494632, guid: fad6a278d160b404e916b053c0e0af56, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 56.19392
+      value: 54.593918
       objectReference: {fileID: 0}
     - target: {fileID: 6918565507665494632, guid: fad6a278d160b404e916b053c0e0af56, type: 3}
       propertyPath: m_LocalPosition.z
@@ -2822,7 +2822,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6918565507665494632, guid: fad6a278d160b404e916b053c0e0af56, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 56.578
+      value: 54.977997
       objectReference: {fileID: 0}
     - target: {fileID: 6918565507665494632, guid: fad6a278d160b404e916b053c0e0af56, type: 3}
       propertyPath: m_LocalPosition.z
@@ -3080,7 +3080,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6918565507665494632, guid: fad6a278d160b404e916b053c0e0af56, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 55.65022
+      value: 54.050217
       objectReference: {fileID: 0}
     - target: {fileID: 6918565507665494632, guid: fad6a278d160b404e916b053c0e0af56, type: 3}
       propertyPath: m_LocalPosition.z
@@ -4520,7 +4520,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6918565507665494632, guid: fad6a278d160b404e916b053c0e0af56, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 56.528004
+      value: 54.928
       objectReference: {fileID: 0}
     - target: {fileID: 6918565507665494632, guid: fad6a278d160b404e916b053c0e0af56, type: 3}
       propertyPath: m_LocalPosition.z
@@ -4585,7 +4585,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6918565507665494632, guid: fad6a278d160b404e916b053c0e0af56, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 56.578
+      value: 54.977997
       objectReference: {fileID: 0}
     - target: {fileID: 6918565507665494632, guid: fad6a278d160b404e916b053c0e0af56, type: 3}
       propertyPath: m_LocalPosition.z
@@ -5210,10 +5210,11 @@ GameObject:
   - component: {fileID: 1657702437}
   - component: {fileID: 1657702442}
   - component: {fileID: 1657702445}
-  - component: {fileID: 1657702448}
   - component: {fileID: 1657702447}
   - component: {fileID: 1657702446}
   - component: {fileID: 1657702449}
+  - component: {fileID: 1657702451}
+  - component: {fileID: 1657702450}
   m_Layer: 8
   m_Name: Player
   m_TagString: Player
@@ -5230,7 +5231,7 @@ Transform:
   m_GameObject: {fileID: 1657702436}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 187.6, y: 69.5, z: 423.5}
+  m_LocalPosition: {x: 123, y: 57.4, z: 39}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -5325,7 +5326,7 @@ MonoBehaviour:
   m_ActionEvents:
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1657702448}
+      - m_Target: {fileID: 1657702450}
         m_TargetAssemblyTypeName: InputReader, Assembly-CSharp
         m_MethodName: OnMove
         m_Mode: 0
@@ -5341,7 +5342,7 @@ MonoBehaviour:
     m_ActionName: 'Kitty/Move[/Keyboard/w,/Keyboard/s,/Keyboard/a,/Keyboard/d]'
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1657702448}
+      - m_Target: {fileID: 1657702450}
         m_TargetAssemblyTypeName: InputReader, Assembly-CSharp
         m_MethodName: OnLook
         m_Mode: 0
@@ -5357,7 +5358,7 @@ MonoBehaviour:
     m_ActionName: 'Kitty/Look[/Mouse/delta]'
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1657702448}
+      - m_Target: {fileID: 1657702450}
         m_TargetAssemblyTypeName: InputReader, Assembly-CSharp
         m_MethodName: OnZoom
         m_Mode: 0
@@ -5373,7 +5374,7 @@ MonoBehaviour:
     m_ActionName: 'Kitty/Zoom[/Mouse/scroll/y]'
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1657702448}
+      - m_Target: {fileID: 1657702450}
         m_TargetAssemblyTypeName: InputReader, Assembly-CSharp
         m_MethodName: OnJump
         m_Mode: 0
@@ -5389,8 +5390,8 @@ MonoBehaviour:
     m_ActionName: 'Kitty/Jump[/Keyboard/space]'
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1657702448}
-        m_TargetAssemblyTypeName: InputReader, Assembly-CSharp
+      - m_Target: {fileID: 1657702451}
+        m_TargetAssemblyTypeName: PlayerInputRouter, Assembly-CSharp
         m_MethodName: OnDodge
         m_Mode: 0
         m_Arguments:
@@ -5405,9 +5406,9 @@ MonoBehaviour:
     m_ActionName: 'Kitty/Dodge[/Keyboard/leftShift]'
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1657702448}
+      - m_Target: {fileID: 1657702436}
         m_TargetAssemblyTypeName: InputReader, Assembly-CSharp
-        m_MethodName: OnClimb
+        m_MethodName: 
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -5421,10 +5422,10 @@ MonoBehaviour:
     m_ActionName: 'Kitty/Climb[/Keyboard/f]'
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1657702447}
-        m_TargetAssemblyTypeName: PlayerCombat, Assembly-CSharp
-        m_MethodName: 
-        m_Mode: 1
+      - m_Target: {fileID: 1657702451}
+        m_TargetAssemblyTypeName: PlayerInputRouter, Assembly-CSharp
+        m_MethodName: OnParry
+        m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -5504,18 +5505,6 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 128
   animator: {fileID: 745343140}
---- !u!114 &1657702448
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1657702436}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3a21d745ee59da746b4028b5a09fe892, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::InputReader
 --- !u!114 &1657702449
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5529,10 +5518,33 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerStats
   maxHealth: 500
+  healthRegenPerSec: 0
   maxStamina: 100
-  staminaRegenRate: 20
-  staminaRegenDelay: 1.2
-  invincibilityTime: 0.5
+  staminaRegenPerSec: 25
+--- !u!114 &1657702450
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1657702436}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3a21d745ee59da746b4028b5a09fe892, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::InputReader
+--- !u!114 &1657702451
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1657702436}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fb5dd4949f032b64386db7efbe518eb3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerInputRouter
 --- !u!1001 &1670375636
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -5639,7 +5651,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6918565507665494632, guid: fad6a278d160b404e916b053c0e0af56, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 56.247997
+      value: 54.647995
       objectReference: {fileID: 0}
     - target: {fileID: 6918565507665494632, guid: fad6a278d160b404e916b053c0e0af56, type: 3}
       propertyPath: m_LocalPosition.z
@@ -5924,7 +5936,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6918565507665494632, guid: fad6a278d160b404e916b053c0e0af56, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 54.908
+      value: 53.308
       objectReference: {fileID: 0}
     - target: {fileID: 6918565507665494632, guid: fad6a278d160b404e916b053c0e0af56, type: 3}
       propertyPath: m_LocalPosition.z
@@ -6161,7 +6173,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6918565507665494632, guid: fad6a278d160b404e916b053c0e0af56, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 55.2
+      value: 53.6
       objectReference: {fileID: 0}
     - target: {fileID: 6918565507665494632, guid: fad6a278d160b404e916b053c0e0af56, type: 3}
       propertyPath: m_LocalPosition.z
@@ -6451,7 +6463,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6918565507665494632, guid: fad6a278d160b404e916b053c0e0af56, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 55.107998
+      value: 53.507996
       objectReference: {fileID: 0}
     - target: {fileID: 6918565507665494632, guid: fad6a278d160b404e916b053c0e0af56, type: 3}
       propertyPath: m_LocalPosition.z
@@ -6623,7 +6635,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6918565507665494632, guid: fad6a278d160b404e916b053c0e0af56, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 56.137997
+      value: 54.537994
       objectReference: {fileID: 0}
     - target: {fileID: 6918565507665494632, guid: fad6a278d160b404e916b053c0e0af56, type: 3}
       propertyPath: m_LocalPosition.z

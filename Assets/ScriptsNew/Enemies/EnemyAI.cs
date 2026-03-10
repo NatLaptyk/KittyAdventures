@@ -230,13 +230,14 @@ public abstract class EnemyAI : MonoBehaviour
     protected virtual void PerformAttack()
     {
         _animator?.SetTrigger("isAttack");
-
+        AudioManager.instance.PlaySFX(AudioManager.instance.spiderAttack, 0.8f);
         // Deal damage if Kitty is still in range
         if (_kitty == null) return;
         float dist = Vector3.Distance(transform.position, _kitty.position);
         if (dist <= _stats.attackRange)
             _kitty.GetComponent<IDamageable>()?.TakeDamage(
                 _stats.attackDamage, transform.position);
+        AudioManager.instance.PlaySFX(AudioManager.instance.playerDamaged, 0.8f);
     }
 
     // ─────────────────────────────────────────────
@@ -249,6 +250,7 @@ public abstract class EnemyAI : MonoBehaviour
         _agent.isStopped = true;
         _agent.enabled   = false;
         _animator?.SetTrigger("isDed");
+        AudioManager.instance.PlaySFX(AudioManager.instance.spiderDed);
     }
 
     // ─────────────────────────────────────────────

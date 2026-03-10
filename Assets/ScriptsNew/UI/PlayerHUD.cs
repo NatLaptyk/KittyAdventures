@@ -101,8 +101,8 @@ public class PlayerHUD : MonoBehaviour
         }
 
         // Subscribe to events
-        playerStats.OnHealthChanged  += OnHealthChanged;
-        playerStats.OnStaminaChanged += OnStaminaChanged;
+        playerStats.HealthChanged  += OnHealthChanged;
+        playerStats.StaminaChanged += OnStaminaChanged;
 
         // Initialise bars to full
         SetBarImmediate(healthFill,        1f);
@@ -113,8 +113,8 @@ public class PlayerHUD : MonoBehaviour
     void OnDestroy()
     {
         if (playerStats == null) return;
-        playerStats.OnHealthChanged  -= OnHealthChanged;
-        playerStats.OnStaminaChanged -= OnStaminaChanged;
+        playerStats.HealthChanged  -= OnHealthChanged;
+        playerStats.StaminaChanged -= OnStaminaChanged;
     }
 
     void Update()

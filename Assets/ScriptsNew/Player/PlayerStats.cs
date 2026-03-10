@@ -1,170 +1,112 @@
-// ─────────────────────────────────────────────────────────────────────────────
-//  PlayerStats.cs
-//
-//  Kitty's health and stamina. Raises C# events for the HUD to listen to.
-//  Implements IDamageable so enemies can damage Kitty directly.
-//
-//  SETUP
-//  ─────────────────────────────────────────────────────────────────────────
-//  Attach to Kitty's root GameObject.
-// ─────────────────────────────────────────────────────────────────────────────
-
 using System;
-using System.Collections;
 using UnityEngine;
 
 public class PlayerStats : MonoBehaviour, IDamageable
 {
-    // ─────────────────────────────────────────────
-    //  INSPECTOR
-    // ─────────────────────────────────────────────
-
     [Header("Health")]
-    public float maxHealth          = 100f;
+    [SerializeField] private float maxHealth = 100f;
+    [SerializeField] private float healthRegenPerSec = 0f;
 
     [Header("Stamina")]
-    public float maxStamina         = 100f;
-    public float staminaRegenRate   = 20f;   // per second
-    public float staminaRegenDelay  = 1.2f;  // seconds after use before regen starts
+    [SerializeField] private float maxStamina = 100f;
+    [SerializeField] private float staminaRegenPerSec = 25f;
 
-    [Header("Invincibility")]
-    [Tooltip("Brief invincibility after being hit — prevents instant death from multiple hits")]
-    public float invincibilityTime  = 0.5f;
-
-    // ─────────────────────────────────────────────
-    //  PUBLIC STATE
-    // ─────────────────────────────────────────────
-
-    public float Health  { get; private set; }
+    public float Health { get; private set; }
     public float Stamina { get; private set; }
-    public bool  IsDead  { get; private set; }
+    public float MaxHealth => maxHealth;
+    public float MaxStamina => maxStamina;
 
-    // ─────────────────────────────────────────────
-    //  EVENTS  — subscribe in HUD, GameManager etc.
-    // ─────────────────────────────────────────────
+    public event Action<float, float> HealthChanged;  // current, max
+    public event Action<float, float> StaminaChanged; // current, max
+    public event Action Died;
 
-    public event Action<float, float> OnHealthChanged;   // (current, max)
-    public event Action<float, float> OnStaminaChanged;  // (current, max)
-    public event Action               OnDied;
-    public event Action<float>        OnDamaged;         // (amount)
+    private bool isDead;
 
-    // ─────────────────────────────────────────────
-    //  PRIVATE
-    // ─────────────────────────────────────────────
-
-    float _staminaRegenTimer  = 0f;
-    float _invincibilityTimer = 0f;
-
-    // ─────────────────────────────────────────────
-    //  LIFECYCLE
-    // ─────────────────────────────────────────────
-
-    Animator         _animator;
-    CameraController _cam;
-
-    void Awake()
+    private void Awake()
     {
-        Health    = maxHealth;
-        Stamina   = maxStamina;
-        _animator = GetComponentInChildren<Animator>();
-        _cam      = FindFirstObjectByType<CameraController>();
+        Health = maxHealth;
+        Stamina = maxStamina;
+        EmitAll();
     }
 
-    void Start()
+    private void Update()
     {
-        // Fire initial values so HUD starts correctly
-        OnHealthChanged?.Invoke(Health, maxHealth);
-        OnStaminaChanged?.Invoke(Stamina, maxStamina);
-    }
+        if (isDead) return;
 
-    void Update()
-    {
-        if (IsDead) return;
-        TickInvincibility();
-        RegenStamina();
-    }
-
-    // ─────────────────────────────────────────────
-    //  IDAMAGEABLE — called by enemies
-    // ─────────────────────────────────────────────
-
-    public void TakeDamage(float amount, Vector3 sourcePosition)
-    {
-        if (IsDead) return;
-        if (_invincibilityTimer > 0f) return;  // invincible — ignore hit
-
-        Health = Mathf.Max(0f, Health - amount);
-        _invincibilityTimer = invincibilityTime;
-
-        OnDamaged?.Invoke(amount);
-        OnHealthChanged?.Invoke(Health, maxHealth);
-
-        // Shake camera on hit
-        _cam?.Shake(0.4f);
-
-        // Combat visual FX
-        CombatFX.Instance?.OnKittyDamaged(sourcePosition);
-
-        // Trigger hit or death animation
-        _animator?.SetTrigger(Health <= 0f ? "Death" : "TakeDamage");
-
-        if (Health <= 0f)
+        if (healthRegenPerSec > 0f && Health < maxHealth)
         {
-            IsDead = true;
-            OnDied?.Invoke();
+            Health = Mathf.Min(maxHealth, Health + healthRegenPerSec * Time.deltaTime);
+            HealthChanged?.Invoke(Health, maxHealth);
+        }
+
+        if (staminaRegenPerSec > 0f && Stamina < maxStamina)
+        {
+            Stamina = Mathf.Min(maxStamina, Stamina + staminaRegenPerSec * Time.deltaTime);
+            StaminaChanged?.Invoke(Stamina, maxStamina);
         }
     }
 
-    // ─────────────────────────────────────────────
-    //  PUBLIC API
-    // ─────────────────────────────────────────────
-
-    public void Heal(float amount)
-    {
-        if (IsDead) return;
-        Health = Mathf.Min(maxHealth, Health + amount);
-        OnHealthChanged?.Invoke(Health, maxHealth);
-    }
-
-    /// <summary>Try to spend stamina. Returns false if not enough.</summary>
     public bool SpendStamina(float amount)
     {
+        if (amount <= 0f) return true;
         if (Stamina < amount) return false;
-        Stamina = Mathf.Max(0f, Stamina - amount);
-        _staminaRegenTimer = 0f;
-        OnStaminaChanged?.Invoke(Stamina, maxStamina);
+
+        Stamina -= amount;
+        StaminaChanged?.Invoke(Stamina, maxStamina);
         return true;
     }
 
-    /// <summary>Full reset — call on respawn.</summary>
-    public void ResetStats()
+    public void RestoreStamina(float amount)
     {
-        IsDead  = false;
-        Health  = maxHealth;
+        if (isDead) return;
+        Stamina = Mathf.Min(maxStamina, Stamina + Mathf.Abs(amount));
+        StaminaChanged?.Invoke(Stamina, maxStamina);
+    }
+
+    public void Heal(float amount)
+    {
+        if (isDead) return;
+        Health = Mathf.Min(maxHealth, Health + Mathf.Abs(amount));
+        HealthChanged?.Invoke(Health, maxHealth);
+    }
+
+    public void TakeDamage(float amount)
+    {
+        TakeDamage(amount, transform.position);
+    }
+
+    // IDamageable overload — called by enemies
+    public void TakeDamage(float amount, Vector3 sourcePosition)
+    {
+        if (isDead) return;
+
+        Health -= Mathf.Abs(amount);
+        HealthChanged?.Invoke(Health, maxHealth);
+
+        // Camera shake + combat FX
+        var cam = FindFirstObjectByType<CameraController>();
+        cam?.Shake(0.4f);
+        CombatFX.Instance?.OnKittyDamaged(sourcePosition);
+
+        if (Health <= 0f)
+        {
+            Health = 0f;
+            isDead = true;
+            Died?.Invoke();
+        }
+    }
+
+    public void ResetFull()
+    {
+        isDead = false;
+        Health = maxHealth;
         Stamina = maxStamina;
-        _invincibilityTimer = 0f;
-        OnHealthChanged?.Invoke(Health, maxHealth);
-        OnStaminaChanged?.Invoke(Stamina, maxStamina);
+        EmitAll();
     }
 
-    // ─────────────────────────────────────────────
-    //  PRIVATE
-    // ─────────────────────────────────────────────
-
-    void TickInvincibility()
+    private void EmitAll()
     {
-        if (_invincibilityTimer > 0f)
-            _invincibilityTimer -= Time.deltaTime;
-    }
-
-    void RegenStamina()
-    {
-        if (Stamina >= maxStamina) return;
-
-        _staminaRegenTimer += Time.deltaTime;
-        if (_staminaRegenTimer < staminaRegenDelay) return;
-
-        Stamina = Mathf.Min(maxStamina, Stamina + staminaRegenRate * Time.deltaTime);
-        OnStaminaChanged?.Invoke(Stamina, maxStamina);
+        HealthChanged?.Invoke(Health, maxHealth);
+        StaminaChanged?.Invoke(Stamina, maxStamina);
     }
 }

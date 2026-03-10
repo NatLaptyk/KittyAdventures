@@ -172,11 +172,17 @@ public class PlayerCombat : MonoBehaviour
 
         // Left Mouse = light attack
         if (mouse.leftButton.wasPressedThisFrame)
+        {
             StartCoroutine(LightAttack());
+            AudioManager.instance.PlaySFX(AudioManager.instance.lightAttack, 0f);
+        }
 
         // Right Mouse = heavy attack
         else if (mouse.rightButton.wasPressedThisFrame)
+        {
             StartCoroutine(HeavyAttack());
+            AudioManager.instance.PlaySFX(AudioManager.instance.heavyAttack, 0f);
+        }
 
         // Middle Mouse OR Q key = parry / block
         bool blockPressed = mouse.middleButton.wasPressedThisFrame

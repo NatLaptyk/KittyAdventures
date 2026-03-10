@@ -1,9 +1,15 @@
+using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Audio;
 
 public class AudioManager : MonoBehaviour
 {
+    Dictionary<AudioClip, float> lastPlayedTime = new Dictionary<AudioClip, float>();
     public static AudioManager instance;
     public AudioSource sfxSource;
+    public float sfxCooldown = 0.1f;
+    public float sfxVolume = 0.1f;
+
 
     [Header("Player SFX")]
     public AudioClip jump;
@@ -36,9 +42,17 @@ public class AudioManager : MonoBehaviour
             sfxSource = gameObject.AddComponent<AudioSource>();
     }
 
-    public void PlaySFX(AudioClip clip)
+    public void PlaySFX(AudioClip clip, float cooldown = 0.1f)
     {
         if (clip == null) return;
-        sfxSource.PlayOneShot(clip);
+
+        if (lastPlayedTime.TryGetValue(clip, out float lastTime))
+        {
+            if (Time.time - lastTime < cooldown)
+                return;
+        }
+
+        sfxSource.PlayOneShot(clip, sfxVolume);
+        lastPlayedTime[clip] = Time.time;
     }
 }
