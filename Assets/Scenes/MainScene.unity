@@ -4587,6 +4587,10 @@ PrefabInstance:
       propertyPath: stomp
       value: 
       objectReference: {fileID: 8300000, guid: ab869a823ac38134da94791f17104f68, type: 3}
+    - target: {fileID: 3495705744166895831, guid: 837e8f871341aeb49979bca413229a9d, type: 3}
+      propertyPath: spiderAttack
+      value: 
+      objectReference: {fileID: 8300000, guid: 138c9f0d7098d1444ab0f6f15faef6a2, type: 3}
     - target: {fileID: 7291337899046091881, guid: 837e8f871341aeb49979bca413229a9d, type: 3}
       propertyPath: m_Name
       value: AudioManager
