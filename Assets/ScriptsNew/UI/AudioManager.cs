@@ -1,15 +1,26 @@
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Audio;
 
 public class AudioManager : MonoBehaviour
 {
     Dictionary<AudioClip, float> lastPlayedTime = new Dictionary<AudioClip, float>();
+
     public static AudioManager instance;
+
+    [Header("Sources")]
     public AudioSource sfxSource;
+    public AudioSource levelMusicSource;
+    public AudioSource bossMusicSource;
+
+    [Header("Settings")]
     public float sfxCooldown = 0.1f;
     public float sfxVolume = 0.1f;
+    public float musicFadeTime = 2f;
 
+    [Header("Music")]
+    public AudioClip levelMusic;
+    public AudioClip bossMusic;
 
     [Header("Player SFX")]
     public AudioClip jump;
@@ -33,7 +44,6 @@ public class AudioManager : MonoBehaviour
     public AudioClip wispAttack;
     public AudioClip wispDed;
 
-
     void Awake()
     {
         if (instance == null) instance = this;
@@ -41,6 +51,11 @@ public class AudioManager : MonoBehaviour
 
         if (sfxSource == null)
             sfxSource = gameObject.AddComponent<AudioSource>();
+    }
+
+    void Start()
+    {
+        PlayLevelMusic();
     }
 
     public void PlaySFX(AudioClip clip, float cooldown = 0.1f)
@@ -55,5 +70,49 @@ public class AudioManager : MonoBehaviour
 
         sfxSource.PlayOneShot(clip, sfxVolume);
         lastPlayedTime[clip] = Time.time;
+    }
+
+    public void PlayLevelMusic()
+    {
+        levelMusicSource.clip = levelMusic;
+        levelMusicSource.loop = true;
+        levelMusicSource.Play();
+    }
+
+    public void StartBossMusic()
+    {
+        StartCoroutine(FadeMusic(levelMusicSource, bossMusicSource, bossMusic));
+    }
+
+    public void ReturnToLevelMusic()
+    {
+        StartCoroutine(FadeMusic(bossMusicSource, levelMusicSource, levelMusic));
+    }
+
+    IEnumerator FadeMusic(AudioSource from, AudioSource to, AudioClip newClip)
+    {
+        if (!to.isPlaying)
+        {
+            to.clip = newClip;
+            to.loop = true;
+            to.volume = 0;
+            to.Play();
+        }
+
+        float t = 0;
+
+        while (t < musicFadeTime)
+        {
+            t += Time.deltaTime;
+
+            from.volume = Mathf.Lerp(1, 0, t / musicFadeTime);
+            to.volume = Mathf.Lerp(0, 1, t / musicFadeTime);
+
+            yield return null;
+        }
+
+        from.Stop();
+        from.volume = 1;
+        to.volume = 1;
     }
 }
