@@ -13,6 +13,7 @@
 //  5. Add all CheckpointMarkers to the LoopTracker's Checkpoints list
 // ─────────────────────────────────────────────────────────────────────────────
 
+using System;
 using System.Collections;
 using UnityEngine;
 
@@ -67,6 +68,9 @@ public class CheckpointMarker : MonoBehaviour
     // ─────────────────────────────────────────────
     //  PRIVATE STATE
     // ─────────────────────────────────────────────
+
+    /// <summary>Fired when this orb is successfully collected.</summary>
+    public static event System.Action OnOrbCollected;
 
     LoopTracker _tracker;
     bool        _activated  = false;
@@ -158,6 +162,7 @@ public class CheckpointMarker : MonoBehaviour
         {
             _activated = true;
             SetColour(completedColour);
+            OnOrbCollected?.Invoke();
 
             if (activationEffect != null)
                 activationEffect.Play();

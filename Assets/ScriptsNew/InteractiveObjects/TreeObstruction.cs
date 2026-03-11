@@ -24,6 +24,8 @@ using UnityEngine;
 
 public class TreeObstruction : MonoBehaviour
 {
+    public static TreeObstruction Instance { get; private set; }
+
     // ─────────────────────────────────────────────
     //  DATA
     // ─────────────────────────────────────────────
@@ -92,6 +94,7 @@ public class TreeObstruction : MonoBehaviour
 
     void Awake()
     {
+        Instance = this;
         _audio = GetComponent<AudioSource>();
 
         // Store original positions and rotations

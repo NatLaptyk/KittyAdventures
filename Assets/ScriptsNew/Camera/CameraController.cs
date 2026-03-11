@@ -152,7 +152,7 @@ public class CameraController : MonoBehaviour
         HandleMouseInput();
         HandleZoom();
         HandleSnapBack();
-        UpdateShake();
+        //UpdateShake();
         ApplyOrbit();
     }
 
