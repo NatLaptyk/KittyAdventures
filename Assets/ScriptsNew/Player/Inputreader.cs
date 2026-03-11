@@ -25,9 +25,17 @@ public class InputReader : MonoBehaviour
     public float   Zoom  { get; private set; }
 
     // ── Read by PlayerController ──────────────────────────────────────────────
-    public bool JumpPressed  { get; private set; }
-    public bool DodgePressed { get; private set; }
-    public bool ClimbHeld    { get; private set; }
+    public bool JumpPressed    { get; private set; }
+    public bool DodgePressed   { get; private set; }
+    public bool ClimbHeld      { get; private set; }
+
+    // ── Read by PlayerCombat ──────────────────────────────────────────────────
+    public bool LightPressed   { get; private set; }
+    public bool HeavyPressed   { get; private set; }
+    public bool ParryPressed   { get; private set; }
+
+    // ── Read by Interactor ────────────────────────────────────────────────────
+    public bool InteractPressed { get; private set; }
 
     // ─────────────────────────────────────────────
     //  PLAYERINPUT WIRING  (Invoke Unity Events)
@@ -41,6 +49,10 @@ public class InputReader : MonoBehaviour
     //  Jump        → InputReader.OnJump
     //  Dodge       → InputReader.OnDodge
     //  Climb       → InputReader.OnClimb
+    //  Light       → InputReader.OnLight
+    //  Heavy       → InputReader.OnHeavy
+    //  Parry       → InputReader.OnParry
+    //  Interact    → InputReader.OnInteract
     // ─────────────────────────────────────────────
 
     public void OnMove(InputAction.CallbackContext ctx)
@@ -70,10 +82,34 @@ public class InputReader : MonoBehaviour
         if (ctx.canceled) ClimbHeld = false;
     }
 
+    public void OnLight(InputAction.CallbackContext ctx)
+    {
+        if (ctx.performed) LightPressed = true;
+    }
+
+    public void OnHeavy(InputAction.CallbackContext ctx)
+    {
+        if (ctx.performed) HeavyPressed = true;
+    }
+
+    public void OnParry(InputAction.CallbackContext ctx)
+    {
+        if (ctx.performed) ParryPressed = true;
+    }
+
+    public void OnInteract(InputAction.CallbackContext ctx)
+    {
+        if (ctx.performed) InteractPressed = true;
+    }
+
     // Clear one-frame flags after every frame
     void LateUpdate()
     {
-        JumpPressed  = false;
-        DodgePressed = false;
+        JumpPressed     = false;
+        DodgePressed    = false;
+        LightPressed    = false;
+        HeavyPressed    = false;
+        ParryPressed    = false;
+        InteractPressed = false;
     }
 }

@@ -39,6 +39,9 @@ public class GameStats : MonoBehaviour
     public event Action<int, int> OnSpidersChanged;   // (killed, total)
     public event Action           OnAllOrbsCollected;
     public event Action           OnAllSpidersKilled;
+    public event Action           OnPotionCollected;
+
+    public bool PotionCollected { get; private set; } = false;
 
     // ─────────────────────────────────────────────
     //  LIFECYCLE
@@ -117,9 +120,18 @@ public class GameStats : MonoBehaviour
     /// <summary>Reset all stats — call on scene reload.</summary>
     public void Reset()
     {
-        OrbsCollected = 0;
-        SpidersKilled = 0;
+        OrbsCollected   = 0;
+        SpidersKilled   = 0;
+        PotionCollected = false;
         OnOrbsChanged?.Invoke(OrbsCollected, TotalOrbs);
         OnSpidersChanged?.Invoke(SpidersKilled, TotalSpiders);
+    }
+
+    /// <summary>Called by SpiritPotion when Kitty walks over it.</summary>
+    public void RegisterPotionCollected()
+    {
+        if (PotionCollected) return;
+        PotionCollected = true;
+        OnPotionCollected?.Invoke();
     }
 }

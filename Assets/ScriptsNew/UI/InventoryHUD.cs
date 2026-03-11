@@ -23,6 +23,7 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using UnityEngine.SceneManagement;
 
 public class InventoryHUD : MonoBehaviour
 {
@@ -66,6 +67,10 @@ public class InventoryHUD : MonoBehaviour
     //  LIFECYCLE
     // ─────────────────────────────────────────────
 
+    [Header("Game Completion")]
+    [SerializeField] private string endSceneName = "EndScene";
+    [SerializeField] private float  endSceneDelay = 3f;
+
     void Start()
     {
         if (GameStats.Instance == null)
@@ -78,6 +83,7 @@ public class InventoryHUD : MonoBehaviour
         GameStats.Instance.OnSpidersChanged    += UpdateSpiders;
         GameStats.Instance.OnAllOrbsCollected  += OnAllOrbsCollected;
         GameStats.Instance.OnAllSpidersKilled  += OnAllSpidersKilled;
+        GameStats.Instance.OnPotionCollected   += OnPotionCollected;
 
         if (announcementText != null)
             announcementText.gameObject.SetActive(false);
@@ -93,6 +99,7 @@ public class InventoryHUD : MonoBehaviour
         GameStats.Instance.OnSpidersChanged   -= UpdateSpiders;
         GameStats.Instance.OnAllOrbsCollected -= OnAllOrbsCollected;
         GameStats.Instance.OnAllSpidersKilled -= OnAllSpidersKilled;
+        GameStats.Instance.OnPotionCollected  -= OnPotionCollected;
     }
 
     // ─────────────────────────────────────────────
@@ -255,4 +262,16 @@ public class InventoryHUD : MonoBehaviour
         }
         target.localScale = original;
     }
+    void OnPotionCollected()
+    {
+        StartCoroutine(PotionSequence());
+    }
+
+    IEnumerator PotionSequence()
+    {
+        yield return StartCoroutine(ShowAnnouncement("You retrieved the Spirit Potion!"));
+        yield return new WaitForSeconds(endSceneDelay);
+        SceneManager.LoadScene(endSceneName);
+    }
+
 }

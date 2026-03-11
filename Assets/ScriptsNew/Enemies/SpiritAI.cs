@@ -1,24 +1,15 @@
 // ─────────────────────────────────────────────────────────────────────────────
-//  SpiritAI.cs  —  Ranged/distance-keeping spirit enemy
+//  SpiritAI.cs  —  Ghost Spirit Enemy
 //
-//  Corrupted spirits keep their distance and circle around Kitty:
-//  • Float above ground (Y offset applied)
-//  • Keep a preferred distance from Kitty — not too close, not too far
-//  • Circle strafe around Kitty while attacking
-//  • Phase through obstacles (NavMeshAgent obstacle avoidance off)
-//  • Faster than spiders, lower health
+//  Completely overrides the base Update loop so the Spirit never gets frozen
+//  by EnemyAI's UpdateAttack. The Spirit manages its own state entirely.
 //
-//  SETUP
-//  ─────────────────────────────────────────────────────────────────────────
-//  1. Attach to your Spirit enemy GameObject.
-//  2. Also attach EnemyStats — set recommended values:
-//       Max Health:    40
-//       Attack Damage: 8
-//       Attack Range:  5      (ranged attack)
-//       Move Speed:    5
-//       Chase Range:   15
-//  3. Add NavMeshAgent — set Obstacle Avoidance to None (spirits phase through)
-//  4. Set GameObject layer to "Enemy".
+//  NORMAL PHASE  (health > 50%)
+//    Orbits Kitty → dashes through her when cooldown ready
+//
+//  ENRAGED PHASE (health <= 50%)
+//    Orbits faster → chains 2 dashes → retreats → repeats
+//    Flashes white then glows red on phase transition
 // ─────────────────────────────────────────────────────────────────────────────
 
 using System.Collections;
@@ -27,84 +18,168 @@ using UnityEngine.AI;
 
 public class SpiritAI : EnemyAI
 {
-    [Header("Spirit — Behaviour")]
-    [Tooltip("Spirit floats this high above the ground")]
-    public float floatHeight     = 1.2f;
+    [Header("Spirit — Float")]
+    public float floatHeight   = 1.2f;
+    public float bobAmplitude  = 0.5f;
+    public float bobFrequency  = 1.5f;
 
-    [Tooltip("Spirit tries to stay at this distance from Kitty")]
-    public float preferredDist   = 5f;
+    [Header("Spirit — Orbit")]
+    public float preferredDist = 5f;
+    public float minDistance   = 3f;
+    public float strafeSpeed   = 8f;
 
-    [Tooltip("If Kitty gets closer than this, spirit backs away")]
-    public float minDistance     = 3f;
+    [Header("Spirit — Ghost Dash")]
+    public float dashSpeed       = 20f;
+    public float dashOvershoot   = 3f;
+    public float dashWindup      = 0.5f;
+    public float dashHitRadius   = 1.2f;
+    public float dashCooldown    = 3f;
 
-    [Tooltip("Speed of circling around Kitty")]
-    public float strafeSpeed     = 2.5f;
+    [Header("Spirit — Enraged Phase")]
+    [Range(0f, 1f)]
+    public float enragedThreshold    = 0.5f;
+    public float enragedSpeedMult    = 1.8f;
+    public float enragedDashCooldown = 1.6f;
+    public int   enragedMaxChain     = 2;
+    public Color normalGlowColour    = new Color(0.4f, 0.6f, 1.0f);
+    public Color enragedGlowColour   = new Color(1.0f, 0.15f, 0.1f);
+    public Renderer glowRenderer;
 
-    [Tooltip("Hover bob amplitude")]
-    public float bobAmplitude    = 0.2f;
-    public float bobFrequency    = 1.5f;
+    [Header("Spirit — Drop")]
+    [Tooltip("The SpiritPotion prefab to spawn when the Spirit dies.")]
+    public GameObject potionPrefab;
+    [Tooltip("Height above Spirit position where the potion spawns.")]
+    public float potionDropHeight = 1f;
 
-    float _strafeAngle  = 0f;
-    float _bobTimer     = 0f;
-    Vector3 _basePos;
+
+    // ─────────────────────────────────────────────
+    //  PRIVATE
+    // ─────────────────────────────────────────────
+
+    float    _strafeAngle  = 0f;
+    float    _bobTimer     = 0f;
+    float    _dashTimer    = 0f;
+    bool     _isDashing   = false;
+    bool     _isEnraged   = false;
+    int      _dashChain   = 0;
+    bool     _retreating  = false;
+    bool     _isDead      = false;
+    Material _mat;
+
+    // ─────────────────────────────────────────────
+    //  LIFECYCLE
+    // ─────────────────────────────────────────────
 
     protected override void Awake()
     {
         base.Awake();
-
-        // Spirits phase through obstacles — disable avoidance
         _agent.obstacleAvoidanceType = ObstacleAvoidanceType.NoObstacleAvoidance;
-        _agent.speed        = _stats.moveSpeed;
-        _agent.acceleration = 20f;   // snappy direction changes
-        _agent.stoppingDistance = 0.1f;
+        _agent.speed                 = _stats.moveSpeed;
+        _agent.acceleration          = 20f;
+        _agent.stoppingDistance      = 0.1f;
+        _strafeAngle                 = Random.Range(0f, 360f);
 
-        _strafeAngle = Random.Range(0f, 360f);  // start at random angle
-    }
+        if (glowRenderer != null)
+        {
+            _mat = glowRenderer.material;
+            SetGlow(normalGlowColour);
+        }
 
-    protected override void Update()
-    {
-        base.Update();
-        ApplyFloat();
     }
 
     // ─────────────────────────────────────────────
-    //  FLOAT  —  hover above ground with gentle bob
+    //  OVERRIDE Update ENTIRELY
+    //  Bypass base EnemyAI state machine so UpdateAttack
+    //  never freezes the Spirit
+    // ─────────────────────────────────────────────
+
+    protected override void Update()
+    {
+        if (_isDead || _kitty == null) return;
+
+        if (!_isDashing) ApplyFloat();
+        CheckPhaseTransition();
+
+        // Simple two-state loop: patrol if far, orbit+attack if close
+        float dist = Vector3.Distance(transform.position, _kitty.position);
+
+        if (dist > _stats.chaseRange)
+        {
+            if (_agent.isOnNavMesh) _agent.isStopped = true;
+            _animator?.SetBool("IsActive", false);
+            Debug.Log($"[Spirit] Too far ({dist:F1}), chaseRange={_stats.chaseRange}");
+            return;
+        }
+
+        _animator?.SetBool("IsActive", true);
+        Debug.Log($"[Spirit] dist={dist:F1} isDashing={_isDashing} dashTimer={_dashTimer:F2} retreating={_retreating} enraged={_isEnraged}");
+
+        if (!_isDashing)
+        {
+            Orbit();
+            TickDash();
+        }
+
+        // Animator speed
+        float spd = _agent.isOnNavMesh ? _agent.velocity.magnitude : 0f;
+        _animator?.SetFloat("Speed", spd);
+        _animator?.SetBool("isWalk", spd > 0.1f);
+    }
+
+    // ─────────────────────────────────────────────
+    //  FLOAT
     // ─────────────────────────────────────────────
 
     void ApplyFloat()
     {
         _bobTimer += Time.deltaTime * bobFrequency;
-        float bob = Mathf.Sin(_bobTimer) * bobAmplitude;
+        float bob  = Mathf.Sin(_bobTimer) * bobAmplitude;
 
-        // Sample NavMesh height at current position
         if (NavMesh.SamplePosition(transform.position, out NavMeshHit hit, 3f, NavMesh.AllAreas))
         {
-            Vector3 pos = transform.position;
-            pos.y = hit.position.y + floatHeight + bob;
+            Vector3 pos    = transform.position;
+            pos.y          = hit.position.y + floatHeight + bob;
             transform.position = pos;
         }
     }
 
     // ─────────────────────────────────────────────
-    //  CHASE  —  spirits keep preferred distance
-    //            and circle strafe around Kitty
+    //  ORBIT
     // ─────────────────────────────────────────────
 
-    protected override void ChaseTarget()
+    void Orbit()
     {
-        if (_kitty == null) return;
+        float dist          = Vector3.Distance(transform.position, _kitty.position);
+        float currentStrafe = _isEnraged ? strafeSpeed * enragedSpeedMult : strafeSpeed;
 
-        float dist = Vector3.Distance(transform.position, _kitty.position);
+        if (_retreating)
+        {
+            // Back away to preferred distance after dash chain
+            Vector3 retreatDir    = (transform.position - _kitty.position).normalized;
+            Vector3 retreatTarget = _kitty.position + retreatDir * preferredDist;
 
-        // Strafe angle increases over time — circles around Kitty
-        _strafeAngle += strafeSpeed * Time.deltaTime * 30f;
+            if (_agent.isOnNavMesh &&
+                NavMesh.SamplePosition(retreatTarget, out NavMeshHit rHit, 3f, NavMesh.AllAreas))
+            {
+                _agent.isStopped = false;
+                _agent.SetDestination(rHit.position);
+            }
 
-        // Position on a circle around Kitty at preferred distance
-        float rad     = _strafeAngle * Mathf.Deg2Rad;
-        Vector3 orbit = new Vector3(Mathf.Cos(rad), 0f, Mathf.Sin(rad)) * preferredDist;
+            if (dist >= preferredDist * 0.85f)
+            {
+                _retreating = false;
+                _dashChain  = 0;
+            }
+            return;
+        }
+
+        // Circle orbit
+        _strafeAngle += currentStrafe * Time.deltaTime * 20f;
+        float   rad    = _strafeAngle * Mathf.Deg2Rad;
+        Vector3 orbit  = new Vector3(Mathf.Cos(rad), 0f, Mathf.Sin(rad)) * preferredDist;
         Vector3 target = _kitty.position + orbit;
 
-        // Back away if Kitty is too close
+        // Back away if too close
         if (dist < minDistance)
         {
             Vector3 away = (transform.position - _kitty.position).normalized;
@@ -113,42 +188,161 @@ public class SpiritAI : EnemyAI
 
         if (_agent.isOnNavMesh &&
             NavMesh.SamplePosition(target, out NavMeshHit hit, 3f, NavMesh.AllAreas))
+        {
+            _agent.isStopped = false;
             _agent.SetDestination(hit.position);
+        }
 
-        // Always face Kitty
-        Vector3 lookDir = (_kitty.position - transform.position).normalized;
-        lookDir.y = 0f;
-        if (lookDir != Vector3.zero)
-            transform.rotation = Quaternion.Slerp(transform.rotation,
-                Quaternion.LookRotation(lookDir), 5f * Time.deltaTime);
+        FaceKitty();
     }
 
     // ─────────────────────────────────────────────
-    //  ATTACK  —  spirit fires from a distance
+    //  DASH TICK
     // ─────────────────────────────────────────────
 
-    protected override void PerformAttack()
+    void TickDash()
     {
-        if (_kitty == null) return;
+        _dashTimer -= Time.deltaTime;
 
-        _animator?.SetTrigger("Attack");
-
-        // Spirits attack at range — check line of sight
-        float dist = Vector3.Distance(transform.position, _kitty.position);
-        if (dist <= _stats.attackRange)
-            _kitty.GetComponent<IDamageable>()?.TakeDamage(
-                _stats.attackDamage, transform.position);
+        float cooldown = _isEnraged ? enragedDashCooldown : dashCooldown;
+        if (_dashTimer <= 0f)
+        {
+            _dashTimer = cooldown;
+            Debug.Log("[Spirit] Starting GhostDash!");
+            StartCoroutine(GhostDash());
+        }
     }
 
     // ─────────────────────────────────────────────
-    //  STATE CHANGES
+    //  GHOST DASH
+    // ─────────────────────────────────────────────
+
+    IEnumerator GhostDash()
+    {
+        _isDashing       = true;
+        _agent.isStopped = true;
+        Debug.Log("[Spirit] GhostDash coroutine running");
+        _animator?.SetTrigger("isAttack");
+
+        // Wind-up
+        float t = dashWindup;
+        while (t > 0f)
+        {
+            FaceKitty();
+            t -= Time.deltaTime;
+            yield return null;
+        }
+
+        // Dash through Kitty
+        if (_kitty != null)
+        {
+            Vector3 dir   = (_kitty.position - transform.position).normalized;
+            Vector3 dest  = _kitty.position + dir * dashOvershoot;
+            dest.y        = transform.position.y;
+
+            bool hitKitty = false;
+
+            while (new Vector2(transform.position.x - dest.x, transform.position.z - dest.z).magnitude > 0.3f)
+            {
+                transform.position = Vector3.MoveTowards(
+                    transform.position, dest, dashSpeed * Time.deltaTime);
+
+                if (!hitKitty)
+                {
+                    float d = Vector3.Distance(transform.position, _kitty.position);
+                    if (d <= dashHitRadius)
+                    {
+                        hitKitty = true;
+                        _kitty.GetComponent<IDamageable>()?.TakeDamage(
+                            _stats.attackDamage, transform.position);
+                        CombatFX.Instance?.OnKittyDamaged(transform.position);
+                    }
+                }
+
+                yield return null;
+            }
+        }
+
+        // Track chain for enraged phase
+        _dashChain++;
+        if (_isEnraged && _dashChain >= enragedMaxChain)
+            _retreating = true;
+
+        _isDashing       = false;
+        _agent.isStopped = false;
+    }
+
+    // ─────────────────────────────────────────────
+    //  PHASE TRANSITION
+    // ─────────────────────────────────────────────
+
+    void CheckPhaseTransition()
+    {
+        if (_isEnraged || _stats == null) return;
+        if (_stats.Health / _stats.maxHealth <= enragedThreshold)
+            EnterEnragedPhase();
+    }
+
+    void EnterEnragedPhase()
+    {
+        _isEnraged = true;
+        _dashTimer = 0f;
+        StartCoroutine(EnrageFlash());
+    }
+
+    IEnumerator EnrageFlash()
+    {
+        for (int i = 0; i < 5; i++)
+        {
+            SetGlow(Color.white);
+            yield return new WaitForSeconds(0.08f);
+            SetGlow(enragedGlowColour);
+            yield return new WaitForSeconds(0.08f);
+        }
+    }
+
+    // ─────────────────────────────────────────────
+    //  DEATH
     // ─────────────────────────────────────────────
 
     protected override void OnStateChanged(State newState)
     {
-        if (newState == State.Chase || newState == State.Attack)
-            _animator?.SetBool("IsActive", true);
-        else
-            _animator?.SetBool("IsActive", false);
+        if (newState == State.Dead)
+        {
+            _isDead = true;
+            StopAllCoroutines();
+            _isDashing       = false;
+            _agent.isStopped = true;
+            _agent.enabled   = false;
+            _animator?.SetTrigger("isDed");
+
+            // Drop the potion
+            if (potionPrefab != null)
+            {
+                Vector3 spawnPos = transform.position + Vector3.up * potionDropHeight;
+                Instantiate(potionPrefab, spawnPos, Quaternion.identity);
+            }
+        }
+    }
+
+    // ─────────────────────────────────────────────
+    //  HELPERS
+    // ─────────────────────────────────────────────
+
+    void FaceKitty()
+    {
+        if (_kitty == null) return;
+        Vector3 dir = (_kitty.position - transform.position).normalized;
+        dir.y = 0f;
+        if (dir != Vector3.zero)
+            transform.rotation = Quaternion.Slerp(transform.rotation,
+                Quaternion.LookRotation(dir), 8f * Time.deltaTime);
+    }
+
+    void SetGlow(Color col)
+    {
+        if (_mat == null) return;
+        _mat.SetColor("_EmissionColor", col * 2f);
+        _mat.EnableKeyword("_EMISSION");
     }
 }

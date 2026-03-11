@@ -170,7 +170,6 @@ public class PlayerController : MonoBehaviour
         _velocity.x = dir.x * walkSpeed;
         _velocity.z = dir.z * walkSpeed;
 
-
         // Rotate Kitty to face movement direction
         if (dir.sqrMagnitude > 0.01f)
             transform.rotation = Quaternion.Slerp(
@@ -362,6 +361,5 @@ public class PlayerController : MonoBehaviour
 
             Debug.Log($"[Stomp] Hit {hit.gameObject.name} for {dmg} dmg | stamina={hasStamina}");
         }
-        AudioManager.instance.PlaySFX(AudioManager.instance.stomp, 0f);
     }
 }
