@@ -33,6 +33,9 @@ using TMPro;
 
 public class NumberTrigger : MonoBehaviour
 {
+    /// <summary>Fired once when the player enters the correct answer.</summary>
+    public static event System.Action OnPuzzleSolved;
+
     // ─────────────────────────────────────────────
     //  INSPECTOR
     // ─────────────────────────────────────────────
@@ -135,6 +138,9 @@ public class NumberTrigger : MonoBehaviour
             correct = entered == correctNumber;
 
         // Play sound via AudioManager
+        if (correct)
+            OnPuzzleSolved?.Invoke();
+
         if (AudioManager.instance != null)
         {
             if (correct)
