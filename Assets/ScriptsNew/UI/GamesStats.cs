@@ -79,10 +79,16 @@ public class GameStats : MonoBehaviour
     void RegisterEnemies()
     {
         var enemies = FindObjectsByType<EnemyStats>(FindObjectsSortMode.None);
-        TotalSpiders = enemies.Length;
 
         foreach (var e in enemies)
-            e.OnDied += HandleSpiderKilled;
+        {
+            // Only count and track enemies tagged "Spider" — excludes Spirit and others
+            if (e.CompareTag("Spider"))
+            {
+                TotalSpiders++;
+                e.OnDied += HandleSpiderKilled;
+            }
+        }
     }
 
     void RegisterOrbs()
