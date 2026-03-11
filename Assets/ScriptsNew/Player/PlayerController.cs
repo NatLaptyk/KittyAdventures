@@ -367,6 +367,7 @@ public class PlayerController : MonoBehaviour
 
             Debug.Log($"[Stomp] Hit {hit.gameObject.name} for {dmg} dmg | stamina={hasStamina}");
         }
+        AudioManager.instance.PlaySFX(AudioManager.instance.stomps, 0f);
     }
     private void TickFootsteps()
     {
