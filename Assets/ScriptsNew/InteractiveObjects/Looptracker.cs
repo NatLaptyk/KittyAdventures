@@ -128,8 +128,8 @@ public class LoopTracker : MonoBehaviour
 
         OnLoopComplete?.Invoke();
 
-        if (obstruction != null)
-            obstruction.OpenPath();
+        // Path is now opened manually by OrbGate when Kitty interacts with it.
+        // obstruction.OpenPath() is no longer called here.
     }
 
     void ResetProgress()

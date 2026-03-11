@@ -45,17 +45,19 @@ public class Interactor : MonoBehaviour
         IInteractable found = null;
 
         if (hitSomething)
-        {
             found = hit.collider.GetComponentInParent<IInteractable>();
-            if (found != null && !found.CanInteract(gameObject))
-                found = null;
-        }
 
+        // Always update prompt (even if CanInteract is false — shows "need X orbs" etc.)
         if (!ReferenceEquals(found, current))
         {
             current = found;
             if (promptUI != null)
                 promptUI.Set(current != null ? current.Prompt : "");
+        }
+        else if (found != null && promptUI != null)
+        {
+            // Refresh prompt every frame so orb count updates live
+            promptUI.Set(current.Prompt);
         }
     }
 
@@ -64,18 +66,5 @@ public class Interactor : MonoBehaviour
         if (cam == null) return;
         Gizmos.color = Color.cyan;
         Gizmos.DrawLine(cam.transform.position, cam.transform.position + cam.transform.forward * range);
-    }
-}
-
-// Minimal UI hook (optional). Create your own UI however you want.
-public class InteractPromptUI : MonoBehaviour
-{
-    [SerializeField] private TMPro.TextMeshProUGUI text;
-
-    public void Set(string prompt)
-    {
-        if (text == null) return;
-        text.text = prompt;
-        text.gameObject.SetActive(!string.IsNullOrWhiteSpace(prompt));
     }
 }

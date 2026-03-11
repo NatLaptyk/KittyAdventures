@@ -154,6 +154,15 @@ public partial class @KittyInputActions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Interact"",
+                    ""type"": ""Button"",
+                    ""id"": ""68d75469-f21d-43ee-9829-5ba42a914736"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -277,6 +286,17 @@ public partial class @KittyInputActions: IInputActionCollection2, IDisposable
                     ""action"": ""Block"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""10216a89-1692-48e3-b424-aee4f3d8d958"",
+                    ""path"": ""<Keyboard>/e"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Interact"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -292,6 +312,7 @@ public partial class @KittyInputActions: IInputActionCollection2, IDisposable
         m_Kitty_Dodge = m_Kitty.FindAction("Dodge", throwIfNotFound: true);
         m_Kitty_Climb = m_Kitty.FindAction("Climb", throwIfNotFound: true);
         m_Kitty_Block = m_Kitty.FindAction("Block", throwIfNotFound: true);
+        m_Kitty_Interact = m_Kitty.FindAction("Interact", throwIfNotFound: true);
     }
 
     ~@KittyInputActions()
@@ -379,6 +400,7 @@ public partial class @KittyInputActions: IInputActionCollection2, IDisposable
     private readonly InputAction m_Kitty_Dodge;
     private readonly InputAction m_Kitty_Climb;
     private readonly InputAction m_Kitty_Block;
+    private readonly InputAction m_Kitty_Interact;
     /// <summary>
     /// Provides access to input actions defined in input action map "Kitty".
     /// </summary>
@@ -418,6 +440,10 @@ public partial class @KittyInputActions: IInputActionCollection2, IDisposable
         /// Provides access to the underlying input action "Kitty/Block".
         /// </summary>
         public InputAction @Block => m_Wrapper.m_Kitty_Block;
+        /// <summary>
+        /// Provides access to the underlying input action "Kitty/Interact".
+        /// </summary>
+        public InputAction @Interact => m_Wrapper.m_Kitty_Interact;
         /// <summary>
         /// Provides access to the underlying input action map instance.
         /// </summary>
@@ -465,6 +491,9 @@ public partial class @KittyInputActions: IInputActionCollection2, IDisposable
             @Block.started += instance.OnBlock;
             @Block.performed += instance.OnBlock;
             @Block.canceled += instance.OnBlock;
+            @Interact.started += instance.OnInteract;
+            @Interact.performed += instance.OnInteract;
+            @Interact.canceled += instance.OnInteract;
         }
 
         /// <summary>
@@ -497,6 +526,9 @@ public partial class @KittyInputActions: IInputActionCollection2, IDisposable
             @Block.started -= instance.OnBlock;
             @Block.performed -= instance.OnBlock;
             @Block.canceled -= instance.OnBlock;
+            @Interact.started -= instance.OnInteract;
+            @Interact.performed -= instance.OnInteract;
+            @Interact.canceled -= instance.OnInteract;
         }
 
         /// <summary>
@@ -586,5 +618,12 @@ public partial class @KittyInputActions: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnBlock(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "Interact" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnInteract(InputAction.CallbackContext context);
     }
 }

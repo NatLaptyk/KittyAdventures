@@ -144,27 +144,8 @@ public class InventoryHUD : MonoBehaviour
 
     IEnumerator OrbCompletionSequence()
     {
-        // Line 1
         yield return StartCoroutine(ShowAnnouncement("All orbs collected!"));
-
-        // Line 2 — waits for TreeObstruction to start opening
-        yield return StartCoroutine(ShowAnnouncement("The path is opening..."));
-
-        // Listen for path fully open — meanwhile show waiting message
-        bool pathOpen = false;
-        if (TreeObstruction.Instance != null)
-            TreeObstruction.Instance.OnPathOpened += () => pathOpen = true;
-
-        // Wait until path is open or timeout after 5s
-        float waited = 0f;
-        while (!pathOpen && waited < 5f)
-        {
-            waited += Time.deltaTime;
-            yield return null;
-        }
-
-        // Line 3
-        yield return StartCoroutine(ShowAnnouncement("The path is open!"));
+        yield return StartCoroutine(ShowAnnouncement("Find the green orb and open the path..."));
 
         // Hide orb row
         yield return new WaitForSeconds(rowHideDelay * 0.3f);
