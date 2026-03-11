@@ -2765,6 +2765,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 152923995142381561, guid: b2d2c0fa16c9da94cbbca024ad0a6b11, type: 3}
+      propertyPath: destroyDelay
+      value: 0.5
+      objectReference: {fileID: 0}
     - target: {fileID: 7040602139105804305, guid: b2d2c0fa16c9da94cbbca024ad0a6b11, type: 3}
       propertyPath: m_LocalPosition.x
       value: 43.444584
@@ -8274,15 +8278,15 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 510185197147248592, guid: 837e8f871341aeb49979bca413229a9d, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 441.39053
+      value: -1
       objectReference: {fileID: 0}
     - target: {fileID: 510185197147248592, guid: 837e8f871341aeb49979bca413229a9d, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 15.60807
+      value: 66.6
       objectReference: {fileID: 0}
     - target: {fileID: 510185197147248592, guid: 837e8f871341aeb49979bca413229a9d, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 123.31361
+      value: 33
       objectReference: {fileID: 0}
     - target: {fileID: 510185197147248592, guid: 837e8f871341aeb49979bca413229a9d, type: 3}
       propertyPath: m_LocalRotation.w
@@ -8320,6 +8324,10 @@ PrefabInstance:
       propertyPath: stomp
       value: 
       objectReference: {fileID: 8300000, guid: ab869a823ac38134da94791f17104f68, type: 3}
+    - target: {fileID: 3495705744166895831, guid: 837e8f871341aeb49979bca413229a9d, type: 3}
+      propertyPath: wispAttack
+      value: 
+      objectReference: {fileID: 8300000, guid: e7186e70f386525448d9a5045b74377a, type: 3}
     - target: {fileID: 3495705744166895831, guid: 837e8f871341aeb49979bca413229a9d, type: 3}
       propertyPath: spiderAttack
       value: 
@@ -10185,7 +10193,8 @@ MonoBehaviour:
   climbMask:
     serializedVersion: 2
     m_Bits: 0
-  animator: {fileID: 0}
+  animator: {fileID: 745343140}
+  stepInterval: 0.38
 --- !u!114 &1657702447
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10216,7 +10225,7 @@ MonoBehaviour:
   heavyShakeForce: 0.45
   enemyLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 128
   animator: {fileID: 745343140}
 --- !u!114 &1657702449
 MonoBehaviour:
@@ -12280,9 +12289,9 @@ SceneRoots:
   - {fileID: 1614510919}
   - {fileID: 1544670612}
   - {fileID: 884034044}
-  - {fileID: 1763163163}
   - {fileID: 332866719}
   - {fileID: 1743578188}
+  - {fileID: 1763163163}
   - {fileID: 2067360437}
   - {fileID: 1011357012}
   - {fileID: 1148797327}

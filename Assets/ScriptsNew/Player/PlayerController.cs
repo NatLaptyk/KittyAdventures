@@ -61,6 +61,9 @@ public class PlayerController : MonoBehaviour
     [Header("Animation")]
     public Animator animator;
 
+    [Header("Footsteps")]
+    [SerializeField] private float stepInterval = 0.38f;
+
     // ─────────────────────────────────────────────
     //  PRIVATE
     // ─────────────────────────────────────────────
@@ -70,6 +73,7 @@ public class PlayerController : MonoBehaviour
     CameraController    _cam;
     Animator            _animator;
     bool                _wasGrounded = true;
+    float               _stepTimer   = 0f;
 
     Vector3     _velocity;
     float       _fallSpeed    = 0f;   // tracked for stomp
@@ -93,6 +97,8 @@ public class PlayerController : MonoBehaviour
         _cam      = FindFirstObjectByType<CameraController>();
         // Use assigned animator or search children as fallback
         _animator = animator != null ? animator : GetComponentInChildren<Animator>();
+
+        _stats    = GetComponent<PlayerStats>();
 
         if (_input == null)
             Debug.LogError("[PlayerController] InputReader not found on Kitty!");
@@ -362,4 +368,23 @@ public class PlayerController : MonoBehaviour
             Debug.Log($"[Stomp] Hit {hit.gameObject.name} for {dmg} dmg | stamina={hasStamina}");
         }
     }
+    private void TickFootsteps()
+    {
+        // Only play when grounded and actually moving
+        float horizontalSpeed = new Vector3(_velocity.x, 0f, _velocity.z).magnitude;
+        bool moving = horizontalSpeed > 0.5f && IsGrounded;
+        if (!moving)
+        {
+            _stepTimer = 0f;
+            return;
+        }
+
+        _stepTimer += Time.deltaTime;
+        if (_stepTimer >= stepInterval)
+        {
+            _stepTimer = 0f;
+            AudioManager.instance?.PlaySFX(AudioManager.instance.steps, 0f);
+        }
+    }
+
 }

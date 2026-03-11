@@ -1,2 +1,25 @@
 fileFormatVersion: 2
 guid: 115c261f864614b448bea32ac4c72ada
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - sfxSource: {instanceID: 0}
+  - jump: {instanceID: 0}
+  - land: {instanceID: 0}
+  - lightAttack: {instanceID: 0}
+  - heavyAttack: {instanceID: 0}
+  - playerDamaged: {instanceID: 0}
+  - steps: {instanceID: 0}
+  - treesMoving: {instanceID: 0}
+  - signRight: {instanceID: 0}
+  - signWrong: {instanceID: 0}
+  - spiderAttack: {instanceID: 0}
+  - spiderDed: {instanceID: 0}
+  - wispAttack: {instanceID: 0}
+  - wispDed: {instanceID: 0}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

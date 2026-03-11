@@ -223,6 +223,7 @@ public class SpiritAI : EnemyAI
         _agent.isStopped = true;
         Debug.Log("[Spirit] GhostDash coroutine running");
         _animator?.SetTrigger("isAttack");
+        AudioManager.instance?.PlaySFX(AudioManager.instance.wispAttack, 0.5f);
 
         // Wind-up
         float t = dashWindup;
@@ -315,6 +316,7 @@ public class SpiritAI : EnemyAI
             _agent.isStopped = true;
             _agent.enabled   = false;
             _animator?.SetTrigger("isDed");
+            AudioManager.instance?.PlaySFX(AudioManager.instance.wispDed);
 
             // Drop the potion
             if (potionPrefab != null)

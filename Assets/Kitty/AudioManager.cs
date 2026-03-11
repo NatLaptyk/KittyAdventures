@@ -17,7 +17,6 @@ public class AudioManager : MonoBehaviour
     public AudioClip lightAttack;
     public AudioClip heavyAttack;
     public AudioClip playerDamaged;
-    public AudioClip stomp;
     public AudioClip steps;
 
     [Header("Environment SFX")]

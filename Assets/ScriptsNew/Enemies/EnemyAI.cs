@@ -230,7 +230,7 @@ public abstract class EnemyAI : MonoBehaviour
     protected virtual void PerformAttack()
     {
         _animator?.SetTrigger("isAttack");
-        AudioManager.instance.PlaySFX(AudioManager.instance.spiderAttack, 2f);
+        AudioManager.instance.PlaySFX(AudioManager.instance.spiderAttack, 0.8f);
         // Deal damage if Kitty is still in range
         if (_kitty == null) return;
         float dist = Vector3.Distance(transform.position, _kitty.position);
