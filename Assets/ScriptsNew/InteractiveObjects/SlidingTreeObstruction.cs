@@ -157,7 +157,7 @@ public class SlidingTreeObstruction : MonoBehaviour
     IEnumerator AnimateOpen()
     {
         if (openSound != null && _audio != null)
-            _audio.PlayOneShot(openSound);
+            AudioManager.instance?.PlaySFX(AudioManager.instance.treesMoving, 0f);
         else if (openSound != null)
             AudioSource.PlayClipAtPoint(openSound, transform.position);
 

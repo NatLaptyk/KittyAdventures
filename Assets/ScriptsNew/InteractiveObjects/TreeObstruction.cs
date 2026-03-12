@@ -143,6 +143,7 @@ public class TreeObstruction : MonoBehaviour
         // Play open sound
         if (openSound != null && _audio != null)
             _audio.PlayOneShot(openSound);
+        AudioManager.instance?.PlaySFX(AudioManager.instance.treesMoving, 0f);
 
         // Play open effect
         if (openEffect != null)
