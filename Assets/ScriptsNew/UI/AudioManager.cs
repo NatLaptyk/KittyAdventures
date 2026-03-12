@@ -1,27 +1,13 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class AudioManager : MonoBehaviour
 {
     Dictionary<AudioClip, float> lastPlayedTime = new Dictionary<AudioClip, float>();
-
     public static AudioManager instance;
-
-    [Header("Sources")]
     public AudioSource sfxSource;
-    public AudioSource levelMusicSource;
-    public AudioSource bossMusicSource;
-
-    [Header("Settings")]
     public float sfxCooldown = 0.1f;
     public float sfxVolume = 0.1f;
-    public float musicFadeTime = 2f;
-    public float musicVolume = 0.05f;
-
-    [Header("Music")]
-    public AudioClip levelMusic;
-    public AudioClip bossMusic;
 
     [Header("Player SFX")]
     public AudioClip jump;
@@ -45,23 +31,44 @@ public class AudioManager : MonoBehaviour
     public AudioClip wispAttack;
     public AudioClip wispDed;
 
+    [Header("Music")]
+    public AudioClip levelMusic;
+    public AudioClip bossMusic;
+    public AudioSource musicSource;
+    [Range(0f, 1f)]
+    public float musicVolume = 0.3f;
+
     void Awake()
     {
-        if (instance == null) instance = this;
-        else Destroy(gameObject);
+        if (instance == null)
+        {
+            instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+        else
+        {
+            Destroy(gameObject);
+            return;
+        }
 
         if (sfxSource == null)
             sfxSource = gameObject.AddComponent<AudioSource>();
-    }
 
-    void Start()
-    {
-        PlayLevelMusic();
+        if (musicSource == null)
+            musicSource = gameObject.AddComponent<AudioSource>();
+        musicSource.loop   = true;
+        musicSource.volume = musicVolume;
+
+        if (levelMusic != null)
+        {
+            musicSource.clip = levelMusic;
+            musicSource.Play();
+        }
     }
 
     public void PlaySFX(AudioClip clip, float cooldown = 0.1f)
     {
-        if (clip == null) return;
+        if (clip == null || sfxSource == null) return;
 
         if (lastPlayedTime.TryGetValue(clip, out float lastTime))
         {
@@ -72,49 +79,20 @@ public class AudioManager : MonoBehaviour
         sfxSource.PlayOneShot(clip, sfxVolume);
         lastPlayedTime[clip] = Time.time;
     }
-
-    public void PlayLevelMusic()
-    {
-        levelMusicSource.clip = levelMusic;
-        levelMusicSource.loop = true;
-        levelMusicSource.volume = musicVolume;
-        levelMusicSource.Play();
-    }
-
     public void StartBossMusic()
     {
-        StartCoroutine(FadeMusic(levelMusicSource, bossMusicSource, bossMusic));
+        if (bossMusic == null || musicSource == null) return;
+        musicSource.clip = bossMusic;
+        musicSource.loop = true;
+        musicSource.Play();
     }
 
     public void ReturnToLevelMusic()
     {
-        StartCoroutine(FadeMusic(bossMusicSource, levelMusicSource, levelMusic));
+        if (levelMusic == null || musicSource == null) return;
+        musicSource.clip = levelMusic;
+        musicSource.loop = true;
+        musicSource.Play();
     }
 
-    IEnumerator FadeMusic(AudioSource from, AudioSource to, AudioClip newClip)
-    {
-        if (!to.isPlaying)
-        {
-            to.clip = newClip;
-            to.loop = true;
-            to.volume = 0;
-            to.Play();
-        }
-
-        float t = 0;
-
-        while (t < musicFadeTime)
-        {
-            t += Time.deltaTime;
-
-            from.volume = Mathf.Lerp(musicVolume, 0, t / musicFadeTime);
-            to.volume = Mathf.Lerp(0, musicVolume, t / musicFadeTime);
-
-            yield return null;
-        }
-
-        from.Stop();
-        from.volume = musicVolume;
-        to.volume = musicVolume;
-    }
 }

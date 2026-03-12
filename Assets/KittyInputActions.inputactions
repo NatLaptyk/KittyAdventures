@@ -43,15 +43,6 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "Dodge",
-                    "type": "Button",
-                    "id": "0afefa15-eba2-4007-b2f8-12c6418e5133",
-                    "expectedControlType": "",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                },
-                {
                     "name": "Climb",
                     "type": "Button",
                     "id": "0a1cf92e-8bd0-4c10-928b-4084a8357964",
@@ -73,6 +64,15 @@
                     "name": "Interact",
                     "type": "Button",
                     "id": "68d75469-f21d-43ee-9829-5ba42a914736",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Sprint",
+                    "type": "Button",
+                    "id": "c022dfca-6d4f-48dc-bf48-69c2370c5598",
                     "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
@@ -170,17 +170,6 @@
                 },
                 {
                     "name": "",
-                    "id": "a620514a-8784-4a89-9fd3-071a12731422",
-                    "path": "<Keyboard>/leftShift",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Dodge",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
                     "id": "4b0fec52-8689-418e-a9ec-2a752ed61d21",
                     "path": "<Keyboard>/f",
                     "interactions": "",
@@ -209,6 +198,17 @@
                     "processors": "",
                     "groups": "",
                     "action": "Interact",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "31b1d75e-9ffd-4021-81d5-0ae39b0b5189",
+                    "path": "<Keyboard>/leftShift",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Sprint",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

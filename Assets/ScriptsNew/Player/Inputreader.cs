@@ -28,6 +28,7 @@ public class InputReader : MonoBehaviour
     public bool JumpPressed    { get; private set; }
     public bool DodgePressed   { get; private set; }
     public bool ClimbHeld      { get; private set; }
+    public bool SprintHeld { get; private set; }
 
     // ── Read by PlayerCombat ──────────────────────────────────────────────────
     public bool LightPressed   { get; private set; }
@@ -100,6 +101,12 @@ public class InputReader : MonoBehaviour
     public void OnInteract(InputAction.CallbackContext ctx)
     {
         if (ctx.performed) InteractPressed = true;
+    }
+
+    public void OnSprint(InputAction.CallbackContext ctx)
+    {
+        SprintHeld = ctx.performed || ctx.started;
+        if (ctx.canceled) SprintHeld = false;
     }
 
     // Clear one-frame flags after every frame

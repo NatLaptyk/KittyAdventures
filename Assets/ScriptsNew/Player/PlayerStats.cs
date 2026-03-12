@@ -4,28 +4,38 @@ using UnityEngine;
 public class PlayerStats : MonoBehaviour, IDamageable
 {
     [Header("Health")]
-    [SerializeField] private float maxHealth = 100f;
-    [SerializeField] private float healthRegenPerSec = 0f;
+    [SerializeField] private float maxHealth           = 100f;
+    [SerializeField] private float passiveRegenPerSec  = 1f;    // always on
+    [SerializeField] private float combatRegenPerSec   = 4f;    // out of combat
+    [SerializeField] private float outOfCombatDelay    = 5f;    // seconds after last hit
+
+    [Header("Snack")]
+    [SerializeField] private int startingSnacks = 1;
 
     [Header("Stamina")]
     [SerializeField] private float maxStamina = 100f;
     [SerializeField] private float staminaRegenPerSec = 25f;
 
-    public float Health { get; private set; }
-    public float Stamina { get; private set; }
-    public float MaxHealth => maxHealth;
+    public float Health     { get; private set; }
+    public float Stamina    { get; private set; }
+    public float MaxHealth  => maxHealth;
     public float MaxStamina => maxStamina;
+    public int   Snacks     { get; private set; }
+    public bool  IsRegenerating => Health < maxHealth && !isDead;
 
-    public event Action<float, float> HealthChanged;  // current, max
-    public event Action<float, float> StaminaChanged; // current, max
-    public event Action Died;
+    public event Action<float, float> HealthChanged;   // current, max
+    public event Action<float, float> StaminaChanged;  // current, max
+    public event Action<int>          SnacksChanged;   // current count
+    public event Action               Died;
 
-    private bool isDead;
+    private bool  isDead;
+    private float _lastDamageTime = -999f;
 
     private void Awake()
     {
-        Health = maxHealth;
+        Health  = maxHealth;
         Stamina = maxStamina;
+        Snacks  = startingSnacks;
         EmitAll();
     }
 
@@ -33,9 +43,11 @@ public class PlayerStats : MonoBehaviour, IDamageable
     {
         if (isDead) return;
 
-        if (healthRegenPerSec > 0f && Health < maxHealth)
+        if (Health < maxHealth)
         {
-            Health = Mathf.Min(maxHealth, Health + healthRegenPerSec * Time.deltaTime);
+            bool outOfCombat = (Time.time - _lastDamageTime) >= outOfCombatDelay;
+            float regen = passiveRegenPerSec + (outOfCombat ? combatRegenPerSec : 0f);
+            Health = Mathf.Min(maxHealth, Health + regen * Time.deltaTime);
             HealthChanged?.Invoke(Health, maxHealth);
         }
 
@@ -80,6 +92,7 @@ public class PlayerStats : MonoBehaviour, IDamageable
     {
         if (isDead) return;
 
+        _lastDamageTime = Time.time;
         Health -= Mathf.Abs(amount);
         HealthChanged?.Invoke(Health, maxHealth);
 
@@ -96,11 +109,27 @@ public class PlayerStats : MonoBehaviour, IDamageable
         }
     }
 
+    public void UseSnack()
+    {
+        if (isDead || Snacks <= 0) return;
+        Snacks--;
+        Health = maxHealth;
+        HealthChanged?.Invoke(Health, maxHealth);
+        SnacksChanged?.Invoke(Snacks);
+    }
+
+    public void AddSnack(int amount = 1)
+    {
+        Snacks += amount;
+        SnacksChanged?.Invoke(Snacks);
+    }
+
     public void ResetFull()
     {
         isDead = false;
-        Health = maxHealth;
+        Health  = maxHealth;
         Stamina = maxStamina;
+        Snacks  = startingSnacks;
         EmitAll();
     }
 
@@ -108,5 +137,6 @@ public class PlayerStats : MonoBehaviour, IDamageable
     {
         HealthChanged?.Invoke(Health, maxHealth);
         StaminaChanged?.Invoke(Stamina, maxStamina);
+        SnacksChanged?.Invoke(Snacks);
     }
 }

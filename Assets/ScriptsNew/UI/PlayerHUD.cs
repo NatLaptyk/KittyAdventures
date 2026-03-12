@@ -32,6 +32,7 @@
 using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class PlayerHUD : MonoBehaviour
 {
@@ -46,6 +47,22 @@ public class PlayerHUD : MonoBehaviour
     [Header("Health Bar")]
     [Tooltip("The filled Image that shows current health.")]
     public Image healthFill;
+
+    [Header("Regen Indicator")]
+    [Tooltip("Colour the health bar glows when regenerating passively.")]
+    public Color regenColour         = new Color(0.3f, 1f, 0.5f);
+    [Tooltip("Colour when regenerating fast (out of combat).")]
+    public Color fastRegenColour     = new Color(0f, 1f, 0.3f);
+    [Tooltip("How fast the regen glow pulses.")]
+    public float regenPulseSpeed     = 2f;
+
+    [Header("Snack UI")]
+    [Tooltip("Image showing the snack icon — hide when count is 0.")]
+    public Image   snackIcon;
+    [Tooltip("TMP text showing snack count e.g. 'x1'.")]
+    public TMPro.TextMeshProUGUI snackText;
+    [Tooltip("Key to eat the snack.")]
+    public KeyCode eatKey = KeyCode.F;
 
     [Tooltip("The ghost bar that lags behind health loss for dramatic effect.")]
     public Image healthDelayedFill;
@@ -103,11 +120,13 @@ public class PlayerHUD : MonoBehaviour
         // Subscribe to events
         playerStats.HealthChanged  += OnHealthChanged;
         playerStats.StaminaChanged += OnStaminaChanged;
+        playerStats.SnacksChanged  += OnSnacksChanged;
 
         // Initialise bars to full
         SetBarImmediate(healthFill,        1f);
         SetBarImmediate(healthDelayedFill, 1f);
         SetBarImmediate(staminaFill,       1f);
+        OnSnacksChanged(playerStats.Snacks);
     }
 
     void OnDestroy()
@@ -115,6 +134,7 @@ public class PlayerHUD : MonoBehaviour
         if (playerStats == null) return;
         playerStats.HealthChanged  -= OnHealthChanged;
         playerStats.StaminaChanged -= OnStaminaChanged;
+        playerStats.SnacksChanged  -= OnSnacksChanged;
     }
 
     void Update()
@@ -122,6 +142,8 @@ public class PlayerHUD : MonoBehaviour
         AnimateHealthBar();
         AnimateStaminaBar();
         AnimateLowHealthPulse();
+        AnimateRegenGlow();
+        CheckSnackInput();
     }
 
     // ─────────────────────────────────────────────
@@ -200,4 +222,41 @@ public class PlayerHUD : MonoBehaviour
     {
         if (bar != null) bar.fillAmount = value;
     }
+    // ─────────────────────────────────────────────
+    //  SNACK
+    // ─────────────────────────────────────────────
+
+    void CheckSnackInput()
+    {
+        if (playerStats == null) return;
+        if (Input.GetKeyDown(eatKey))
+            playerStats.UseSnack();
+    }
+
+    void OnSnacksChanged(int count)
+    {
+        if (snackIcon != null)
+            snackIcon.gameObject.SetActive(count > 0);
+        if (snackText != null)
+            snackText.text = count > 0 ? $"x{count}" : "";
+    }
+
+    // ─────────────────────────────────────────────
+    //  REGEN GLOW
+    // ─────────────────────────────────────────────
+
+    void AnimateRegenGlow()
+    {
+        if (healthFill == null || playerStats == null) return;
+        if (!playerStats.IsRegenerating) return;
+
+        // Don't override low-health pulse
+        if (playerStats.Health / playerStats.MaxHealth <= lowHealthThreshold) return;
+
+        bool outOfCombat = playerStats.Health < playerStats.MaxHealth;
+        Color target = outOfCombat ? fastRegenColour : regenColour;
+        float t = (Mathf.Sin(Time.time * regenPulseSpeed) + 1f) * 0.5f;
+        healthFill.color = Color.Lerp(normalHealthColour, target, t * 0.6f);
+    }
+
 }

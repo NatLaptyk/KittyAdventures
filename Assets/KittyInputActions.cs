@@ -129,15 +129,6 @@ public partial class @KittyInputActions: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
-                    ""name"": ""Dodge"",
-                    ""type"": ""Button"",
-                    ""id"": ""0afefa15-eba2-4007-b2f8-12c6418e5133"",
-                    ""expectedControlType"": """",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": false
-                },
-                {
                     ""name"": ""Climb"",
                     ""type"": ""Button"",
                     ""id"": ""0a1cf92e-8bd0-4c10-928b-4084a8357964"",
@@ -159,6 +150,15 @@ public partial class @KittyInputActions: IInputActionCollection2, IDisposable
                     ""name"": ""Interact"",
                     ""type"": ""Button"",
                     ""id"": ""68d75469-f21d-43ee-9829-5ba42a914736"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Sprint"",
+                    ""type"": ""Button"",
+                    ""id"": ""c022dfca-6d4f-48dc-bf48-69c2370c5598"",
                     ""expectedControlType"": """",
                     ""processors"": """",
                     ""interactions"": """",
@@ -256,17 +256,6 @@ public partial class @KittyInputActions: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
-                    ""id"": ""a620514a-8784-4a89-9fd3-071a12731422"",
-                    ""path"": ""<Keyboard>/leftShift"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Dodge"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
                     ""id"": ""4b0fec52-8689-418e-a9ec-2a752ed61d21"",
                     ""path"": ""<Keyboard>/f"",
                     ""interactions"": """",
@@ -297,6 +286,17 @@ public partial class @KittyInputActions: IInputActionCollection2, IDisposable
                     ""action"": ""Interact"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""31b1d75e-9ffd-4021-81d5-0ae39b0b5189"",
+                    ""path"": ""<Keyboard>/leftShift"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Sprint"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -309,10 +309,10 @@ public partial class @KittyInputActions: IInputActionCollection2, IDisposable
         m_Kitty_Look = m_Kitty.FindAction("Look", throwIfNotFound: true);
         m_Kitty_Zoom = m_Kitty.FindAction("Zoom", throwIfNotFound: true);
         m_Kitty_Jump = m_Kitty.FindAction("Jump", throwIfNotFound: true);
-        m_Kitty_Dodge = m_Kitty.FindAction("Dodge", throwIfNotFound: true);
         m_Kitty_Climb = m_Kitty.FindAction("Climb", throwIfNotFound: true);
         m_Kitty_Block = m_Kitty.FindAction("Block", throwIfNotFound: true);
         m_Kitty_Interact = m_Kitty.FindAction("Interact", throwIfNotFound: true);
+        m_Kitty_Sprint = m_Kitty.FindAction("Sprint", throwIfNotFound: true);
     }
 
     ~@KittyInputActions()
@@ -397,10 +397,10 @@ public partial class @KittyInputActions: IInputActionCollection2, IDisposable
     private readonly InputAction m_Kitty_Look;
     private readonly InputAction m_Kitty_Zoom;
     private readonly InputAction m_Kitty_Jump;
-    private readonly InputAction m_Kitty_Dodge;
     private readonly InputAction m_Kitty_Climb;
     private readonly InputAction m_Kitty_Block;
     private readonly InputAction m_Kitty_Interact;
+    private readonly InputAction m_Kitty_Sprint;
     /// <summary>
     /// Provides access to input actions defined in input action map "Kitty".
     /// </summary>
@@ -429,10 +429,6 @@ public partial class @KittyInputActions: IInputActionCollection2, IDisposable
         /// </summary>
         public InputAction @Jump => m_Wrapper.m_Kitty_Jump;
         /// <summary>
-        /// Provides access to the underlying input action "Kitty/Dodge".
-        /// </summary>
-        public InputAction @Dodge => m_Wrapper.m_Kitty_Dodge;
-        /// <summary>
         /// Provides access to the underlying input action "Kitty/Climb".
         /// </summary>
         public InputAction @Climb => m_Wrapper.m_Kitty_Climb;
@@ -444,6 +440,10 @@ public partial class @KittyInputActions: IInputActionCollection2, IDisposable
         /// Provides access to the underlying input action "Kitty/Interact".
         /// </summary>
         public InputAction @Interact => m_Wrapper.m_Kitty_Interact;
+        /// <summary>
+        /// Provides access to the underlying input action "Kitty/Sprint".
+        /// </summary>
+        public InputAction @Sprint => m_Wrapper.m_Kitty_Sprint;
         /// <summary>
         /// Provides access to the underlying input action map instance.
         /// </summary>
@@ -482,9 +482,6 @@ public partial class @KittyInputActions: IInputActionCollection2, IDisposable
             @Jump.started += instance.OnJump;
             @Jump.performed += instance.OnJump;
             @Jump.canceled += instance.OnJump;
-            @Dodge.started += instance.OnDodge;
-            @Dodge.performed += instance.OnDodge;
-            @Dodge.canceled += instance.OnDodge;
             @Climb.started += instance.OnClimb;
             @Climb.performed += instance.OnClimb;
             @Climb.canceled += instance.OnClimb;
@@ -494,6 +491,9 @@ public partial class @KittyInputActions: IInputActionCollection2, IDisposable
             @Interact.started += instance.OnInteract;
             @Interact.performed += instance.OnInteract;
             @Interact.canceled += instance.OnInteract;
+            @Sprint.started += instance.OnSprint;
+            @Sprint.performed += instance.OnSprint;
+            @Sprint.canceled += instance.OnSprint;
         }
 
         /// <summary>
@@ -517,9 +517,6 @@ public partial class @KittyInputActions: IInputActionCollection2, IDisposable
             @Jump.started -= instance.OnJump;
             @Jump.performed -= instance.OnJump;
             @Jump.canceled -= instance.OnJump;
-            @Dodge.started -= instance.OnDodge;
-            @Dodge.performed -= instance.OnDodge;
-            @Dodge.canceled -= instance.OnDodge;
             @Climb.started -= instance.OnClimb;
             @Climb.performed -= instance.OnClimb;
             @Climb.canceled -= instance.OnClimb;
@@ -529,6 +526,9 @@ public partial class @KittyInputActions: IInputActionCollection2, IDisposable
             @Interact.started -= instance.OnInteract;
             @Interact.performed -= instance.OnInteract;
             @Interact.canceled -= instance.OnInteract;
+            @Sprint.started -= instance.OnSprint;
+            @Sprint.performed -= instance.OnSprint;
+            @Sprint.canceled -= instance.OnSprint;
         }
 
         /// <summary>
@@ -598,13 +598,6 @@ public partial class @KittyInputActions: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnJump(InputAction.CallbackContext context);
         /// <summary>
-        /// Method invoked when associated input action "Dodge" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
-        /// </summary>
-        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
-        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
-        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
-        void OnDodge(InputAction.CallbackContext context);
-        /// <summary>
         /// Method invoked when associated input action "Climb" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
         /// </summary>
         /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
@@ -625,5 +618,12 @@ public partial class @KittyInputActions: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnInteract(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "Sprint" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnSprint(InputAction.CallbackContext context);
     }
 }

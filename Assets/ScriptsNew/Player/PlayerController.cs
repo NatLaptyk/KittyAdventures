@@ -27,7 +27,9 @@ public class PlayerController : MonoBehaviour
     // ─────────────────────────────────────────────
 
     [Header("Movement")]
-    public float walkSpeed   = 5f;
+    public float walkSpeed        = 5f;
+    public float sprintSpeed      = 9f;
+    public float sprintStaminaCost = 15f;  // stamina per second while sprinting
     public float rotateSpeed = 12f;
 
     [Header("Jump")]
@@ -77,6 +79,7 @@ public class PlayerController : MonoBehaviour
 
     Vector3     _velocity;
     float       _fallSpeed    = 0f;   // tracked for stomp
+    bool        _isSprinting = false;
     PlayerStats _stats;
 
     // Dodge
@@ -133,7 +136,8 @@ public class PlayerController : MonoBehaviour
 
         // isRun — true whenever Kitty is moving horizontally
         float horizontalSpeed = new Vector3(_velocity.x, 0f, _velocity.z).magnitude;
-        _animator.SetBool("isRun", horizontalSpeed > 0.1f);
+        _animator.SetBool("isRun",    horizontalSpeed > 0.1f);
+        _animator.SetBool("isSprint", _isSprinting && horizontalSpeed > 0.1f);
 
         // Track fall speed for stomp detection
         if (!_cc.isGrounded)
@@ -172,9 +176,19 @@ public class PlayerController : MonoBehaviour
 
         if (dir.sqrMagnitude > 1f) dir.Normalize();
 
+        // Sprint — hold Shift, costs stamina, must be moving
+        bool wantsToSprint = _input.SprintHeld && dir.sqrMagnitude > 0.01f;
+        bool hasStamina    = _stats != null && _stats.Stamina > 0f;
+        _isSprinting       = wantsToSprint && hasStamina;
+
+        if (_isSprinting && _stats != null)
+            _stats.SpendStamina(sprintStaminaCost * Time.deltaTime);
+
+        float speed = _isSprinting ? sprintSpeed : walkSpeed;
+
         // Apply horizontal velocity
-        _velocity.x = dir.x * walkSpeed;
-        _velocity.z = dir.z * walkSpeed;
+        _velocity.x = dir.x * speed;
+        _velocity.z = dir.z * speed;
 
         // Rotate Kitty to face movement direction
         if (dir.sqrMagnitude > 0.01f)
@@ -367,7 +381,6 @@ public class PlayerController : MonoBehaviour
 
             Debug.Log($"[Stomp] Hit {hit.gameObject.name} for {dmg} dmg | stamina={hasStamina}");
         }
-        AudioManager.instance.PlaySFX(AudioManager.instance.stomps, 0f);
     }
     private void TickFootsteps()
     {
