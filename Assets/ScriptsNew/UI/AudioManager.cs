@@ -17,6 +17,7 @@ public class AudioManager : MonoBehaviour
     public float sfxCooldown = 0.1f;
     public float sfxVolume = 0.1f;
     public float musicFadeTime = 2f;
+    public float musicVolume = 0.05f;
 
     [Header("Music")]
     public AudioClip levelMusic;
@@ -76,6 +77,7 @@ public class AudioManager : MonoBehaviour
     {
         levelMusicSource.clip = levelMusic;
         levelMusicSource.loop = true;
+        levelMusicSource.volume = musicVolume;
         levelMusicSource.Play();
     }
 
@@ -105,14 +107,14 @@ public class AudioManager : MonoBehaviour
         {
             t += Time.deltaTime;
 
-            from.volume = Mathf.Lerp(1, 0, t / musicFadeTime);
-            to.volume = Mathf.Lerp(0, 1, t / musicFadeTime);
+            from.volume = Mathf.Lerp(musicVolume, 0, t / musicFadeTime);
+            to.volume = Mathf.Lerp(0, musicVolume, t / musicFadeTime);
 
             yield return null;
         }
 
         from.Stop();
-        from.volume = 1;
-        to.volume = 1;
+        from.volume = musicVolume;
+        to.volume = musicVolume;
     }
 }
