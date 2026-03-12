@@ -12,6 +12,10 @@ public class Dialogue : MonoBehaviour
     private int index;
     private bool dialogueStarted = false;
 
+    public AudioSource audioSource;
+    public AudioClip voiceBlip;
+    [Range(0.1f, 1f)] public float pitchVariation = 0.1f;
+
     void Start()
     {
         StartDialogue();
@@ -52,6 +56,12 @@ public class Dialogue : MonoBehaviour
         foreach (char c in lines[index].ToCharArray())
         {
             textComponent.text += c;
+
+            if (!char.IsWhiteSpace(c))
+            {
+                PlayBlip();
+            }
+
             yield return new WaitForSeconds(textSpeed);
         }
     }
@@ -75,5 +85,13 @@ public class Dialogue : MonoBehaviour
         StopAllCoroutines();
         dialogueStarted = false;
         gameObject.SetActive(false);
+    }
+    void PlayBlip()
+    {
+        if (audioSource && voiceBlip)
+        {
+            audioSource.pitch = 1f + Random.Range(-pitchVariation, pitchVariation);
+            audioSource.PlayOneShot(voiceBlip);
+        }
     }
 }
