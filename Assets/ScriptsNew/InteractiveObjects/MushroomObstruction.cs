@@ -110,10 +110,18 @@ public class MushroomObstruction : MonoBehaviour
     //  PUBLIC API
     // ─────────────────────────────────────────────
 
+    [Header("Invisible Wall")]
+    [Tooltip("The invisible wall blocking spiders — disabled when the path opens.")]
+    public GameObject invisibleWall;
+
     public void OpenPath()
     {
         if (isOpen) return;
         isOpen = true;
+
+        if (invisibleWall != null)
+            invisibleWall.SetActive(false);
+
         StartCoroutine(TransformAll());
     }
 

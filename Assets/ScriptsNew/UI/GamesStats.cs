@@ -56,15 +56,20 @@ public class GameStats : MonoBehaviour
         }
         Instance = this;
         DontDestroyOnLoad(gameObject);
+
+        // Register in Awake so totals are ready before any Start() reads them
+        RegisterEnemies();
+        RegisterOrbs();
     }
 
     void Start()
     {
-        RegisterEnemies();
-        RegisterOrbs();
-
         // Listen for new orb collections
         CheckpointMarker.OnOrbCollected += HandleOrbCollected;
+
+        // Broadcast initial totals so HUD gets correct values on first frame
+        OnOrbsChanged?.Invoke(OrbsCollected, TotalOrbs);
+        OnSpidersChanged?.Invoke(SpidersKilled, TotalSpiders);
     }
 
     void OnDestroy()

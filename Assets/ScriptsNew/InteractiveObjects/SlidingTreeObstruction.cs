@@ -129,10 +129,18 @@ public class SlidingTreeObstruction : MonoBehaviour
     //  PUBLIC API
     // ─────────────────────────────────────────────
 
+    [Header("Invisible Wall")]
+    [Tooltip("The invisible wall blocking spiders — disabled when the path opens.")]
+    public GameObject invisibleWall;
+
     public void OpenPath()
     {
         if (isOpen) return;
         isOpen = true;
+
+        if (invisibleWall != null)
+            invisibleWall.SetActive(false);
+
         StartCoroutine(AnimateOpen());
     }
 
@@ -157,7 +165,7 @@ public class SlidingTreeObstruction : MonoBehaviour
     IEnumerator AnimateOpen()
     {
         if (openSound != null && _audio != null)
-            AudioManager.instance?.PlaySFX(AudioManager.instance.treesMoving, 0f);
+            _audio.PlayOneShot(openSound);
         else if (openSound != null)
             AudioSource.PlayClipAtPoint(openSound, transform.position);
 

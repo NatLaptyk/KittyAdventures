@@ -10,10 +10,10 @@
 //    └── InventoryPanel
 //          ├── OrbRow          ← set active, hides after all orbs collected
 //          │     ├── OrbIcon   (Image)
-//          │     └── OrbText   (TMP — "✦ 0 / 3")
+//          │     └── OrbText   (TMP — "0 / 3")
 //          ├── SpiderRow       ← set active, hides after all spiders killed
 //          │     ├── SpiderIcon (Image)
-//          │     └── SpiderText (TMP — "✕ 0 / 2")
+//          │     └── SpiderText (TMP — "0 / 2")
 //          └── AnnouncementText (TMP — large centred text, set INACTIVE by default)
 //
 //  Attach InventoryHUD.cs to InventoryPanel and wire all fields.
@@ -33,21 +33,17 @@ public class InventoryHUD : MonoBehaviour
 
     [Header("Orbs")]
     public GameObject orbRow;
-    public TMP_Text   orbText;
-    public Image      orbIcon;
+    public TMP_Text orbText;
+    public Image orbIcon;
 
     [Header("Spiders")]
     public GameObject spiderRow;
-    public TMP_Text   spiderText;
-    public Image      spiderIcon;
+    public TMP_Text spiderText;
+    public Image spiderIcon;
 
     [Header("Announcement")]
     [Tooltip("Large centred TMP text for completion messages. Set inactive in scene.")]
     public TMP_Text announcementText;
-
-    [Header("Format")]
-    public string orbFormat    = "✦ {0} / {1}";
-    public string spiderFormat = "✕ {0} / {1}";
 
     [Header("Timing")]
     [Tooltip("How long each announcement line stays on screen.")]
@@ -63,13 +59,13 @@ public class InventoryHUD : MonoBehaviour
     public Color defaultColour   = Color.white;
     public Color completedColour = new Color(0.4f, 1f, 0.4f);
 
-    // ─────────────────────────────────────────────
-    //  LIFECYCLE
-    // ─────────────────────────────────────────────
-
     [Header("Game Completion")]
     [SerializeField] private string endSceneName = "EndScene";
     [SerializeField] private float  endSceneDelay = 3f;
+
+    // ─────────────────────────────────────────────
+    //  LIFECYCLE
+    // ─────────────────────────────────────────────
 
     void Start()
     {
@@ -110,7 +106,7 @@ public class InventoryHUD : MonoBehaviour
     {
         if (orbText != null)
         {
-            orbText.text  = string.Format(orbFormat, collected, total);
+            orbText.text  = $"{collected} / {total}";
             orbText.color = (collected >= total && total > 0) ? completedColour : defaultColour;
         }
         if (collected > 0)
@@ -121,7 +117,7 @@ public class InventoryHUD : MonoBehaviour
     {
         if (spiderText != null)
         {
-            spiderText.text  = string.Format(spiderFormat, killed, total);
+            spiderText.text  = $"{killed} / {total}";
             spiderText.color = (killed >= total && total > 0) ? completedColour : defaultColour;
         }
         if (killed > 0)
@@ -145,19 +141,17 @@ public class InventoryHUD : MonoBehaviour
     IEnumerator OrbCompletionSequence()
     {
         yield return StartCoroutine(ShowAnnouncement("All orbs collected!"));
-        yield return StartCoroutine(ShowAnnouncement("Find the green orb and open the path..."));
+        yield return StartCoroutine(ShowAnnouncement("Find the green orb and open the path!"));
 
-        // Hide orb row
         yield return new WaitForSeconds(rowHideDelay * 0.3f);
         yield return StartCoroutine(FadeOutRow(orbRow));
     }
 
     IEnumerator SpiderCompletionSequence()
     {
-        yield return StartCoroutine(ShowAnnouncement("You killed all the spiders!"));
+        yield return StartCoroutine(ShowAnnouncement("You defeated all the spiders!"));
         yield return StartCoroutine(ShowAnnouncement("The path is now clear."));
 
-        // Hide spider row
         yield return new WaitForSeconds(rowHideDelay * 0.3f);
         yield return StartCoroutine(FadeOutRow(spiderRow));
     }
@@ -173,7 +167,6 @@ public class InventoryHUD : MonoBehaviour
         announcementText.gameObject.SetActive(true);
         announcementText.text = message;
 
-        // Fade in
         Color col = announcementText.color;
         col.a = 0f;
         announcementText.color = col;
@@ -189,7 +182,6 @@ public class InventoryHUD : MonoBehaviour
 
         yield return new WaitForSeconds(lineDisplayTime);
 
-        // Fade out
         t = 0f;
         while (t < 1f)
         {
@@ -243,6 +235,7 @@ public class InventoryHUD : MonoBehaviour
         }
         target.localScale = original;
     }
+
     void OnPotionCollected()
     {
         StartCoroutine(PotionSequence());
@@ -254,5 +247,4 @@ public class InventoryHUD : MonoBehaviour
         yield return new WaitForSeconds(endSceneDelay);
         SceneManager.LoadScene(endSceneName);
     }
-
 }
