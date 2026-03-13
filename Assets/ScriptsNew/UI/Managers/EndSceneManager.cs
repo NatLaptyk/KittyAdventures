@@ -87,6 +87,12 @@ public class EndSceneManager : MonoBehaviour
 
     public void OnReplay()
     {
+        if (GameStats.Instance != null)
+        {
+            GameStats.Instance.Reset();
+            GameStats.Instance.RegisterEnemies();
+            GameStats.Instance.RegisterOrbs();
+        }
         SceneFader.Instance?.FadeTo(gameSceneName);
     }
 

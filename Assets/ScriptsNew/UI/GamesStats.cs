@@ -81,7 +81,7 @@ public class GameStats : MonoBehaviour
     //  REGISTRATION
     // ─────────────────────────────────────────────
 
-    void RegisterEnemies()
+    public void RegisterEnemies()
     {
         var enemies = FindObjectsByType<EnemyStats>(FindObjectsSortMode.None);
 
@@ -96,7 +96,7 @@ public class GameStats : MonoBehaviour
         }
     }
 
-    void RegisterOrbs()
+    public void RegisterOrbs()
     {
         var orbs = FindObjectsByType<CheckpointMarker>(FindObjectsSortMode.None);
         TotalOrbs = orbs.Length;
