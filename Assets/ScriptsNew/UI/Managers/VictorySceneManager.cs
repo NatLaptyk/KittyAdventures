@@ -55,6 +55,6 @@ public class VictorySceneManager : MonoBehaviour
                 yield return null;
             }
         }
-        SceneManager.LoadScene(sceneName);
+        SceneFader.Instance?.FadeTo(sceneName);
     }
 }

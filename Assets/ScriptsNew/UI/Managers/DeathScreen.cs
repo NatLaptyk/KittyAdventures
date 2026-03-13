@@ -92,7 +92,7 @@ public class DeathScreen : MonoBehaviour
         }
         else
         {
-            Debug.LogWarning("[DeathScreen] No PlayerStats found.");
+            Debug.LogWarning("[DeathScreen] No PlayerStats found!");
         }
 
         // Wire buttons
@@ -169,7 +169,7 @@ public class DeathScreen : MonoBehaviour
     void OnMenu()
     {
         Time.timeScale = 1f;
-        SceneManager.LoadScene(menuSceneName);
+        SceneFader.Instance?.FadeTo(menuSceneName);
     }
 
     IEnumerator RespawnSequence()

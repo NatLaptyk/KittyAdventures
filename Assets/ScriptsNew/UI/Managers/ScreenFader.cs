@@ -1,0 +1,188 @@
+// ─────────────────────────────────────────────────────────────────────────────
+//  SceneFader.cs
+//
+//  A persistent singleton that fades the screen to/from black on every scene
+//  transition. Lives across all scenes via DontDestroyOnLoad.
+//
+//  SETUP (do this ONCE)
+//  ─────────────────────────────────────────────────────────────────────────────
+//  1. Create a new GameObject → name it "SceneFader"
+//  2. Attach this script to it
+//  3. Add a Canvas component:
+//       - Render Mode: Screen Space - Overlay
+//       - Sort Order: 99  (renders on top of everything)
+//  4. Add a child GameObject → name it "FadePanel"
+//       - Add an Image component
+//       - Set color to black (R:0 G:0 B:0 A:255)
+//       - Set RectTransform to stretch-all (anchors Min 0,0 Max 1,1, all offsets 0)
+//       - Uncheck Raycast Target
+//  5. Drag "FadePanel"s Image into the Fade Image field in the Inspector
+//  6. Place the SceneFader prefab in your FIRST scene (MainMenu)
+//     It will carry itself through every scene automatically.
+//
+//  USAGE FROM OTHER SCRIPTS
+//  ─────────────────────────────────────────────────────────────────────────────
+//  // Load a scene with fade:
+//  SceneFader.Instance.FadeTo("MainScene");
+//
+//  // Load with a custom duration:
+//  SceneFader.Instance.FadeTo("Intro", fadeDuration: 1.5f);
+// ─────────────────────────────────────────────────────────────────────────────
+
+using System.Collections;
+using UnityEngine;
+using UnityEngine.UI;
+using UnityEngine.SceneManagement;
+
+public class SceneFader : MonoBehaviour
+{
+    // ─────────────────────────────────────────────
+    //  SINGLETON
+    // ─────────────────────────────────────────────
+
+    public static SceneFader Instance { get; private set; }
+
+    // ─────────────────────────────────────────────
+    //  INSPECTOR
+    // ─────────────────────────────────────────────
+
+    [Tooltip("The full-screen black Image used for fading.")]
+    public Image fadeImage;
+
+    [Tooltip("Default duration for fade out (to black).")]
+    public float fadeOutDuration = 0.5f;
+
+    [Tooltip("Default duration for fade in (from black).")]
+    public float fadeInDuration  = 0.8f;
+
+    // ─────────────────────────────────────────────
+    //  PRIVATE
+    // ─────────────────────────────────────────────
+
+    bool _isFading = false;
+
+    // ─────────────────────────────────────────────
+    //  LIFECYCLE
+    // ─────────────────────────────────────────────
+
+    void Awake()
+    {
+        // Singleton — destroy duplicate if another scene already has one
+        if (Instance != null && Instance != this)
+        {
+            Destroy(gameObject);
+            return;
+        }
+
+        Instance = this;
+        DontDestroyOnLoad(gameObject);
+
+        // Subscribe to scene loaded event to fade in on every scene
+        SceneManager.sceneLoaded += OnSceneLoaded;
+
+        // Start fully black then fade in
+        SetAlpha(1f);
+    }
+
+    void OnDestroy()
+    {
+        SceneManager.sceneLoaded -= OnSceneLoaded;
+    }
+
+    // ─────────────────────────────────────────────
+    //  SCENE LOADED — fade in automatically
+    // ─────────────────────────────────────────────
+
+    void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        StopAllCoroutines();
+        StartCoroutine(FadeIn(fadeInDuration));
+    }
+
+    // ─────────────────────────────────────────────
+    //  PUBLIC API
+    // ─────────────────────────────────────────────
+
+    /// <summary>Fade to black then load the named scene.</summary>
+    public void FadeTo(string sceneName, float fadeDuration = -1f)
+    {
+        if (_isFading) return;
+        float duration = fadeDuration > 0f ? fadeDuration : fadeOutDuration;
+        StartCoroutine(FadeOutAndLoad(sceneName, duration));
+    }
+
+    /// <summary>Fade to black then quit the application.</summary>
+    public void FadeToQuit(float fadeDuration = -1f)
+    {
+        if (_isFading) return;
+        float duration = fadeDuration > 0f ? fadeDuration : fadeOutDuration;
+        StartCoroutine(FadeOutAndQuit(duration));
+    }
+
+    // ─────────────────────────────────────────────
+    //  COROUTINES
+    // ─────────────────────────────────────────────
+
+    IEnumerator FadeIn(float duration)
+    {
+        _isFading = true;
+        SetAlpha(1f);
+
+        float t = 0f;
+        while (t < 1f)
+        {
+            t += Time.deltaTime / duration;
+            SetAlpha(Mathf.Lerp(1f, 0f, t));
+            yield return null;
+        }
+
+        SetAlpha(0f);
+        _isFading = false;
+    }
+
+    IEnumerator FadeOutAndLoad(string sceneName, float duration)
+    {
+        _isFading = true;
+
+        float t = 0f;
+        while (t < 1f)
+        {
+            t += Time.deltaTime / duration;
+            SetAlpha(Mathf.Lerp(0f, 1f, t));
+            yield return null;
+        }
+
+        SetAlpha(1f);
+        SceneManager.LoadScene(sceneName);
+        // _isFading reset in FadeIn via OnSceneLoaded
+    }
+
+    IEnumerator FadeOutAndQuit(float duration)
+    {
+        _isFading = true;
+
+        float t = 0f;
+        while (t < 1f)
+        {
+            t += Time.deltaTime / duration;
+            SetAlpha(Mathf.Lerp(0f, 1f, t));
+            yield return null;
+        }
+
+#if UNITY_EDITOR
+        UnityEditor.EditorApplication.isPlaying = false;
+#else
+        Application.Quit();
+#endif
+    }
+
+    // ─────────────────────────────────────────────
+    //  HELPERS
+    // ─────────────────────────────────────────────
+
+    void SetAlpha(float alpha)
+    {
+        if (fadeImage != null)
+            fadeImage.color = new Color(0f, 0f, 0f, alpha);
+    }
+}

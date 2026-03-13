@@ -72,9 +72,7 @@ public class EndSceneManager : MonoBehaviour
         if (exitButton != null)
             exitButton.onClick.AddListener(OnExit);
 
-        // Start hidden then fade in
-        SetUIAlpha(0f);
-        StartCoroutine(FadeIn());
+
     }
 
     void OnDestroy()
@@ -89,97 +87,12 @@ public class EndSceneManager : MonoBehaviour
 
     public void OnReplay()
     {
-        StartCoroutine(FadeOutAndLoad(gameSceneName));
+        SceneFader.Instance?.FadeTo(gameSceneName);
     }
 
     public void OnExit()
     {
-        StartCoroutine(FadeOutAndQuit());
+        SceneFader.Instance?.FadeToQuit();
     }
 
-    // ─────────────────────────────────────────────
-    //  ANIMATION
-    // ─────────────────────────────────────────────
-
-    IEnumerator FadeIn()
-    {
-        // Fade panel from black to transparent
-        float t = 0f;
-        while (t < 1f)
-        {
-            t += Time.deltaTime / fadeInDuration;
-            if (panelImage != null)
-                panelImage.color = new Color(0f, 0f, 0f, Mathf.Lerp(1f, 0f, t));
-            yield return null;
-        }
-
-        // Wait then reveal text and buttons
-        yield return new WaitForSeconds(textRevealDelay);
-        StartCoroutine(RevealUI());
-    }
-
-    IEnumerator RevealUI()
-    {
-        // Fade in title
-        yield return StartCoroutine(FadeText(titleText, 0f, 1f, 0.6f));
-        yield return new WaitForSeconds(0.2f);
-
-        // Fade in subtitle
-        yield return StartCoroutine(FadeText(subtitleText, 0f, 1f, 0.5f));
-        yield return new WaitForSeconds(0.3f);
-
-        // Fade in buttons
-        SetUIAlpha(1f);
-    }
-
-    IEnumerator FadeText(TMP_Text text, float from, float to, float duration)
-    {
-        if (text == null) yield break;
-
-        float t = 0f;
-        Color col = text.color;
-        while (t < 1f)
-        {
-            t += Time.deltaTime / duration;
-            col.a    = Mathf.Lerp(from, to, t);
-            text.color = col;
-            yield return null;
-        }
-    }
-
-    IEnumerator FadeOutAndLoad(string sceneName)
-    {
-        yield return StartCoroutine(FadeToBlack());
-        SceneManager.LoadScene(sceneName);
-    }
-
-    IEnumerator FadeOutAndQuit()
-    {
-        yield return StartCoroutine(FadeToBlack());
-
-#if UNITY_EDITOR
-        UnityEditor.EditorApplication.isPlaying = false;
-#else
-        Application.Quit();
-#endif
-    }
-
-    IEnumerator FadeToBlack()
-    {
-        float t = 0f;
-        while (t < 1f)
-        {
-            t += Time.deltaTime / 0.6f;
-            if (panelImage != null)
-                panelImage.color = new Color(0f, 0f, 0f, Mathf.Lerp(0f, 1f, t));
-            yield return null;
-        }
-    }
-
-    void SetUIAlpha(float alpha)
-    {
-        // Set button alpha via CanvasGroup if present
-        var groups = GetComponentsInChildren<CanvasGroup>();
-        foreach (var g in groups) g.alpha = alpha;
-    }
 }
