@@ -214,7 +214,7 @@ public abstract class EnemyAI : MonoBehaviour
             if (dir != Vector3.zero)
             {
                 transform.rotation = Quaternion.LookRotation(dir);
-                Debug.Log($"[Attack] forward={transform.forward} dirToKitty={dir} rotation={transform.eulerAngles}");
+                
             }
         }
 

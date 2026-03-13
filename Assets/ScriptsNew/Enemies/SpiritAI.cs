@@ -107,12 +107,12 @@ public class SpiritAI : EnemyAI
         {
             if (_agent.isOnNavMesh) _agent.isStopped = true;
             _animator?.SetBool("IsActive", false);
-            Debug.Log($"[Spirit] Too far ({dist:F1}), chaseRange={_stats.chaseRange}");
+           
             return;
         }
 
         _animator?.SetBool("IsActive", true);
-        Debug.Log($"[Spirit] dist={dist:F1} isDashing={_isDashing} dashTimer={_dashTimer:F2} retreating={_retreating} enraged={_isEnraged}");
+       
 
         if (!_isDashing)
         {
@@ -208,7 +208,7 @@ public class SpiritAI : EnemyAI
         if (_dashTimer <= 0f)
         {
             _dashTimer = cooldown;
-            Debug.Log("[Spirit] Starting GhostDash!");
+            
             StartCoroutine(GhostDash());
         }
     }
@@ -221,7 +221,7 @@ public class SpiritAI : EnemyAI
     {
         _isDashing       = true;
         _agent.isStopped = true;
-        Debug.Log("[Spirit] GhostDash coroutine running");
+        
         _animator?.SetTrigger("isAttack");
         AudioManager.instance?.PlaySFX(AudioManager.instance.wispAttack, 0.5f);
 
