@@ -100,6 +100,7 @@ public class PlayerStats : MonoBehaviour, IDamageable
         var cam = FindFirstObjectByType<CameraController>();
         cam?.Shake(0.4f);
         CombatFX.Instance?.OnKittyDamaged(sourcePosition);
+        AudioManager.instance.PlaySFX(AudioManager.instance.playerDamaged, 0f);
 
         if (Health <= 0f)
         {

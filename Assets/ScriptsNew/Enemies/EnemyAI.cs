@@ -38,7 +38,6 @@ public abstract class EnemyAI : MonoBehaviour
     protected EnemyStats   _stats;
     protected Transform    _kitty;
     protected Animator     _animator;
-
     // ─────────────────────────────────────────────
     //  PATROL
     // ─────────────────────────────────────────────
@@ -73,6 +72,7 @@ public abstract class EnemyAI : MonoBehaviour
 
         // Listen for death
         _stats.OnDied += OnDied;
+
     }
 
     protected virtual void Start()

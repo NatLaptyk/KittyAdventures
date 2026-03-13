@@ -38,6 +38,8 @@ public class EnemyStats : MonoBehaviour, IDamageable
     public GameObject deathEffectPrefab;
     public float      deathEffectDuration = 2f;
 
+    [SerializeField] Renderer hitFlashRenderer;
+
     // ─────────────────────────────────────────────
     //  PUBLIC STATE
     // ─────────────────────────────────────────────
@@ -81,9 +83,8 @@ public class EnemyStats : MonoBehaviour, IDamageable
         _animator?.SetTrigger("TakeDamage");
 
         // Flash red to show hit — works if enemy has a Renderer
-        var renderer = GetComponentInChildren<Renderer>();
-        if (renderer != null)
-            StartCoroutine(HitFlash(renderer));
+        if (hitFlashRenderer != null)
+            StartCoroutine(HitFlash(hitFlashRenderer));
 
         if (Health <= 0f)
             Die(sourcePosition);
@@ -129,11 +130,17 @@ public class EnemyStats : MonoBehaviour, IDamageable
     //  HIT FLASH
     // ─────────────────────────────────────────────
 
-    System.Collections.IEnumerator HitFlash(Renderer r)
+    IEnumerator HitFlash(Renderer renderer)
     {
-        var original = r.material.color;
-        r.material.color = Color.red;
-        yield return new WaitForSeconds(0.1f);
-        r.material.color = original;
+        Material mat = renderer.material;
+
+        Color originalEmission = mat.GetColor("_EmissionColor");
+
+        mat.EnableKeyword("_EMISSION");
+        mat.SetColor("_EmissionColor", new Color(0.8f, 0.1f, 1f) * 4f);
+
+        yield return new WaitForSeconds(0.12f);
+
+        mat.SetColor("_EmissionColor", originalEmission);
     }
 }
