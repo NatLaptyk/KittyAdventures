@@ -945,7 +945,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::IntroSceneManager
   mainSceneName: MainScene
-  sceneDelay: 10
+  sceneDelay: 20
   fadeImage: {fileID: 0}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
