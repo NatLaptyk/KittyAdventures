@@ -27,8 +27,8 @@ public class PlayerController : MonoBehaviour
     // ─────────────────────────────────────────────
 
     [Header("Movement")]
-    public float walkSpeed        = 5f;
-    public float sprintSpeed      = 9f;
+    public float walkSpeed = 5f;
+    public float sprintSpeed = 9f;
     public float sprintStaminaCost = 15f;  // stamina per second while sprinting
     public float rotateSpeed = 12f;
 
@@ -36,28 +36,28 @@ public class PlayerController : MonoBehaviour
     public float jumpForce = 7f;
 
     [Tooltip("Stamina cost for a regular jump.")]
-    public float jumpStaminaCost   = 10f;
+    public float jumpStaminaCost = 10f;
 
     [Header("Stomp Attack")]
     [Tooltip("Damage dealt when Kitty lands on an enemy from above.")]
-    public float stompDamage       = 25f;
+    public float stompDamage = 25f;
     [Tooltip("Stamina cost for a stomp.")]
-    public float stompStaminaCost  = 15f;
+    public float stompStaminaCost = 15f;
     [Tooltip("How fast Kitty must be falling to trigger a stomp.")]
     public float stompMinFallSpeed = 2f;
     [Tooltip("Radius around Kitty's feet to check for enemies on landing.")]
-    public float stompRadius       = 0.8f;
+    public float stompRadius = 0.8f;
     [Tooltip("Layer mask for enemies.")]
     public LayerMask enemyLayers;
-    public float gravity   = -25f;
+    public float gravity = -25f;
 
     [Header("Dodge")]
-    public float dodgeSpeed    = 12f;
+    public float dodgeSpeed = 12f;
     public float dodgeDuration = 0.25f;
 
     [Header("Climb")]
-    public float climbSpeed      = 3f;
-    public float climbCheckDist  = 0.5f;
+    public float climbSpeed = 3f;
+    public float climbCheckDist = 0.5f;
     public LayerMask climbMask;
 
     [Header("Animation")]
@@ -65,29 +65,35 @@ public class PlayerController : MonoBehaviour
 
     [Header("Footsteps")]
     [SerializeField] private float stepInterval = 0.38f;
+    [SerializeField] private AudioClip[] stepClips;
+    [SerializeField] private AudioSource stepSource;
+
+    private int _stepIndex = 0;
+
 
     // ─────────────────────────────────────────────
     //  PRIVATE
     // ─────────────────────────────────────────────
 
     CharacterController _cc;
-    InputReader         _input;
-    CameraController    _cam;
-    Animator            _animator;
-    bool                _wasGrounded = true;
-    float               _stepTimer   = 0f;
+    InputReader _input;
+    CameraController _cam;
+    Animator _animator;
+    bool _wasGrounded = true;
+    float _stepTimer = 0f;
 
-    Vector3     _velocity;
-    float       _fallSpeed    = 0f;   // tracked for stomp
-    bool        _isSprinting = false;
+    Vector3 _velocity;
+    float _fallSpeed = 0f;   // tracked for stomp
+    bool _isSprinting = false;
     PlayerStats _stats;
 
     // Dodge
-    bool    _isDodging;
+    bool _isDodging;
     Vector3 _dodgeDir;
 
     // Climb
-    bool    _isClimbing;
+    bool _isClimbing;
+    bool _didJump = false;
 
     // ─────────────────────────────────────────────
     //  LIFECYCLE
@@ -95,13 +101,13 @@ public class PlayerController : MonoBehaviour
 
     void Start()
     {
-        _cc       = GetComponent<CharacterController>();
-        _input    = GetComponent<InputReader>();
-        _cam      = FindFirstObjectByType<CameraController>();
+        _cc = GetComponent<CharacterController>();
+        _input = GetComponent<InputReader>();
+        _cam = FindFirstObjectByType<CameraController>();
         // Use assigned animator or search children as fallback
         _animator = animator != null ? animator : GetComponentInChildren<Animator>();
 
-        _stats    = GetComponent<PlayerStats>();
+        _stats = GetComponent<PlayerStats>();
 
         if (_input == null)
             Debug.LogError("[PlayerController] InputReader not found on Kitty!");
@@ -121,6 +127,7 @@ public class PlayerController : MonoBehaviour
         UpdateMovement();
         UpdateJump();
         UpdateDodge();
+        UpdateFootsteps();
 
         _cc.Move(_velocity * Time.deltaTime);
         UpdateAnimator();
@@ -136,8 +143,9 @@ public class PlayerController : MonoBehaviour
 
         // isRun — true whenever Kitty is moving horizontally
         float horizontalSpeed = new Vector3(_velocity.x, 0f, _velocity.z).magnitude;
-        _animator.SetBool("isRun",    horizontalSpeed > 0.1f);
+        _animator.SetBool("isRun", horizontalSpeed > 0.1f);
         _animator.SetBool("isSprint", _isSprinting && horizontalSpeed > 0.1f);
+
 
         // Track fall speed for stomp detection
         if (!_cc.isGrounded)
@@ -148,8 +156,12 @@ public class PlayerController : MonoBehaviour
         if (grounded && !_wasGrounded)
         {
             _animator?.SetTrigger("isLand");
-            AudioManager.instance.PlaySFX(AudioManager.instance.land, 0f);
 
+            if (_didJump)
+            {
+                AudioManager.instance.PlaySFX(AudioManager.instance.land, 0f);
+                _didJump = false;
+            }
             // Check for stomp attack on landing
             if (_fallSpeed >= stompMinFallSpeed)
                 TryStompAttack();
@@ -168,7 +180,7 @@ public class PlayerController : MonoBehaviour
     void UpdateMovement()
     {
         Vector2 input = _input != null ? _input.Move : Vector2.zero;
-        float   yaw   = _cam   != null ? _cam.CameraYaw : 0f;
+        float yaw = _cam != null ? _cam.CameraYaw : 0f;
 
         // Camera-relative direction
         Vector3 dir = Quaternion.Euler(0f, yaw, 0f)
@@ -178,8 +190,8 @@ public class PlayerController : MonoBehaviour
 
         // Sprint — hold Shift, costs stamina, must be moving
         bool wantsToSprint = _input.SprintHeld && dir.sqrMagnitude > 0.01f;
-        bool hasStamina    = _stats != null && _stats.Stamina > 0f;
-        _isSprinting       = wantsToSprint && hasStamina;
+        bool hasStamina = _stats != null && _stats.Stamina > 0f;
+        _isSprinting = wantsToSprint && hasStamina;
 
         if (_isSprinting && _stats != null)
             _stats.SpendStamina(sprintStaminaCost * Time.deltaTime);
@@ -211,10 +223,11 @@ public class PlayerController : MonoBehaviour
 
             if (_input != null && _input.JumpPressed)
             {
-                // Spend stamina on jump — still jump even if out of stamina
                 _stats?.SpendStamina(jumpStaminaCost);
 
                 _velocity.y = jumpForce;
+                _didJump = true;
+
                 _animator?.SetTrigger("isJump");
                 AudioManager.instance.PlaySFX(AudioManager.instance.jump, 0f);
             }
@@ -237,7 +250,7 @@ public class PlayerController : MonoBehaviour
 
         // Dodge in movement direction, or backward if standing still
         Vector2 input = _input.Move;
-        float   yaw   = _cam != null ? _cam.CameraYaw : 0f;
+        float yaw = _cam != null ? _cam.CameraYaw : 0f;
 
         Vector3 dir = Quaternion.Euler(0f, yaw, 0f)
                     * new Vector3(input.x, 0f, input.y);
@@ -257,12 +270,12 @@ public class PlayerController : MonoBehaviour
         while (elapsed < dodgeDuration)
         {
             // Curve the speed so it eases out
-            float t     = elapsed / dodgeDuration;
+            float t = elapsed / dodgeDuration;
             float speed = Mathf.Lerp(dodgeSpeed, 0f, t);
 
             Vector3 move = _dodgeDir * speed;
-            move.y       = _velocity.y + gravity * Time.deltaTime;
-            _velocity.y  = move.y;
+            move.y = _velocity.y + gravity * Time.deltaTime;
+            _velocity.y = move.y;
 
             _cc.Move(move * Time.deltaTime);
 
@@ -285,8 +298,8 @@ public class PlayerController : MonoBehaviour
         if (Physics.Raycast(transform.position + Vector3.up * 0.5f,
                              transform.forward, climbCheckDist, climbMask))
         {
-            _isClimbing  = true;
-            _velocity    = Vector3.zero;
+            _isClimbing = true;
+            _velocity = Vector3.zero;
         }
     }
 
@@ -302,7 +315,7 @@ public class PlayerController : MonoBehaviour
         if (!_input.ClimbHeld || !wallAhead)
         {
             _isClimbing = false;
-            _velocity   = Vector3.zero;
+            _velocity = Vector3.zero;
             return;
         }
 
@@ -317,7 +330,7 @@ public class PlayerController : MonoBehaviour
         if (_input.JumpPressed)
         {
             _isClimbing = false;
-            _velocity   = -transform.forward * 3f;
+            _velocity = -transform.forward * 3f;
             _velocity.y = jumpForce * 0.8f;
             _cc.Move(_velocity * Time.deltaTime);
             return;
@@ -330,9 +343,9 @@ public class PlayerController : MonoBehaviour
     //  PUBLIC
     // ─────────────────────────────────────────────
 
-    public bool IsGrounded  => _cc.isGrounded;
-    public bool IsDodging   => _isDodging;
-    public bool IsClimbing  => _isClimbing;
+    public bool IsGrounded => _cc.isGrounded;
+    public bool IsDodging => _isDodging;
+    public bool IsClimbing => _isClimbing;
 
     // ─────────────────────────────────────────────
     //  GIZMOS
@@ -357,8 +370,8 @@ public class PlayerController : MonoBehaviour
 
     void TryStompAttack()
     {
-        Vector3    feetPos = transform.position;
-        Collider[] hits    = Physics.OverlapSphere(feetPos, stompRadius, enemyLayers);
+        Vector3 feetPos = transform.position;
+        Collider[] hits = Physics.OverlapSphere(feetPos, stompRadius, enemyLayers);
 
         if (hits.Length == 0) return;
 
@@ -382,23 +395,49 @@ public class PlayerController : MonoBehaviour
             Debug.Log($"[Stomp] Hit {hit.gameObject.name} for {dmg} dmg | stamina={hasStamina}");
         }
     }
-    private void TickFootsteps()
+    public void Footstep()
     {
-        // Only play when grounded and actually moving
-        float horizontalSpeed = new Vector3(_velocity.x, 0f, _velocity.z).magnitude;
-        bool moving = horizontalSpeed > 0.5f && IsGrounded;
-        if (!moving)
+        if (!_cc.isGrounded) return;
+
+        if (stepClips == null || stepClips.Length == 0) return;
+
+        stepSource.PlayOneShot(stepClips[_stepIndex]);
+
+        _stepIndex++;
+        if (_stepIndex >= stepClips.Length)
+            _stepIndex = 0;
+    }
+    void UpdateFootsteps()
+    {
+        if (!_cc.isGrounded) return;
+
+        Vector3 horizontalVel = new Vector3(_velocity.x, 0f, _velocity.z);
+        float speed = horizontalVel.magnitude;
+
+        if (speed < 0.1f)
         {
             _stepTimer = 0f;
             return;
         }
 
         _stepTimer += Time.deltaTime;
-        if (_stepTimer >= stepInterval)
+
+        float interval = _isSprinting ? stepInterval * 0.7f : stepInterval;
+
+        if (_stepTimer >= interval)
         {
+            PlayFootstep();
             _stepTimer = 0f;
-            AudioManager.instance?.PlaySFX(AudioManager.instance.steps, 0f);
         }
     }
+    void PlayFootstep()
+    {
+        if (stepClips == null || stepClips.Length == 0) return;
 
+        stepSource.PlayOneShot(stepClips[_stepIndex]);
+
+        _stepIndex++;
+        if (_stepIndex >= stepClips.Length)
+            _stepIndex = 0;
+    }
 }
