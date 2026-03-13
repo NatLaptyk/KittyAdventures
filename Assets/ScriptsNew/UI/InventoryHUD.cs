@@ -23,7 +23,6 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
-using UnityEngine.SceneManagement;
 
 public class InventoryHUD : MonoBehaviour
 {
@@ -59,9 +58,7 @@ public class InventoryHUD : MonoBehaviour
     public Color defaultColour   = Color.white;
     public Color completedColour = new Color(0.4f, 1f, 0.4f);
 
-    [Header("Game Completion")]
-    [SerializeField] private string endSceneName = "EndScene";
-    [SerializeField] private float  endSceneDelay = 3f;
+
 
     // ─────────────────────────────────────────────
     //  LIFECYCLE
@@ -244,7 +241,6 @@ public class InventoryHUD : MonoBehaviour
     IEnumerator PotionSequence()
     {
         yield return StartCoroutine(ShowAnnouncement("You retrieved the Spirit Potion!"));
-        yield return new WaitForSeconds(endSceneDelay);
-        SceneManager.LoadScene(endSceneName);
+        yield return StartCoroutine(ShowAnnouncement("Now bring it back home!"));
     }
 }
