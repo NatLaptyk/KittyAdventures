@@ -69,6 +69,12 @@ public class SpiritAI : EnemyAI
     bool     _isDead      = false;
     Material _mat;
 
+    // Stuck detection
+    Vector3  _lastPosition;
+    float    _stuckTimer      = 0f;
+    float    _stuckCheckDelay = 1f;   // check every second
+    float    _stuckThreshold  = 0.3f; // must move this far per second or considered stuck
+
     // ─────────────────────────────────────────────
     //  LIFECYCLE
     // ─────────────────────────────────────────────
@@ -80,6 +86,7 @@ public class SpiritAI : EnemyAI
         _agent.speed                 = _stats.moveSpeed;
         _agent.acceleration          = 20f;
         _agent.stoppingDistance      = 0.1f;
+        _lastPosition                = transform.position;
         _strafeAngle                 = Random.Range(0f, 360f);
 
         if (glowRenderer != null)
@@ -102,6 +109,7 @@ public class SpiritAI : EnemyAI
 
         if (!_isDashing) ApplyFloat();
         CheckPhaseTransition();
+        CheckIfStuck();
 
         // Simple two-state loop: patrol if far, orbit+attack if close
         float dist = Vector3.Distance(transform.position, _kitty.position);
@@ -351,5 +359,34 @@ public class SpiritAI : EnemyAI
         if (_mat == null) return;
         _mat.SetColor("_EmissionColor", col * 2f);
         _mat.EnableKeyword("_EMISSION");
+    }
+
+    void CheckIfStuck()
+    {
+        if (_isDashing || !_agent.isOnNavMesh) return;
+
+        _stuckTimer += Time.deltaTime;
+
+        if (_stuckTimer >= _stuckCheckDelay)
+        {
+            float moved = Vector3.Distance(transform.position, _lastPosition);
+
+            if (moved < _stuckThreshold && !_agent.isStopped)
+            {
+                // Spirit is stuck — pick a random nearby NavMesh point and go there
+                Vector3 randomDir    = Random.insideUnitSphere * 4f;
+                randomDir.y          = 0f;
+                Vector3 escapeTarget = transform.position + randomDir;
+
+                if (NavMesh.SamplePosition(escapeTarget, out NavMeshHit hit, 5f, NavMesh.AllAreas))
+                {
+                    _agent.isStopped = false;
+                    _agent.SetDestination(hit.position);
+                }
+            }
+
+            _lastPosition = transform.position;
+            _stuckTimer   = 0f;
+        }
     }
 }
