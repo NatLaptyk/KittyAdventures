@@ -7017,6 +7017,10 @@ PrefabInstance:
       propertyPath: hitFlashRenderer
       value: 
       objectReference: {fileID: 1767821968}
+    - target: {fileID: 7450313891115010314, guid: b2d2c0fa16c9da94cbbca024ad0a6b11, type: 3}
+      propertyPath: potionSpawnPoint
+      value: 
+      objectReference: {fileID: 1204459279}
     - target: {fileID: 7709862375401298603, guid: b2d2c0fa16c9da94cbbca024ad0a6b11, type: 3}
       propertyPath: m_Name
       value: Spirit
@@ -14636,6 +14640,37 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6a103231571e9e2458deae64b761acdd, type: 3}
+--- !u!1 &1204459278
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1204459279}
+  m_Layer: 0
+  m_Name: PotionSpawnPoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1204459279
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1204459278}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 23.97, y: 55.75, z: 153.85}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &1206059203 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8783331162462017498, guid: 1a931d9d2be50eb48bac445b10f13a7d, type: 3}
@@ -24904,16 +24939,8 @@ MonoBehaviour:
   rowHideDelay: 4
   popScale: 1.4
   popDuration: 0.2
-  defaultColour:
-    r: 1
-    g: 1
-    b: 1
-    a: 1
-  completedColour:
-    r: 0.4
-    g: 1
-    b: 0.4
-    a: 1
+  defaultColour: {r: 1, g: 1, b: 1, a: 1}
+  completedColour: {r: 0.4, g: 1, b: 0.4, a: 1}
 --- !u!1001 &1722985841
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -28638,3 +28665,4 @@ SceneRoots:
   - {fileID: 1315052649}
   - {fileID: 834912385}
   - {fileID: 1535934308}
+  - {fileID: 1204459279}

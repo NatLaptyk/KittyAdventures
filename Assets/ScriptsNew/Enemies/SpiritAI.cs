@@ -19,30 +19,30 @@ using UnityEngine.AI;
 public class SpiritAI : EnemyAI
 {
     [Header("Spirit — Float")]
-    public float floatHeight = 1.2f;
-    public float bobAmplitude = 0.5f;
-    public float bobFrequency = 1.5f;
+    public float floatHeight   = 1.2f;
+    public float bobAmplitude  = 0.5f;
+    public float bobFrequency  = 1.5f;
 
     [Header("Spirit — Orbit")]
     public float preferredDist = 5f;
-    public float minDistance = 3f;
-    public float strafeSpeed = 8f;
+    public float minDistance   = 3f;
+    public float strafeSpeed   = 8f;
 
     [Header("Spirit — Ghost Dash")]
-    public float dashSpeed = 20f;
-    public float dashOvershoot = 3f;
-    public float dashWindup = 0.5f;
-    public float dashHitRadius = 1.2f;
-    public float dashCooldown = 3f;
+    public float dashSpeed       = 20f;
+    public float dashOvershoot   = 3f;
+    public float dashWindup      = 0.5f;
+    public float dashHitRadius   = 1.2f;
+    public float dashCooldown    = 3f;
 
     [Header("Spirit — Enraged Phase")]
     [Range(0f, 1f)]
-    public float enragedThreshold = 0.5f;
-    public float enragedSpeedMult = 1.8f;
+    public float enragedThreshold    = 0.5f;
+    public float enragedSpeedMult    = 1.8f;
     public float enragedDashCooldown = 1.6f;
-    public int enragedMaxChain = 2;
-    public Color normalGlowColour = new Color(0.4f, 0.6f, 1.0f);
-    public Color enragedGlowColour = new Color(1.0f, 0.15f, 0.1f);
+    public int   enragedMaxChain     = 2;
+    public Color normalGlowColour    = new Color(0.4f, 0.6f, 1.0f);
+    public Color enragedGlowColour   = new Color(1.0f, 0.15f, 0.1f);
     public Renderer glowRenderer;
 
     [Header("Spirit — Drop")]
@@ -50,19 +50,23 @@ public class SpiritAI : EnemyAI
     public GameObject potionPrefab;
     [Tooltip("Height above Spirit position where the potion spawns.")]
     public float potionDropHeight = 1f;
+    [Tooltip("If assigned, the potion spawns here instead of on the Spirit. " +
+             "Place an empty GameObject somewhere visible in the arena.")]
+    public Transform potionSpawnPoint;
+
 
     // ─────────────────────────────────────────────
     //  PRIVATE
     // ─────────────────────────────────────────────
 
-    float _strafeAngle = 0f;
-    float _bobTimer = 0f;
-    float _dashTimer = 0f;
-    bool _isDashing = false;
-    bool _isEnraged = false;
-    int _dashChain = 0;
-    bool _retreating = false;
-    bool _isDead = false;
+    float    _strafeAngle  = 0f;
+    float    _bobTimer     = 0f;
+    float    _dashTimer    = 0f;
+    bool     _isDashing   = false;
+    bool     _isEnraged   = false;
+    int      _dashChain   = 0;
+    bool     _retreating  = false;
+    bool     _isDead      = false;
     Material _mat;
 
     // ─────────────────────────────────────────────
@@ -73,10 +77,10 @@ public class SpiritAI : EnemyAI
     {
         base.Awake();
         _agent.obstacleAvoidanceType = ObstacleAvoidanceType.NoObstacleAvoidance;
-        _agent.speed = _stats.moveSpeed;
-        _agent.acceleration = 20f;
-        _agent.stoppingDistance = 0.1f;
-        _strafeAngle = Random.Range(0f, 360f);
+        _agent.speed                 = _stats.moveSpeed;
+        _agent.acceleration          = 20f;
+        _agent.stoppingDistance      = 0.1f;
+        _strafeAngle                 = Random.Range(0f, 360f);
 
         if (glowRenderer != null)
         {
@@ -106,12 +110,12 @@ public class SpiritAI : EnemyAI
         {
             if (_agent.isOnNavMesh) _agent.isStopped = true;
             _animator?.SetBool("IsActive", false);
-
+            Debug.Log($"[Spirit] Too far ({dist:F1}), chaseRange={_stats.chaseRange}");
             return;
         }
 
         _animator?.SetBool("IsActive", true);
-
+        Debug.Log($"[Spirit] dist={dist:F1} isDashing={_isDashing} dashTimer={_dashTimer:F2} retreating={_retreating} enraged={_isEnraged}");
 
         if (!_isDashing)
         {
@@ -132,12 +136,12 @@ public class SpiritAI : EnemyAI
     void ApplyFloat()
     {
         _bobTimer += Time.deltaTime * bobFrequency;
-        float bob = Mathf.Sin(_bobTimer) * bobAmplitude;
+        float bob  = Mathf.Sin(_bobTimer) * bobAmplitude;
 
         if (NavMesh.SamplePosition(transform.position, out NavMeshHit hit, 3f, NavMesh.AllAreas))
         {
-            Vector3 pos = transform.position;
-            pos.y = hit.position.y + floatHeight + bob;
+            Vector3 pos    = transform.position;
+            pos.y          = hit.position.y + floatHeight + bob;
             transform.position = pos;
         }
     }
@@ -148,13 +152,13 @@ public class SpiritAI : EnemyAI
 
     void Orbit()
     {
-        float dist = Vector3.Distance(transform.position, _kitty.position);
+        float dist          = Vector3.Distance(transform.position, _kitty.position);
         float currentStrafe = _isEnraged ? strafeSpeed * enragedSpeedMult : strafeSpeed;
 
         if (_retreating)
         {
             // Back away to preferred distance after dash chain
-            Vector3 retreatDir = (transform.position - _kitty.position).normalized;
+            Vector3 retreatDir    = (transform.position - _kitty.position).normalized;
             Vector3 retreatTarget = _kitty.position + retreatDir * preferredDist;
 
             if (_agent.isOnNavMesh &&
@@ -167,15 +171,15 @@ public class SpiritAI : EnemyAI
             if (dist >= preferredDist * 0.85f)
             {
                 _retreating = false;
-                _dashChain = 0;
+                _dashChain  = 0;
             }
             return;
         }
 
         // Circle orbit
         _strafeAngle += currentStrafe * Time.deltaTime * 20f;
-        float rad = _strafeAngle * Mathf.Deg2Rad;
-        Vector3 orbit = new Vector3(Mathf.Cos(rad), 0f, Mathf.Sin(rad)) * preferredDist;
+        float   rad    = _strafeAngle * Mathf.Deg2Rad;
+        Vector3 orbit  = new Vector3(Mathf.Cos(rad), 0f, Mathf.Sin(rad)) * preferredDist;
         Vector3 target = _kitty.position + orbit;
 
         // Back away if too close
@@ -207,7 +211,7 @@ public class SpiritAI : EnemyAI
         if (_dashTimer <= 0f)
         {
             _dashTimer = cooldown;
-
+            Debug.Log("[Spirit] Starting GhostDash!");
             StartCoroutine(GhostDash());
         }
     }
@@ -218,9 +222,9 @@ public class SpiritAI : EnemyAI
 
     IEnumerator GhostDash()
     {
-        _isDashing = true;
+        _isDashing       = true;
         _agent.isStopped = true;
-
+        Debug.Log("[Spirit] GhostDash coroutine running");
         _animator?.SetTrigger("isAttack");
         AudioManager.instance?.PlaySFX(AudioManager.instance.wispAttack, 0.5f);
 
@@ -236,9 +240,9 @@ public class SpiritAI : EnemyAI
         // Dash through Kitty
         if (_kitty != null)
         {
-            Vector3 dir = (_kitty.position - transform.position).normalized;
-            Vector3 dest = _kitty.position + dir * dashOvershoot;
-            dest.y = transform.position.y;
+            Vector3 dir   = (_kitty.position - transform.position).normalized;
+            Vector3 dest  = _kitty.position + dir * dashOvershoot;
+            dest.y        = transform.position.y;
 
             bool hitKitty = false;
 
@@ -268,7 +272,7 @@ public class SpiritAI : EnemyAI
         if (_isEnraged && _dashChain >= enragedMaxChain)
             _retreating = true;
 
-        _isDashing = false;
+        _isDashing       = false;
         _agent.isStopped = false;
     }
 
@@ -311,17 +315,18 @@ public class SpiritAI : EnemyAI
         {
             _isDead = true;
             StopAllCoroutines();
-            _isDashing = false;
+            _isDashing       = false;
             _agent.isStopped = true;
-            _agent.enabled = false;
+            _agent.enabled   = false;
             _animator?.SetTrigger("isDed");
             AudioManager.instance?.PlaySFX(AudioManager.instance.wispDed);
-            AudioManager.instance.ReturnToLevelMusic();
 
             // Drop the potion
             if (potionPrefab != null)
             {
-                Vector3 spawnPos = transform.position + Vector3.up * potionDropHeight;
+                Vector3 spawnPos = potionSpawnPoint != null
+                    ? potionSpawnPoint.position
+                    : transform.position + Vector3.up * potionDropHeight;
                 Instantiate(potionPrefab, spawnPos, Quaternion.identity);
             }
         }
@@ -346,6 +351,5 @@ public class SpiritAI : EnemyAI
         if (_mat == null) return;
         _mat.SetColor("_EmissionColor", col * 2f);
         _mat.EnableKeyword("_EMISSION");
-
     }
 }
