@@ -6925,6 +6925,10 @@ PrefabInstance:
       propertyPath: destroyDelay
       value: 0.5
       objectReference: {fileID: 0}
+    - target: {fileID: 152923995142381561, guid: b2d2c0fa16c9da94cbbca024ad0a6b11, type: 3}
+      propertyPath: deathEffectPrefab
+      value: 
+      objectReference: {fileID: 6171141829739353376, guid: 5c80de10e8f57264c852e24827e0313e, type: 3}
     - target: {fileID: 165518115481253437, guid: b2d2c0fa16c9da94cbbca024ad0a6b11, type: 3}
       propertyPath: m_Layer
       value: 9
@@ -7017,6 +7021,10 @@ PrefabInstance:
       propertyPath: hitFlashRenderer
       value: 
       objectReference: {fileID: 1767821968}
+    - target: {fileID: 7450313891115010314, guid: b2d2c0fa16c9da94cbbca024ad0a6b11, type: 3}
+      propertyPath: potionDropHeight
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7450313891115010314, guid: b2d2c0fa16c9da94cbbca024ad0a6b11, type: 3}
       propertyPath: potionSpawnPoint
       value: 
@@ -14665,7 +14673,7 @@ Transform:
   m_GameObject: {fileID: 1204459278}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 23.97, y: 55.75, z: 153.85}
+  m_LocalPosition: {x: 23.97, y: 53.67, z: 153.85}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -23286,7 +23294,7 @@ Transform:
   m_GameObject: {fileID: 1657702436}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: 0.7311652, z: -0, w: 0.68220055}
-  m_LocalPosition: {x: 121.1, y: 67.18, z: 181.9}
+  m_LocalPosition: {x: 29, y: 67.18, z: 170.9}
   m_LocalScale: {x: 0.75251, y: 0.75251, z: 0.75251}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -24939,8 +24947,16 @@ MonoBehaviour:
   rowHideDelay: 4
   popScale: 1.4
   popDuration: 0.2
-  defaultColour: {r: 1, g: 1, b: 1, a: 1}
-  completedColour: {r: 0.4, g: 1, b: 0.4, a: 1}
+  defaultColour:
+    r: 1
+    g: 1
+    b: 1
+    a: 1
+  completedColour:
+    r: 0.4
+    g: 1
+    b: 0.4
+    a: 1
 --- !u!1001 &1722985841
 PrefabInstance:
   m_ObjectHideFlags: 0

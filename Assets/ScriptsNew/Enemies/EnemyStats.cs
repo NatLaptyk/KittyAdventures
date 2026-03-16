@@ -38,7 +38,10 @@ public class EnemyStats : MonoBehaviour, IDamageable
     public GameObject deathEffectPrefab;
     public float      deathEffectDuration = 2f;
 
-    [SerializeField] Renderer hitFlashRenderer;
+    [Header("Hit Effect")]
+    [Tooltip("Particle System on this GameObject that plays on every hit. " +
+             "Add a Particle System component to the enemy and set Play On Awake to off.")]
+    public ParticleSystem hitEffect;
 
     // ─────────────────────────────────────────────
     //  PUBLIC STATE
@@ -65,6 +68,8 @@ public class EnemyStats : MonoBehaviour, IDamageable
     {
         Health    = maxHealth;
         _animator = GetComponentInChildren<Animator>();
+        if (hitEffect == null)
+            hitEffect = GetComponentInChildren<ParticleSystem>();
     }
 
     // ─────────────────────────────────────────────
@@ -82,9 +87,17 @@ public class EnemyStats : MonoBehaviour, IDamageable
         // Play hit animation
         _animator?.SetTrigger("TakeDamage");
 
-        // Flash red to show hit — works if enemy has a Renderer
-        if (hitFlashRenderer != null)
-            StartCoroutine(HitFlash(hitFlashRenderer));
+        // Flash red to show hit
+        var renderer = GetComponentInChildren<Renderer>();
+        if (renderer != null)
+            StartCoroutine(HitFlash(renderer));
+
+        // Play hit particle effect
+        if (hitEffect != null)
+        {
+            hitEffect.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
+            hitEffect.Play();
+        }
 
         if (Health <= 0f)
             Die(sourcePosition);
@@ -130,17 +143,11 @@ public class EnemyStats : MonoBehaviour, IDamageable
     //  HIT FLASH
     // ─────────────────────────────────────────────
 
-    IEnumerator HitFlash(Renderer renderer)
+    System.Collections.IEnumerator HitFlash(Renderer r)
     {
-        Material mat = renderer.material;
-
-        Color originalEmission = mat.GetColor("_EmissionColor");
-
-        mat.EnableKeyword("_EMISSION");
-        mat.SetColor("_EmissionColor", new Color(0.8f, 0.1f, 1f) * 4f);
-
-        yield return new WaitForSeconds(0.12f);
-
-        mat.SetColor("_EmissionColor", originalEmission);
+        var original = r.material.color;
+        r.material.color = Color.red;
+        yield return new WaitForSeconds(0.1f);
+        r.material.color = original;
     }
 }
