@@ -9757,6 +9757,31 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.5224389, y: 0.48666167, z: 0.5196524}
   m_Center: {x: 0.0013696253, y: 0.0033255443, z: -0.0003286302}
+--- !u!1 &778061750 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8888337411436118575, guid: 390608429d835974c90b3f34bbdd7c0c, type: 3}
+  m_PrefabInstance: {fileID: 1659196187}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &778061753 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 1687832199211509561, guid: 390608429d835974c90b3f34bbdd7c0c, type: 3}
+  m_PrefabInstance: {fileID: 1659196187}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &778061754
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 778061750}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 80ed0431bfc75bc4e817e552bc954645, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::RespawnCheckpoint
+  respawnPosition: {fileID: 778061753}
+  activationEffect: {fileID: 0}
+  activationSound: {fileID: 0}
 --- !u!1 &779424970
 GameObject:
   m_ObjectHideFlags: 0
@@ -23218,7 +23243,7 @@ Transform:
   m_GameObject: {fileID: 1657702436}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: 0.7311652, z: -0, w: 0.68220055}
-  m_LocalPosition: {x: 18.4, y: 54.5, z: 9.658}
+  m_LocalPosition: {x: 121.1, y: 67.18, z: 181.9}
   m_LocalScale: {x: 0.75251, y: 0.75251, z: 0.75251}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -23729,7 +23754,10 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 8888337411436118575, guid: 390608429d835974c90b3f34bbdd7c0c, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 778061754}
   m_SourcePrefab: {fileID: 100100000, guid: 390608429d835974c90b3f34bbdd7c0c, type: 3}
 --- !u!1001 &1664544157
 PrefabInstance:
