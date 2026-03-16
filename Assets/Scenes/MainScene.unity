@@ -17425,6 +17425,10 @@ PrefabInstance:
       value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 326536246235309086, guid: fad6a278d160b404e916b053c0e0af56, type: 3}
+      propertyPath: chargeRange
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 326536246235309086, guid: fad6a278d160b404e916b053c0e0af56, type: 3}
       propertyPath: separationForce
       value: 5
       objectReference: {fileID: 0}
@@ -17516,6 +17520,10 @@ PrefabInstance:
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
       objectReference: {fileID: 2100000, guid: 5ac51c7de07714d4ab6e74dc98bf9525, type: 2}
+    - target: {fileID: 8053872852917938786, guid: fad6a278d160b404e916b053c0e0af56, type: 3}
+      propertyPath: chaseRange
+      value: 18
+      objectReference: {fileID: 0}
     - target: {fileID: 9202191587427939790, guid: fad6a278d160b404e916b053c0e0af56, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
