@@ -8334,15 +8334,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2402642520517680265, guid: eeadb421264717341b6c6e4aa75f4c50, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -12.92
+      value: 0.5517578
       objectReference: {fileID: 0}
     - target: {fileID: 2402642520517680265, guid: eeadb421264717341b6c6e4aa75f4c50, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -5.46
+      value: -0.009994507
       objectReference: {fileID: 0}
     - target: {fileID: 2402642520517680265, guid: eeadb421264717341b6c6e4aa75f4c50, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0.90384
+      value: 0.1493454
       objectReference: {fileID: 0}
     - target: {fileID: 2402642520517680265, guid: eeadb421264717341b6c6e4aa75f4c50, type: 3}
       propertyPath: m_LocalRotation.w
@@ -12707,7 +12707,7 @@ SphereCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Radius: 1.7
+  m_Radius: 5
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!4 &1011357012
 Transform:
@@ -12718,7 +12718,7 @@ Transform:
   m_GameObject: {fileID: 1011357009}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -4894.3457, y: 57.46, z: 85.0591}
+  m_LocalPosition: {x: -4897.04, y: 56.37, z: 85.21}
   m_LocalScale: {x: 0.2, y: 0.2, z: 0.2}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -22211,8 +22211,8 @@ Transform:
   m_GameObject: {fileID: 1535934305}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 13.22, y: 52.48, z: 30.34}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: 12.3, y: 52.48, z: 30.34}
+  m_LocalScale: {x: 0.59211534, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -24857,27 +24857,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 125d8f6558210964c86d126e3e22d09a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::InventoryHUD
-  orbRow: {fileID: 0}
-  orbText: {fileID: 0}
-  orbIcon: {fileID: 0}
-  spiderRow: {fileID: 0}
-  spiderText: {fileID: 0}
-  spiderIcon: {fileID: 0}
-  announcementText: {fileID: 0}
-  lineDisplayTime: 2.5
-  rowHideDelay: 4
-  popScale: 1.4
-  popDuration: 0.2
-  defaultColour:
-    r: 1
-    g: 1
-    b: 1
-    a: 1
-  completedColour:
-    r: 0.4
-    g: 1
-    b: 0.4
-    a: 1
 --- !u!1001 &1722985841
 PrefabInstance:
   m_ObjectHideFlags: 0

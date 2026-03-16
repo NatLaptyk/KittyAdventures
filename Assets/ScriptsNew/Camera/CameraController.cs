@@ -144,6 +144,12 @@ public class CameraController : MonoBehaviour
         Cursor.visible   = false;
     }
 
+    void OnDestroy()
+    {
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible   = true;
+    }
+
     // LateUpdate so camera moves AFTER Kitty has moved this frame
     void LateUpdate()
     {
