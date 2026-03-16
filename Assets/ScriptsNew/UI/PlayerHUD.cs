@@ -89,7 +89,7 @@ public class PlayerHUD : MonoBehaviour
     public float lowHealthPulseSpeed = 3f;
 
     public Color lowHealthColour    = new Color(1f, 0.1f, 0.1f);
-    public Color normalHealthColour = new Color(0.86f, 0.2f, 0.2f);
+    public Color normalHealthColour = new Color(0.2f, 0.85f, 0.3f);
 
     // ─────────────────────────────────────────────
     //  PRIVATE STATE
@@ -207,15 +207,21 @@ public class PlayerHUD : MonoBehaviour
     void AnimateLowHealthPulse()
     {
         if (healthFill == null) return;
-        if (_targetHealth > lowHealthThreshold) 
+
+        float hp = _targetHealth;
+
+        if (hp > lowHealthThreshold)
         {
-            healthFill.color = normalHealthColour;
+            // Smoothly shift from green → orange as health drops toward threshold
+            float t = 1f - Mathf.Clamp01((hp - lowHealthThreshold) / (1f - lowHealthThreshold));
+            Color orangeWarning = new Color(1f, 0.55f, 0.1f);
+            healthFill.color = Color.Lerp(normalHealthColour, orangeWarning, t * t);
             return;
         }
 
-        // Pulse between normal and low health colour
-        float t = (Mathf.Sin(Time.time * lowHealthPulseSpeed) + 1f) * 0.5f;
-        healthFill.color = Color.Lerp(normalHealthColour, lowHealthColour, t);
+        // Below threshold — pulse red
+        float pulse = (Mathf.Sin(Time.time * lowHealthPulseSpeed) + 1f) * 0.5f;
+        healthFill.color = Color.Lerp(new Color(1f, 0.55f, 0.1f), lowHealthColour, pulse);
     }
 
     void SetBarImmediate(Image bar, float value)
@@ -238,7 +244,7 @@ public class PlayerHUD : MonoBehaviour
         if (snackIcon != null)
             snackIcon.gameObject.SetActive(count > 0);
         if (snackText != null)
-            snackText.text = count > 0 ? $"x{count}  F to snack" : "";
+            snackText.text = count > 0 ? $"x{count}  [F] Snack" : "";
     }
 
     // ─────────────────────────────────────────────
@@ -247,16 +253,8 @@ public class PlayerHUD : MonoBehaviour
 
     void AnimateRegenGlow()
     {
-        if (healthFill == null || playerStats == null) return;
-        if (!playerStats.IsRegenerating) return;
-
-        // Don't override low-health pulse
-        if (playerStats.Health / playerStats.MaxHealth <= lowHealthThreshold) return;
-
-        bool outOfCombat = playerStats.Health < playerStats.MaxHealth;
-        Color target = outOfCombat ? fastRegenColour : regenColour;
-        float t = (Mathf.Sin(Time.time * regenPulseSpeed) + 1f) * 0.5f;
-        healthFill.color = Color.Lerp(normalHealthColour, target, t * 0.6f);
+        // No longer needed — normal bar colour is green.
+        // Low health pulse handles all colour transitions.
     }
 
 }
