@@ -11467,7 +11467,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5354507050816822742, guid: 10701ba775d72e440b7e8daacffeb879, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 54.353664
+      value: 53.01
       objectReference: {fileID: 0}
     - target: {fileID: 5354507050816822742, guid: 10701ba775d72e440b7e8daacffeb879, type: 3}
       propertyPath: m_LocalPosition.z
@@ -13403,7 +13403,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 541032748987533041, guid: f9bf934e7120ef245a2cca89a5c0320f, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 55.154934
+      value: 53.39
       objectReference: {fileID: 0}
     - target: {fileID: 541032748987533041, guid: f9bf934e7120ef245a2cca89a5c0320f, type: 3}
       propertyPath: m_LocalPosition.z
@@ -23306,7 +23306,7 @@ Transform:
   m_GameObject: {fileID: 1657702436}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: 0.7311652, z: -0, w: 0.68220055}
-  m_LocalPosition: {x: 29, y: 67.18, z: 170.9}
+  m_LocalPosition: {x: 29, y: 67.18, z: 14.2}
   m_LocalScale: {x: 0.75251, y: 0.75251, z: 0.75251}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -23566,7 +23566,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 0
   animator: {fileID: 745343140}
-  stepInterval: 0.6
+  stepInterval: 0.2
   stepClips:
   - {fileID: 8300000, guid: 7806912e705f63d47bdccbbbcff37302, type: 3}
   - {fileID: 8300000, guid: 840fb0005c644a04c96ffd7e9f5b5369, type: 3}
@@ -23808,6 +23808,14 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1687832199211509561, guid: 390608429d835974c90b3f34bbdd7c0c, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7216733942219341209, guid: 390608429d835974c90b3f34bbdd7c0c, type: 3}
+      propertyPath: m_ExcludeLayers.m_Bits
+      value: 128
+      objectReference: {fileID: 0}
+    - target: {fileID: 7216733942219341209, guid: 390608429d835974c90b3f34bbdd7c0c, type: 3}
+      propertyPath: m_IncludeLayers.m_Bits
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8888337411436118575, guid: 390608429d835974c90b3f34bbdd7c0c, type: 3}
