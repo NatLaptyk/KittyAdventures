@@ -99,14 +99,17 @@ public class EnemyStats : MonoBehaviour, IDamageable
         // Play hit particle effect
         if (hitEffect != null)
         {
+            hitEffect.transform.position = transform.position;
             hitEffect.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
             hitEffect.Play();
         }
 
-        // Instantiate hit effect prefab
+        // Instantiate hit effect prefab at hit position
         if (hitEffectPrefab != null)
         {
             var fx = Instantiate(hitEffectPrefab, transform.position, Quaternion.identity);
+            var ps = fx.GetComponent<ParticleSystem>();
+            if (ps != null) ps.Play();
             Destroy(fx, hitEffectDuration);
         }
 

@@ -23536,7 +23536,7 @@ Transform:
   m_GameObject: {fileID: 1657702436}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: 0.7311652, z: -0, w: 0.68220055}
-  m_LocalPosition: {x: 22.71, y: 68.16, z: 16}
+  m_LocalPosition: {x: 149.7, y: 68.16, z: 103.3}
   m_LocalScale: {x: 0.75251, y: 0.75251, z: 0.75251}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -23783,7 +23783,7 @@ MonoBehaviour:
   stompDamage: 25
   stompStaminaCost: 15
   stompMinFallSpeed: 2
-  stompRadius: 0.5
+  stompRadius: 0.8
   enemyLayers:
     serializedVersion: 2
     m_Bits: 640
@@ -23846,7 +23846,7 @@ MonoBehaviour:
   combatRegenPerSec: 4
   outOfCombatDelay: 5
   startingSnacks: 1
-  maxStamina: 100
+  maxStamina: 200
   staminaRegenPerSec: 1
 --- !u!114 &1657702450
 MonoBehaviour:

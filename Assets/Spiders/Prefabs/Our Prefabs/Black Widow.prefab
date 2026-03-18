@@ -102,6 +102,9 @@ MonoBehaviour:
   patrolRadius: 8
   deathEffectPrefab: {fileID: 0}
   deathEffectDuration: 2
+  hitEffect: {fileID: 0}
+  hitEffectPrefab: {fileID: 2957842864923083962, guid: ace9fc22d4885204fad19db7b31cf379, type: 3}
+  hitEffectDuration: 0.5
   destroyDelay: 3
 --- !u!114 &6658340298588458119
 MonoBehaviour:
