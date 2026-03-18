@@ -71,7 +71,8 @@ public class TreeObstruction : MonoBehaviour
     public ParticleSystem openEffect;
 
     [Tooltip("Optional audio clip played when the path opens.")]
-    public AudioClip openSound;
+    [Range(0f, 1f)]
+    public float openSoundVolume = 1f;
 
     [Header("State")]
     public bool isOpen = false;
@@ -86,7 +87,7 @@ public class TreeObstruction : MonoBehaviour
     //  PRIVATE
     // ─────────────────────────────────────────────
 
-    AudioSource _audio;
+    
 
     // ─────────────────────────────────────────────
     //  LIFECYCLE
@@ -95,7 +96,7 @@ public class TreeObstruction : MonoBehaviour
     void Awake()
     {
         Instance = this;
-        _audio = GetComponent<AudioSource>();
+    
 
         // Store original positions and rotations
         foreach (var entry in trees)
@@ -140,10 +141,11 @@ public class TreeObstruction : MonoBehaviour
 
     IEnumerator AnimateOpen()
     {
-        // Play open sound
-        if (openSound != null && _audio != null)
-            _audio.PlayOneShot(openSound);
-        AudioManager.instance?.PlaySFX(AudioManager.instance.treesMoving, 0f);
+        // Play open sound via AudioManager
+        if (AudioManager.instance != null)
+            AudioManager.instance.sfxSource.PlayOneShot(
+                AudioManager.instance.treesMoving,
+                AudioManager.instance.sfxVolume * openSoundVolume);
 
         // Play open effect
         if (openEffect != null)

@@ -57,8 +57,8 @@ public class SlidingTreeObstruction : MonoBehaviour
     public AnimationCurve slideCurve = AnimationCurve.EaseInOut(0f, 0f, 1f, 1f);
 
     [Header("Trigger")]
-    [Tooltip("How many spiders must be killed to open this obstruction.")]
-    public int requiredKills = 15;
+    [Tooltip("Assign the Spirit's EnemyStats component — path opens when the Spirit dies.")]
+    public EnemyStats spiritStats;
 
     [Header("Effects")]
     [Tooltip("Optional particle effect at the centre when it opens.")]
@@ -66,6 +66,8 @@ public class SlidingTreeObstruction : MonoBehaviour
 
     [Tooltip("Optional audio clip played when trees start sliding.")]
     public AudioClip openSound;
+    [Range(0f, 1f)]
+    public float openSoundVolume = 1f;
 
     [Header("State")]
     public bool isOpen = false;
@@ -103,26 +105,16 @@ public class SlidingTreeObstruction : MonoBehaviour
 
     void Start()
     {
-        if (GameStats.Instance != null)
-            GameStats.Instance.OnSpidersChanged += OnSpidersChanged;
+        if (spiritStats != null)
+            spiritStats.OnDied += OpenPath;
         else
-            Debug.LogWarning("[SlidingTreeObstruction] No GameStats found in scene.");
+            Debug.LogWarning("[SlidingTreeObstruction] No SpiritStats assigned — path won't open on Spirit death.");
     }
 
     void OnDestroy()
     {
-        if (GameStats.Instance != null)
-            GameStats.Instance.OnSpidersChanged -= OnSpidersChanged;
-    }
-
-    // ─────────────────────────────────────────────
-    //  TRIGGER
-    // ─────────────────────────────────────────────
-
-    void OnSpidersChanged(int killed, int total)
-    {
-        if (!isOpen && killed >= requiredKills)
-            OpenPath();
+        if (spiritStats != null)
+            spiritStats.OnDied -= OpenPath;
     }
 
     // ─────────────────────────────────────────────
@@ -165,9 +157,9 @@ public class SlidingTreeObstruction : MonoBehaviour
     IEnumerator AnimateOpen()
     {
         if (openSound != null && _audio != null)
-            _audio.PlayOneShot(openSound);
+            _audio.PlayOneShot(openSound, openSoundVolume);
         else if (openSound != null)
-            AudioSource.PlayClipAtPoint(openSound, transform.position);
+            AudioSource.PlayClipAtPoint(openSound, transform.position, openSoundVolume);
 
         if (openEffect != null)
             openEffect.Play();
