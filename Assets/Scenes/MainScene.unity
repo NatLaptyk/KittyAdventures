@@ -24026,7 +24026,7 @@ MonoBehaviour:
   outOfCombatDelay: 5
   startingSnacks: 1
   maxStamina: 200
-  staminaRegenPerSec: 1
+  staminaRegenPerSec: 2
 --- !u!114 &1657702450
 MonoBehaviour:
   m_ObjectHideFlags: 0
