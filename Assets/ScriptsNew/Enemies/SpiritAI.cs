@@ -118,12 +118,11 @@ public class SpiritAI : EnemyAI
         {
             if (_agent.isOnNavMesh) _agent.isStopped = true;
             _animator?.SetBool("IsActive", false);
-        
             return;
         }
 
         _animator?.SetBool("IsActive", true);
-        
+
         if (!_isDashing)
         {
             Orbit();
@@ -327,6 +326,7 @@ public class SpiritAI : EnemyAI
             _agent.enabled   = false;
             _animator?.SetTrigger("isDed");
             AudioManager.instance?.PlaySFX(AudioManager.instance.wispDed);
+            AudioManager.instance?.ReturnToLevelMusic();
 
             // Drop the potion
             if (potionPrefab != null)
