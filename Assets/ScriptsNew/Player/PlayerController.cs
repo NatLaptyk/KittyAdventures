@@ -372,7 +372,7 @@ public class PlayerController : MonoBehaviour
     {
         Vector3 feetPos = transform.position;
         Collider[] hits = Physics.OverlapSphere(feetPos, stompRadius, enemyLayers);
-
+        
         if (hits.Length == 0) return;
 
         bool hasStamina = _stats != null && _stats.SpendStamina(stompStaminaCost);
@@ -393,6 +393,7 @@ public class PlayerController : MonoBehaviour
             CombatFX.Instance?.OnHeavyHit(hit.transform.position);
 
             Debug.Log($"[Stomp] Hit {hit.gameObject.name} for {dmg} dmg | stamina={hasStamina}");
+            AudioManager.instance?.PlaySFX(AudioManager.instance.stomps);
         }
     }
     public void Footstep()

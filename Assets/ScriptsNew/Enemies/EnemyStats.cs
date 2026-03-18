@@ -42,6 +42,10 @@ public class EnemyStats : MonoBehaviour, IDamageable
     [Tooltip("Particle System on this GameObject that plays on every hit. " +
              "Add a Particle System component to the enemy and set Play On Awake to off.")]
     public ParticleSystem hitEffect;
+    [Tooltip("Optional prefab to instantiate on every hit — assign the same prefab as Death Effect for Spirit.")]
+    public GameObject hitEffectPrefab;
+    [Tooltip("How long before the hit effect prefab is destroyed.")]
+    public float hitEffectDuration = 0.5f;
 
     // ─────────────────────────────────────────────
     //  PUBLIC STATE
@@ -97,6 +101,13 @@ public class EnemyStats : MonoBehaviour, IDamageable
         {
             hitEffect.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
             hitEffect.Play();
+        }
+
+        // Instantiate hit effect prefab
+        if (hitEffectPrefab != null)
+        {
+            var fx = Instantiate(hitEffectPrefab, transform.position, Quaternion.identity);
+            Destroy(fx, hitEffectDuration);
         }
 
         if (Health <= 0f)

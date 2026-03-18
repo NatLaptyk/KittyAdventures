@@ -82,7 +82,7 @@ public class SpiritAI : EnemyAI
     protected override void Awake()
     {
         base.Awake();
-        _agent.obstacleAvoidanceType = ObstacleAvoidanceType.NoObstacleAvoidance;
+        _agent.obstacleAvoidanceType = ObstacleAvoidanceType.MedQualityObstacleAvoidance;
         _agent.speed                 = _stats.moveSpeed;
         _agent.acceleration          = 20f;
         _agent.stoppingDistance      = 0.1f;
@@ -118,13 +118,12 @@ public class SpiritAI : EnemyAI
         {
             if (_agent.isOnNavMesh) _agent.isStopped = true;
             _animator?.SetBool("IsActive", false);
-            Debug.Log($"[Spirit] Too far ({dist:F1}), chaseRange={_stats.chaseRange}");
+        
             return;
         }
 
         _animator?.SetBool("IsActive", true);
-        Debug.Log($"[Spirit] dist={dist:F1} isDashing={_isDashing} dashTimer={_dashTimer:F2} retreating={_retreating} enraged={_isEnraged}");
-
+        
         if (!_isDashing)
         {
             Orbit();
@@ -328,7 +327,6 @@ public class SpiritAI : EnemyAI
             _agent.enabled   = false;
             _animator?.SetTrigger("isDed");
             AudioManager.instance?.PlaySFX(AudioManager.instance.wispDed);
-            AudioManager.instance.ReturnToLevelMusic();
 
             // Drop the potion
             if (potionPrefab != null)
