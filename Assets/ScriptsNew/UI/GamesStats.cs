@@ -134,6 +134,7 @@ public class GameStats : MonoBehaviour
         OrbsCollected   = 0;
         SpidersKilled   = 0;
         PotionCollected = false;
+        MushroomSpawner.ResetPuzzleState();
         OnOrbsChanged?.Invoke(OrbsCollected, TotalOrbs);
         OnSpidersChanged?.Invoke(SpidersKilled, TotalSpiders);
     }
