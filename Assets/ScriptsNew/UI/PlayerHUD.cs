@@ -244,7 +244,7 @@ public class PlayerHUD : MonoBehaviour
         if (snackIcon != null)
             snackIcon.gameObject.SetActive(count > 0);
         if (snackText != null)
-            snackText.text = count > 0 ? $"x{count}  [F] to snack" : "";
+            snackText.text = count > 0 ? $"x{count}  F to snack" : "";
     }
 
     // ─────────────────────────────────────────────

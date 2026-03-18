@@ -13,6 +13,7 @@
 
 using System;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameStats : MonoBehaviour
 {
@@ -57,9 +58,7 @@ public class GameStats : MonoBehaviour
         Instance = this;
         DontDestroyOnLoad(gameObject);
 
-        // Register in Awake so totals are ready before any Start() reads them
-        RegisterEnemies();
-        RegisterOrbs();
+        SceneManager.sceneLoaded += OnSceneLoaded;
     }
 
     void Start()
@@ -75,6 +74,18 @@ public class GameStats : MonoBehaviour
     void OnDestroy()
     {
         CheckpointMarker.OnOrbCollected -= HandleOrbCollected;
+        SceneManager.sceneLoaded -= OnSceneLoaded;
+    }
+
+    void OnSceneLoaded(UnityEngine.SceneManagement.Scene scene, UnityEngine.SceneManagement.LoadSceneMode mode)
+    {
+        // Reset counts first, then re-register fresh scene objects
+        TotalOrbs     = 0;
+        TotalSpiders  = 0;
+        RegisterEnemies();
+        RegisterOrbs();
+        OnOrbsChanged?.Invoke(OrbsCollected, TotalOrbs);
+        OnSpidersChanged?.Invoke(SpidersKilled, TotalSpiders);
     }
 
     // ─────────────────────────────────────────────

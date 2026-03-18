@@ -16545,8 +16545,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: New Text
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: af66c22999dcbbe41b6f54d32ceed1a7, type: 2}
-  m_sharedMaterial: {fileID: -1293261828356551705, guid: af66c22999dcbbe41b6f54d32ceed1a7, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: c1e2e6211e2f50543834974c5bd56b4e, type: 2}
+  m_sharedMaterial: {fileID: -2435202233225451043, guid: c1e2e6211e2f50543834974c5bd56b4e, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -16576,7 +16576,7 @@ MonoBehaviour:
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
   m_fontSizeMax: 72
-  m_fontStyle: 0
+  m_fontStyle: 1
   m_HorizontalAlignment: 1
   m_VerticalAlignment: 512
   m_textAlignment: 65535
@@ -18059,8 +18059,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: New Text
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: af66c22999dcbbe41b6f54d32ceed1a7, type: 2}
-  m_sharedMaterial: {fileID: -1293261828356551705, guid: af66c22999dcbbe41b6f54d32ceed1a7, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: c1e2e6211e2f50543834974c5bd56b4e, type: 2}
+  m_sharedMaterial: {fileID: -2435202233225451043, guid: c1e2e6211e2f50543834974c5bd56b4e, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -18090,7 +18090,7 @@ MonoBehaviour:
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
   m_fontSizeMax: 72
-  m_fontStyle: 0
+  m_fontStyle: 1
   m_HorizontalAlignment: 2
   m_VerticalAlignment: 512
   m_textAlignment: 65535
@@ -25361,6 +25361,27 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 125d8f6558210964c86d126e3e22d09a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::InventoryHUD
+  orbRow: {fileID: 0}
+  orbText: {fileID: 0}
+  orbIcon: {fileID: 0}
+  spiderRow: {fileID: 0}
+  spiderText: {fileID: 0}
+  spiderIcon: {fileID: 0}
+  announcementText: {fileID: 0}
+  lineDisplayTime: 2.5
+  rowHideDelay: 4
+  popScale: 1.4
+  popDuration: 0.2
+  defaultColour:
+    r: 1
+    g: 1
+    b: 1
+    a: 1
+  completedColour:
+    r: 0.4
+    g: 1
+    b: 0.4
+    a: 1
 --- !u!1001 &1722985841
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -26538,8 +26559,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: New Text
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: af66c22999dcbbe41b6f54d32ceed1a7, type: 2}
-  m_sharedMaterial: {fileID: -1293261828356551705, guid: af66c22999dcbbe41b6f54d32ceed1a7, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: c1e2e6211e2f50543834974c5bd56b4e, type: 2}
+  m_sharedMaterial: {fileID: -2435202233225451043, guid: c1e2e6211e2f50543834974c5bd56b4e, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -26569,7 +26590,7 @@ MonoBehaviour:
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
   m_fontSizeMax: 72
-  m_fontStyle: 0
+  m_fontStyle: 1
   m_HorizontalAlignment: 2
   m_VerticalAlignment: 512
   m_textAlignment: 65535

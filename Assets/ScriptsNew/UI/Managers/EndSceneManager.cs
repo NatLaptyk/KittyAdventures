@@ -128,11 +128,7 @@ public class EndSceneManager : MonoBehaviour
     {
         Debug.Log("[EndScene] OnReplay clicked!");
         if (GameStats.Instance != null)
-        {
             GameStats.Instance.Reset();
-            GameStats.Instance.RegisterEnemies();
-            GameStats.Instance.RegisterOrbs();
-        }
         SceneFader.Instance?.FadeTo(gameSceneName);
     }
 
