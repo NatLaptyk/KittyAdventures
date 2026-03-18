@@ -34,6 +34,7 @@ public class PlayerController : MonoBehaviour
 
     [Header("Jump")]
     public float jumpForce = 7f;
+    bool _didJump = false;
 
     [Tooltip("Stamina cost for a regular jump.")]
     public float jumpStaminaCost   = 10f;
@@ -65,6 +66,9 @@ public class PlayerController : MonoBehaviour
 
     [Header("Footsteps")]
     [SerializeField] private float stepInterval = 0.38f;
+    [SerializeField] private AudioClip[] footstepClips;
+    [SerializeField] private AudioSource footstepSource;
+    int _lastStepIndex = -1;
 
     // ─────────────────────────────────────────────
     //  PRIVATE
@@ -102,9 +106,17 @@ public class PlayerController : MonoBehaviour
         _animator = animator != null ? animator : GetComponentInChildren<Animator>();
 
         _stats    = GetComponent<PlayerStats>() ?? GetComponentInParent<PlayerStats>();
+        _wasGrounded = _cc.isGrounded;
 
         if (_input == null)
             Debug.LogError("[PlayerController] InputReader not found on Kitty!");
+
+        if (footstepSource == null)
+        {
+            footstepSource = gameObject.AddComponent<AudioSource>();
+            footstepSource.playOnAwake = false;
+            footstepSource.spatialBlend = 1f;
+        }
     }
 
     void Update()
@@ -124,6 +136,7 @@ public class PlayerController : MonoBehaviour
 
         _cc.Move(_velocity * Time.deltaTime);
         UpdateAnimator();
+        TickFootsteps();
     }
 
     // ─────────────────────────────────────────────
@@ -136,7 +149,7 @@ public class PlayerController : MonoBehaviour
 
         // isRun — true whenever Kitty is moving horizontally
         float horizontalSpeed = new Vector3(_velocity.x, 0f, _velocity.z).magnitude;
-        _animator.SetBool("isRun",    horizontalSpeed > 0.1f);
+        _animator.SetBool("isRun", horizontalSpeed > 0.1f);
         if (HasParameter(_animator, "isSprint"))
             _animator.SetBool("isSprint", _isSprinting && horizontalSpeed > 0.1f);
 
@@ -146,26 +159,27 @@ public class PlayerController : MonoBehaviour
 
         // isLand — fire trigger on the frame Kitty touches the ground
         bool grounded = _cc.isGrounded;
+
         if (grounded && !_wasGrounded)
         {
             _animator?.SetTrigger("isLand");
-            AudioManager.instance.PlaySFX(AudioManager.instance.land, 0f);
 
-            // Check for stomp attack on landing
+            // Only play landing SFX if we were actually falling
+            if (_didJump)
+            {
+                AudioManager.instance.PlaySFX(AudioManager.instance.land, 0f);
+            }
+
+            // Stomp check
             if (_fallSpeed >= stompMinFallSpeed)
                 TryStompAttack();
 
             _fallSpeed = 0f;
+            _didJump = false;
         }
+
         _wasGrounded = grounded;
     }
-
-    bool IsNearGround()
-    {
-        return Physics.Raycast(transform.position + Vector3.up * 0.2f,
-                               Vector3.down, 0.4f);
-    }
-
     void UpdateMovement()
     {
         Vector2 input = _input != null ? _input.Move : Vector2.zero;
@@ -218,6 +232,7 @@ public class PlayerController : MonoBehaviour
                 _velocity.y = jumpForce;
                 _animator?.SetTrigger("isJump");
                 AudioManager.instance.PlaySFX(AudioManager.instance.jump, 0f);
+                _didJump = true;
             }
         }
         else
@@ -399,7 +414,17 @@ public class PlayerController : MonoBehaviour
         if (_stepTimer >= stepInterval)
         {
             _stepTimer = 0f;
-            AudioManager.instance?.PlaySFX(AudioManager.instance.steps, 0f);
+            if (footstepClips.Length == 0) return;
+            int index;
+            do
+            {
+                index = Random.Range(0, footstepClips.Length);
+            }
+            while (index == _lastStepIndex && footstepClips.Length > 1);
+
+            _lastStepIndex = index;
+
+            footstepSource.PlayOneShot(footstepClips[index]);
         }
     }
 

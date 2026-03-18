@@ -25,7 +25,7 @@ public class EnemyStats : MonoBehaviour, IDamageable
     public float maxHealth = 40f;
 
     [Header("Combat")]
-    public float attackDamage  = 10f;
+    public float attackDamage  = 5f;
     public float attackRange   = 1.5f;
     public float attackCooldown = 1.5f;
 

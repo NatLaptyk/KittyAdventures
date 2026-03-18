@@ -242,6 +242,7 @@ public class SpiderAI : EnemyAI
         _agent.speed = normalSpeed;
 
         base.PerformAttack();
+        AudioManager.instance.PlaySFX(AudioManager.instance.spiderAttack, 0.8f);
     }
     Transform FindDeepChild(Transform parent, string childName)
     {
