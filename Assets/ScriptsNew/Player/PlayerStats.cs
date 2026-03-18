@@ -16,8 +16,9 @@ public class PlayerStats : MonoBehaviour, IDamageable
     [SerializeField] private float maxStamina = 100f;
     [SerializeField] private float staminaRegenPerSec = 25f;
 
-    public float Health     { get; private set; }
-    public float Stamina    { get; private set; }
+    public float Health             { get; private set; }
+    public float Stamina            { get; private set; }
+    public bool  IsStaminaExhausted { get; private set; }
     public float MaxHealth  => maxHealth;
     public float MaxStamina => maxStamina;
     public int   Snacks     { get; private set; }
@@ -54,6 +55,8 @@ public class PlayerStats : MonoBehaviour, IDamageable
         if (staminaRegenPerSec > 0f && Stamina < maxStamina)
         {
             Stamina = Mathf.Min(maxStamina, Stamina + staminaRegenPerSec * Time.deltaTime);
+            if (IsStaminaExhausted && Stamina >= maxStamina * 0.25f)
+                IsStaminaExhausted = false;
             StaminaChanged?.Invoke(Stamina, maxStamina);
         }
     }
@@ -61,9 +64,20 @@ public class PlayerStats : MonoBehaviour, IDamageable
     public bool SpendStamina(float amount)
     {
         if (amount <= 0f) return true;
-        if (Stamina < amount) return false;
+        if (Stamina < amount)
+        {
+            Stamina = 0f;
+            IsStaminaExhausted = true;
+            StaminaChanged?.Invoke(Stamina, maxStamina);
+            return false;
+        }
 
         Stamina -= amount;
+        if (Stamina <= 0f)
+        {
+            Stamina = 0f;
+            IsStaminaExhausted = true;
+        }
         StaminaChanged?.Invoke(Stamina, maxStamina);
         return true;
     }
@@ -100,7 +114,6 @@ public class PlayerStats : MonoBehaviour, IDamageable
         var cam = FindFirstObjectByType<CameraController>();
         cam?.Shake(0.4f);
         CombatFX.Instance?.OnKittyDamaged(sourcePosition);
-        AudioManager.instance.PlaySFX(AudioManager.instance.playerDamaged, 0f);
 
         if (Health <= 0f)
         {
