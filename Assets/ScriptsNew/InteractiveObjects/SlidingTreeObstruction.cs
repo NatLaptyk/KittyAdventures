@@ -57,8 +57,10 @@ public class SlidingTreeObstruction : MonoBehaviour
     public AnimationCurve slideCurve = AnimationCurve.EaseInOut(0f, 0f, 1f, 1f);
 
     [Header("Trigger")]
-    [Tooltip("Assign the Spirit's EnemyStats component — path opens when the Spirit dies.")]
+    [Tooltip("If assigned, path opens when the Spirit dies.")]
     public EnemyStats spiritStats;
+    [Tooltip("If true, path opens when all spiders are killed.")]
+    public bool openOnAllSpidersKilled = false;
 
     [Header("Effects")]
     [Tooltip("Optional particle effect at the centre when it opens.")]
@@ -107,14 +109,20 @@ public class SlidingTreeObstruction : MonoBehaviour
     {
         if (spiritStats != null)
             spiritStats.OnDied += OpenPath;
-        else
-            Debug.LogWarning("[SlidingTreeObstruction] No SpiritStats assigned — path won't open on Spirit death.");
+
+        if (openOnAllSpidersKilled && GameStats.Instance != null)
+            GameStats.Instance.OnAllSpidersKilled += OpenPath;
+        else if (!openOnAllSpidersKilled && spiritStats == null)
+            Debug.LogWarning("[SlidingTreeObstruction] No trigger assigned — assign Spirit Stats or check Open On All Spiders Killed.");
     }
 
     void OnDestroy()
     {
         if (spiritStats != null)
             spiritStats.OnDied -= OpenPath;
+
+        if (openOnAllSpidersKilled && GameStats.Instance != null)
+            GameStats.Instance.OnAllSpidersKilled -= OpenPath;
     }
 
     // ─────────────────────────────────────────────

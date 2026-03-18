@@ -110,6 +110,9 @@ public class PlayerStats : MonoBehaviour, IDamageable
         Health -= Mathf.Abs(amount);
         HealthChanged?.Invoke(Health, maxHealth);
 
+        // Play damage sound
+        AudioManager.instance?.PlaySFX(AudioManager.instance.playerDamaged);
+
         // Camera shake + combat FX
         var cam = FindFirstObjectByType<CameraController>();
         cam?.Shake(0.4f);

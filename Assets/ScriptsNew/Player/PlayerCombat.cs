@@ -321,7 +321,6 @@ public class PlayerCombat : MonoBehaviour
     /// </summary>
     bool HitEnemiesInSphere(float range, float damage, bool applyKnockback)
     {
-        // The attack origin sits slightly in front of and above Kitty's feet
         Vector3 origin = transform.position
                        + transform.forward * (range * 0.5f)
                        + Vector3.up * 0.6f;
@@ -329,15 +328,17 @@ public class PlayerCombat : MonoBehaviour
         Collider[] hits = Physics.OverlapSphere(origin, range, enemyLayers);
 
         foreach (var hit in hits)
+        {
+            // Don't hit enemies that are too far above Kitty (e.g. floating Spirit)
+            float heightDiff = hit.bounds.center.y - origin.y;
+            if (heightDiff > range * 0.6f) continue;
+
             ApplyHit(hit, damage, applyKnockback);
+        }
 
         return hits.Length > 0;
     }
 
-    /// <summary>
-    /// Detects enemies within an arc sweep — used for heavy attacks
-    /// so only enemies in front of Kitty are affected, not behind her.
-    /// </summary>
     bool HitEnemiesInArc(float range, float arcDegrees, float damage, bool applyKnockback)
     {
         Vector3    origin = transform.position + Vector3.up * 0.6f;
@@ -346,15 +347,17 @@ public class PlayerCombat : MonoBehaviour
         bool hitAny = false;
         foreach (var hit in hits)
         {
-            // Check if the enemy is within the arc angle
+            // Check horizontal arc
             Vector3 toEnemy = (hit.transform.position - origin).normalized;
             float   angle   = Vector3.Angle(transform.forward, toEnemy);
+            if (angle > arcDegrees * 0.5f) continue;
 
-            if (angle <= arcDegrees * 0.5f)
-            {
-                ApplyHit(hit, damage, applyKnockback);
-                hitAny = true;
-            }
+            // Don't hit enemies too far above Kitty
+            float heightDiff = hit.bounds.center.y - origin.y;
+            if (heightDiff > range * 0.6f) continue;
+
+            ApplyHit(hit, damage, applyKnockback);
+            hitAny = true;
         }
 
         return hitAny;
