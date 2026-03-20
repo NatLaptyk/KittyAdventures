@@ -36,6 +36,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: EnemyHealthBarPrefab
       objectReference: {fileID: 0}
+    - target: {fileID: 6204566923525745420, guid: cd811b7cdeebb6a4bbea71b836b1488b, type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 7602789209720259343, guid: cd811b7cdeebb6a4bbea71b836b1488b, type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
     - target: {fileID: 7641607606542607112, guid: cd811b7cdeebb6a4bbea71b836b1488b, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -116,6 +124,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 9132646822135880431, guid: cd811b7cdeebb6a4bbea71b836b1488b, type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -152,7 +164,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 4052bafe63c4eef489221dc973080238, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 37.787567
+      value: 37.592
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 4052bafe63c4eef489221dc973080238, type: 3}
       propertyPath: m_LocalPosition.y
@@ -196,15 +208,15 @@ PrefabInstance:
       objectReference: {fileID: 2100000, guid: 515f2541353200d4a922bf6bdf3e15dd, type: 2}
     - target: {fileID: -5618167704411818782, guid: 4052bafe63c4eef489221dc973080238, type: 3}
       propertyPath: m_Layer
-      value: 7
+      value: 9
       objectReference: {fileID: 0}
     - target: {fileID: -5395000647672987913, guid: 4052bafe63c4eef489221dc973080238, type: 3}
       propertyPath: m_Layer
-      value: 7
+      value: 9
       objectReference: {fileID: 0}
     - target: {fileID: -1985085832622878265, guid: 4052bafe63c4eef489221dc973080238, type: 3}
       propertyPath: m_Layer
-      value: 7
+      value: 9
       objectReference: {fileID: 0}
     - target: {fileID: -670306632696733791, guid: 4052bafe63c4eef489221dc973080238, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
@@ -216,27 +228,27 @@ PrefabInstance:
       objectReference: {fileID: 2100000, guid: a9a856b536bfd6b4dbde7d0950adf73a, type: 2}
     - target: {fileID: 666555048258651159, guid: 4052bafe63c4eef489221dc973080238, type: 3}
       propertyPath: m_Layer
-      value: 7
+      value: 9
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 4052bafe63c4eef489221dc973080238, type: 3}
       propertyPath: m_Name
-      value: LittleGhost_LP
+      value: Spirit
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 4052bafe63c4eef489221dc973080238, type: 3}
       propertyPath: m_Layer
-      value: 7
+      value: 9
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 4052bafe63c4eef489221dc973080238, type: 3}
       propertyPath: m_TagString
-      value: Enemy
+      value: Spirit
       objectReference: {fileID: 0}
     - target: {fileID: 1972698007037025638, guid: 4052bafe63c4eef489221dc973080238, type: 3}
       propertyPath: m_Layer
-      value: 7
+      value: 9
       objectReference: {fileID: 0}
     - target: {fileID: 2264185941237902874, guid: 4052bafe63c4eef489221dc973080238, type: 3}
       propertyPath: m_Layer
-      value: 7
+      value: 9
       objectReference: {fileID: 0}
     - target: {fileID: 2435206297326621329, guid: 4052bafe63c4eef489221dc973080238, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
@@ -244,23 +256,23 @@ PrefabInstance:
       objectReference: {fileID: 2100000, guid: 6a47b9c367a08d349b3b777025f3eae6, type: 2}
     - target: {fileID: 2870946309055282984, guid: 4052bafe63c4eef489221dc973080238, type: 3}
       propertyPath: m_Layer
-      value: 7
+      value: 9
       objectReference: {fileID: 0}
     - target: {fileID: 2912328651739287016, guid: 4052bafe63c4eef489221dc973080238, type: 3}
       propertyPath: m_Layer
-      value: 7
+      value: 9
       objectReference: {fileID: 0}
     - target: {fileID: 5594504577559666616, guid: 4052bafe63c4eef489221dc973080238, type: 3}
       propertyPath: m_Layer
-      value: 7
+      value: 9
       objectReference: {fileID: 0}
     - target: {fileID: 6167459210958150952, guid: 4052bafe63c4eef489221dc973080238, type: 3}
       propertyPath: m_Layer
-      value: 7
+      value: 9
       objectReference: {fileID: 0}
     - target: {fileID: 6436616376420853267, guid: 4052bafe63c4eef489221dc973080238, type: 3}
       propertyPath: m_Layer
-      value: 7
+      value: 9
       objectReference: {fileID: 0}
     - target: {fileID: 7592836403760580817, guid: 4052bafe63c4eef489221dc973080238, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
@@ -296,6 +308,11 @@ Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 4052bafe63c4eef489221dc973080238, type: 3}
   m_PrefabInstance: {fileID: 7367756133030471674}
   m_PrefabAsset: {fileID: 0}
+--- !u!137 &7235735663707144279 stripped
+SkinnedMeshRenderer:
+  m_CorrespondingSourceObject: {fileID: 168313331770156973, guid: 4052bafe63c4eef489221dc973080238, type: 3}
+  m_PrefabInstance: {fileID: 7367756133030471674}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &7709862375401298603 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 4052bafe63c4eef489221dc973080238, type: 3}
@@ -311,19 +328,19 @@ CapsuleCollider:
   m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 512
   m_ExcludeLayers:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.36583138
-  m_Height: 0.9419899
+  m_Radius: 0.10301399
+  m_Height: 0.31646633
   m_Direction: 1
-  m_Center: {x: 0, y: 0.3874836, z: 0}
+  m_Center: {x: -0.013005959, y: 0.545534, z: 0}
 --- !u!95 &600336935930634643
 Animator:
   serializedVersion: 7
@@ -387,8 +404,11 @@ MonoBehaviour:
   moveSpeed: 3.5
   chaseRange: 12
   patrolRadius: 8
-  deathEffectPrefab: {fileID: 0}
+  deathEffectPrefab: {fileID: 6171141829739353376, guid: 5c80de10e8f57264c852e24827e0313e, type: 3}
   deathEffectDuration: 2
+  hitEffect: {fileID: 0}
+  hitEffectPrefab: {fileID: 1934920943984879399, guid: 818a1a3a1d39c2c478cd761269a3f7ec, type: 3}
+  hitEffectDuration: 0.5
   destroyDelay: 3
 --- !u!114 &7450313891115010314
 MonoBehaviour:
@@ -402,7 +422,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6f425f7cb8098284ab83db3de81627cb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SpiritAI
-  floatHeight: 1.2
+  floatHeight: 1.5
   bobAmplitude: 0.5
   bobFrequency: 1.5
   preferredDist: 5
@@ -419,6 +439,7 @@ MonoBehaviour:
   enragedMaxChain: 2
   normalGlowColour: {r: 0.4, g: 0.6, b: 1, a: 1}
   enragedGlowColour: {r: 1, g: 0.15, b: 0.1, a: 1}
-  glowRenderer: {fileID: 0}
+  glowRenderer: {fileID: 7235735663707144279}
   potionPrefab: {fileID: 7488735797991683720, guid: a220fe282aa033241bbc9951f1e00ebd, type: 3}
   potionDropHeight: 1
+  potionSpawnPoint: {fileID: 0}

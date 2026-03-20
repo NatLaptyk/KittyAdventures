@@ -4592,7 +4592,7 @@ Transform:
   m_GameObject: {fileID: 279550519}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -21.59, y: -20.46, z: 69.243004}
+  m_LocalPosition: {x: -21.59, y: -19.78, z: 69.243004}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -7098,7 +7098,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 152923995142381561, guid: b2d2c0fa16c9da94cbbca024ad0a6b11, type: 3}
       propertyPath: maxHealth
-      value: 400
+      value: 500
       objectReference: {fileID: 0}
     - target: {fileID: 152923995142381561, guid: b2d2c0fa16c9da94cbbca024ad0a6b11, type: 3}
       propertyPath: attackRange
@@ -7146,7 +7146,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3156298961745188485, guid: b2d2c0fa16c9da94cbbca024ad0a6b11, type: 3}
       propertyPath: m_Height
-      value: 0.631696
+      value: 0.3159466
       objectReference: {fileID: 0}
     - target: {fileID: 3156298961745188485, guid: b2d2c0fa16c9da94cbbca024ad0a6b11, type: 3}
       propertyPath: m_Radius
@@ -7158,7 +7158,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3156298961745188485, guid: b2d2c0fa16c9da94cbbca024ad0a6b11, type: 3}
       propertyPath: m_Center.y
-      value: 0.3895115
+      value: 0.54738617
       objectReference: {fileID: 0}
     - target: {fileID: 3156298961745188485, guid: b2d2c0fa16c9da94cbbca024ad0a6b11, type: 3}
       propertyPath: m_Center.z
@@ -7166,7 +7166,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3156298961745188485, guid: b2d2c0fa16c9da94cbbca024ad0a6b11, type: 3}
       propertyPath: m_IsTrigger
-      value: 1
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3156298961745188485, guid: b2d2c0fa16c9da94cbbca024ad0a6b11, type: 3}
+      propertyPath: m_IncludeLayers.m_Bits
+      value: 640
       objectReference: {fileID: 0}
     - target: {fileID: 3722418964549319378, guid: b2d2c0fa16c9da94cbbca024ad0a6b11, type: 3}
       propertyPath: m_Layer
@@ -7242,7 +7246,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7450313891115010314, guid: b2d2c0fa16c9da94cbbca024ad0a6b11, type: 3}
       propertyPath: floatHeight
-      value: 0.5
+      value: 1.2
       objectReference: {fileID: 0}
     - target: {fileID: 7450313891115010314, guid: b2d2c0fa16c9da94cbbca024ad0a6b11, type: 3}
       propertyPath: glowRenderer
@@ -7250,7 +7254,7 @@ PrefabInstance:
       objectReference: {fileID: 1767821968}
     - target: {fileID: 7450313891115010314, guid: b2d2c0fa16c9da94cbbca024ad0a6b11, type: 3}
       propertyPath: enragedThreshold
-      value: 0.25
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 7450313891115010314, guid: b2d2c0fa16c9da94cbbca024ad0a6b11, type: 3}
       propertyPath: hitFlashRenderer
@@ -23816,7 +23820,7 @@ Transform:
   m_GameObject: {fileID: 1657702436}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: 0.7311652, z: -0, w: 0.68220055}
-  m_LocalPosition: {x: 24.27, y: 53.21, z: 20.07}
+  m_LocalPosition: {x: 24.27, y: 54, z: 20.07}
   m_LocalScale: {x: 0.75251, y: 0.75251, z: 0.75251}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -24132,6 +24136,8 @@ MonoBehaviour:
   startingSnacks: 1
   maxStamina: 200
   staminaRegenPerSec: 5
+  damageVFXPrefab: {fileID: 4306488877223958017, guid: ecb38e0319a6ad44cbca52d7b5add7a6, type: 3}
+  damageVFXDuration: 1
 --- !u!114 &1657702450
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -25466,27 +25472,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 125d8f6558210964c86d126e3e22d09a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::InventoryHUD
-  orbRow: {fileID: 0}
-  orbText: {fileID: 0}
-  orbIcon: {fileID: 0}
-  spiderRow: {fileID: 0}
-  spiderText: {fileID: 0}
-  spiderIcon: {fileID: 0}
-  announcementText: {fileID: 0}
-  lineDisplayTime: 2.5
-  rowHideDelay: 4
-  popScale: 1.4
-  popDuration: 0.2
-  defaultColour:
-    r: 1
-    g: 1
-    b: 1
-    a: 1
-  completedColour:
-    r: 0.4
-    g: 1
-    b: 0.4
-    a: 1
 --- !u!1001 &1722985841
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -28087,7 +28072,7 @@ Transform:
   m_GameObject: {fileID: 2032897698}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -29.26, y: -18.96, z: 39.94}
+  m_LocalPosition: {x: -28.992, y: -18.706, z: 40.193}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

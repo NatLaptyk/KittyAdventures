@@ -16,6 +16,12 @@ public class PlayerStats : MonoBehaviour, IDamageable
     [SerializeField] private float maxStamina = 100f;
     [SerializeField] private float staminaRegenPerSec = 25f;
 
+    [Header("Hit VFX")]
+    [Tooltip("Particle prefab instantiated at Kitty's position when she takes damage.")]
+    public GameObject damageVFXPrefab;
+    [Tooltip("How long before the damage VFX prefab is destroyed.")]
+    public float damageVFXDuration = 1f;
+
     public float Health             { get; private set; }
     public float Stamina            { get; private set; }
     public bool  IsStaminaExhausted { get; private set; }
@@ -112,6 +118,13 @@ public class PlayerStats : MonoBehaviour, IDamageable
 
         // Play damage sound
         AudioManager.instance?.PlaySFX(AudioManager.instance.playerDamaged);
+
+        // Spawn damage VFX
+        if (damageVFXPrefab != null)
+        {
+            var fx = Instantiate(damageVFXPrefab, transform.position, Quaternion.identity);
+            Destroy(fx, damageVFXDuration);
+        }
 
         // Camera shake + combat FX
         var cam = FindFirstObjectByType<CameraController>();
