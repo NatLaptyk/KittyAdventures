@@ -27,7 +27,7 @@ public abstract class EnemyAI : MonoBehaviour
     //  STATE MACHINE
     // ─────────────────────────────────────────────
 
-    protected enum State { Patrol, Chase, Attack, Dead }
+    protected enum State { Patrol, Chase, Attack, Stunned, Dead }
     protected State _state = State.Patrol;
 
     // ─────────────────────────────────────────────
@@ -38,6 +38,7 @@ public abstract class EnemyAI : MonoBehaviour
     protected EnemyStats   _stats;
     protected Transform    _kitty;
     protected Animator     _animator;
+
     // ─────────────────────────────────────────────
     //  PATROL
     // ─────────────────────────────────────────────
@@ -72,7 +73,6 @@ public abstract class EnemyAI : MonoBehaviour
 
         // Listen for death
         _stats.OnDied += OnDied;
-
     }
 
     protected virtual void Start()
@@ -93,9 +93,10 @@ public abstract class EnemyAI : MonoBehaviour
 
         switch (_state)
         {
-            case State.Patrol: UpdatePatrol(distToKitty); break;
-            case State.Chase:  UpdateChase(distToKitty);  break;
-            case State.Attack: UpdateAttack(distToKitty); break;
+            case State.Patrol:  UpdatePatrol(distToKitty); break;
+            case State.Chase:   UpdateChase(distToKitty);  break;
+            case State.Attack:  UpdateAttack(distToKitty); break;
+            case State.Stunned: /* wait for coroutine */   break;
         }
 
         // Update animator speed
@@ -214,7 +215,7 @@ public abstract class EnemyAI : MonoBehaviour
             if (dir != Vector3.zero)
             {
                 transform.rotation = Quaternion.LookRotation(dir);
-                
+                Debug.Log($"[Attack] forward={transform.forward} dirToKitty={dir} rotation={transform.eulerAngles}");
             }
         }
 
@@ -231,13 +232,32 @@ public abstract class EnemyAI : MonoBehaviour
     {
         _animator?.SetTrigger("isAttack");
         AudioManager.instance.PlaySFX(AudioManager.instance.spiderAttack, 0.8f);
-        // Deal damage if Kitty is still in range
         if (_kitty == null) return;
         float dist = Vector3.Distance(transform.position, _kitty.position);
         if (dist <= _stats.attackRange)
-            _kitty.GetComponent<IDamageable>()?.TakeDamage(
-                _stats.attackDamage, transform.position);
-        AudioManager.instance.PlaySFX(AudioManager.instance.playerDamaged, 0.8f);
+        {
+            // Check if Kitty is parrying
+            var playerCombat = _kitty.GetComponentInParent<PlayerCombat>()
+                             ?? _kitty.GetComponent<PlayerCombat>();
+            if (playerCombat != null && playerCombat.IsParrying)
+            {
+                // Parry successful — stun this enemy
+                StartCoroutine(ParryStunned(playerCombat.parryStunTime));
+                return;
+            }
+            _kitty.GetComponent<IDamageable>()?.TakeDamage(_stats.attackDamage, transform.position);
+            AudioManager.instance.PlaySFX(AudioManager.instance.playerDamaged, 0.8f);
+        }
+    }
+
+    IEnumerator ParryStunned(float duration)
+    {
+        TransitionTo(State.Stunned);
+        _agent.isStopped = true;
+        _animator?.SetTrigger("isDamage");
+        yield return new WaitForSeconds(duration);
+        _agent.isStopped = false;
+        TransitionTo(State.Chase);
     }
 
     // ─────────────────────────────────────────────
@@ -266,8 +286,7 @@ public abstract class EnemyAI : MonoBehaviour
 
     protected virtual void OnStateChanged(State newState)
     {
-        // Re-enable NavMeshAgent rotation when leaving attack state
-        if (newState != State.Attack)
+        if (newState != State.Attack && newState != State.Stunned)
         {
             _agent.updateRotation = true;
             _agent.isStopped      = false;

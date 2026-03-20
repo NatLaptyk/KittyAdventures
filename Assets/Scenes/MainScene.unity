@@ -7098,7 +7098,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 152923995142381561, guid: b2d2c0fa16c9da94cbbca024ad0a6b11, type: 3}
       propertyPath: maxHealth
-      value: 500
+      value: 400
       objectReference: {fileID: 0}
     - target: {fileID: 152923995142381561, guid: b2d2c0fa16c9da94cbbca024ad0a6b11, type: 3}
       propertyPath: attackRange
@@ -24107,7 +24107,7 @@ MonoBehaviour:
   heavyArc: 130
   knockbackForce: 8
   heavyDuration: 0.6
-  parryWindow: 0.5
+  parryWindow: 1
   parryStunTime: 2
   parryStaminaCost: 20
   hitStopTimeScale: 0.05
@@ -25472,6 +25472,27 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 125d8f6558210964c86d126e3e22d09a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::InventoryHUD
+  orbRow: {fileID: 0}
+  orbText: {fileID: 0}
+  orbIcon: {fileID: 0}
+  spiderRow: {fileID: 0}
+  spiderText: {fileID: 0}
+  spiderIcon: {fileID: 0}
+  announcementText: {fileID: 0}
+  lineDisplayTime: 2.5
+  rowHideDelay: 4
+  popScale: 1.4
+  popDuration: 0.2
+  defaultColour:
+    r: 1
+    g: 1
+    b: 1
+    a: 1
+  completedColour:
+    r: 0.4
+    g: 1
+    b: 0.4
+    a: 1
 --- !u!1001 &1722985841
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -29222,7 +29243,7 @@ PrefabInstance:
       objectReference: {fileID: 866227105}
     - target: {fileID: 4603423851590489560, guid: cf16162f95369c4489542f1c4308a53d, type: 3}
       propertyPath: openSoundVolume
-      value: 0.5
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4603423851590489560, guid: cf16162f95369c4489542f1c4308a53d, type: 3}
       propertyPath: openOnAllSpidersKilled

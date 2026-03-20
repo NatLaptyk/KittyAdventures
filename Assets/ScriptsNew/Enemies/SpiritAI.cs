@@ -263,9 +263,21 @@ public class SpiritAI : EnemyAI
                     if (d <= dashHitRadius)
                     {
                         hitKitty = true;
-                        _kitty.GetComponent<IDamageable>()?.TakeDamage(
-                            _stats.attackDamage, transform.position);
-                        CombatFX.Instance?.OnKittyDamaged(transform.position);
+                        var playerCombat = _kitty.GetComponentInParent<PlayerCombat>()
+                                         ?? _kitty.GetComponent<PlayerCombat>();
+                        if (playerCombat != null && playerCombat.IsParrying)
+                        {
+                            // Parry successful — stun Spirit briefly
+                            _isDashing   = false;
+                            _agent.isStopped = false;
+                            StartCoroutine(SpiritParryStunned(playerCombat.parryStunTime));
+                        }
+                        else
+                        {
+                            _kitty.GetComponent<IDamageable>()?.TakeDamage(
+                                _stats.attackDamage, transform.position);
+                            CombatFX.Instance?.OnKittyDamaged(transform.position);
+                        }
                     }
                 }
 
@@ -358,6 +370,18 @@ public class SpiritAI : EnemyAI
         if (_mat == null) return;
         _mat.SetColor("_EmissionColor", col * 2f);
         _mat.EnableKeyword("_EMISSION");
+    }
+
+    IEnumerator SpiritParryStunned(float duration)
+    {
+        _isDashing       = false;
+        _retreating      = false;
+        _agent.isStopped = true;
+        _animator?.SetTrigger("TakeDamage");
+        SetGlow(Color.white);
+        yield return new WaitForSeconds(duration);
+        _agent.isStopped = false;
+        SetGlow(_isEnraged ? Color.red : Color.cyan);
     }
 
     void CheckIfStuck()
