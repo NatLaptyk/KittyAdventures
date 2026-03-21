@@ -28,6 +28,7 @@ public class SpiritPotion : MonoBehaviour
 
     [Header("FX")]
     [SerializeField] private ParticleSystem collectFX;
+    [SerializeField] private AudioClip      collectSound;
     [SerializeField] private float          destroyDelay = 0.5f;
 
     private Vector3 _startPos;
@@ -57,6 +58,11 @@ public class SpiritPotion : MonoBehaviour
 
         _collected = true;
         GameStats.Instance?.RegisterPotionCollected();
+
+        // Play collect sound
+        if (collectSound != null)
+            AudioSource.PlayClipAtPoint(collectSound, transform.position);
+
         StartCoroutine(CollectSequence());
     }
 
