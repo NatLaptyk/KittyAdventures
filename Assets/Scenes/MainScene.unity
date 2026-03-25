@@ -1251,6 +1251,30 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 8
       objectReference: {fileID: 0}
+    - target: {fileID: 5192780239572368824, guid: 1a931d9d2be50eb48bac445b10f13a7d, type: 3}
+      propertyPath: m_Height
+      value: 0.8670027
+      objectReference: {fileID: 0}
+    - target: {fileID: 5192780239572368824, guid: 1a931d9d2be50eb48bac445b10f13a7d, type: 3}
+      propertyPath: m_Radius
+      value: 0.100430705
+      objectReference: {fileID: 0}
+    - target: {fileID: 5192780239572368824, guid: 1a931d9d2be50eb48bac445b10f13a7d, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5192780239572368824, guid: 1a931d9d2be50eb48bac445b10f13a7d, type: 3}
+      propertyPath: m_Center.x
+      value: 0.0046015973
+      objectReference: {fileID: 0}
+    - target: {fileID: 5192780239572368824, guid: 1a931d9d2be50eb48bac445b10f13a7d, type: 3}
+      propertyPath: m_Center.y
+      value: 0.4801246
+      objectReference: {fileID: 0}
+    - target: {fileID: 5192780239572368824, guid: 1a931d9d2be50eb48bac445b10f13a7d, type: 3}
+      propertyPath: m_Center.z
+      value: 0.029815821
+      objectReference: {fileID: 0}
     - target: {fileID: 5216586876935359678, guid: 1a931d9d2be50eb48bac445b10f13a7d, type: 3}
       propertyPath: m_Layer
       value: 8
@@ -4675,7 +4699,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 434.89722, y: 104.25293}
+  m_AnchoredPosition: {x: 434.89722, y: 107.2}
   m_SizeDelta: {x: 420, y: 92}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &313761071
@@ -12199,11 +12223,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CameraController
   target: {fileID: 1657702437}
-  targetHeightOffset: 0.5
+  targetHeightOffset: 0.4
   horizontalOffset: 0
   distance: 5
-  sensitivityX: 0.15
-  sensitivityY: 0.15
+  sensitivityX: 0.1
+  sensitivityY: 0.1
   pitchMin: -10
   pitchMax: 70
   zoomMin: 2
@@ -12214,7 +12238,7 @@ MonoBehaviour:
   snapBackSpeed: 100
   snapBackSpeedMoving: 200
   followDamping: 8
-  mouseSmoothing: 0.08
+  mouseSmoothing: 0.2
   enableCollision: 1
   collisionRadius: 0.2
   collisionMask:
@@ -14141,14 +14165,14 @@ RectTransform:
   m_GameObject: {fileID: 1173491000}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1.9498622, y: 1.9498622, z: 1.9498622}
+  m_LocalScale: {x: 2.0922022, y: 1.9498622, z: 1.9498622}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1617548553}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0}
   m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: 935.1, y: -575.39}
+  m_AnchoredPosition: {x: 940, y: -572.9}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1173491002
@@ -14171,7 +14195,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 491b470b3ad3b5840a6f354ae66321ab, type: 3}
+  m_Sprite: {fileID: 21300000, guid: d57a7c33c3aa8a94f804e14f226ac493, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -18298,7 +18322,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 2719.872, y: 1499.7859}
+  m_AnchoredPosition: {x: 2751, y: 1499.7859}
   m_SizeDelta: {x: 420, y: 92}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1476595796
@@ -23538,7 +23562,7 @@ Transform:
   m_GameObject: {fileID: 1657702436}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: 0.7311652, z: -0, w: 0.68220055}
-  m_LocalPosition: {x: 24.27, y: 54, z: 20.07}
+  m_LocalPosition: {x: 24.27, y: 53.079, z: 20.07}
   m_LocalScale: {x: 0.75251, y: 0.75251, z: 0.75251}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -23569,7 +23593,7 @@ CharacterController:
   m_StepOffset: 0.3
   m_SkinWidth: 0.08
   m_MinMoveDistance: 0.001
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Center: {x: 0, y: 0.07, z: 0}
 --- !u!114 &1657702445
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -25131,27 +25155,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 125d8f6558210964c86d126e3e22d09a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::InventoryHUD
-  orbRow: {fileID: 0}
-  orbText: {fileID: 0}
-  orbIcon: {fileID: 0}
-  spiderRow: {fileID: 0}
-  spiderText: {fileID: 0}
-  spiderIcon: {fileID: 0}
-  announcementText: {fileID: 0}
-  lineDisplayTime: 2.5
-  rowHideDelay: 4
-  popScale: 1.4
-  popDuration: 0.2
-  defaultColour:
-    r: 1
-    g: 1
-    b: 1
-    a: 1
-  completedColour:
-    r: 0.4
-    g: 1
-    b: 0.4
-    a: 1
 --- !u!1001 &1722985841
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -26721,7 +26724,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0}
   m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: 1341, y: -581}
+  m_AnchoredPosition: {x: 1346, y: -558}
   m_SizeDelta: {x: 2500, y: 2500}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1884316331
@@ -26744,7 +26747,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: e3e6337cc0d48e147845bc5822f352b3, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 1be62f29d652d944097c9572bf0417fc, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
