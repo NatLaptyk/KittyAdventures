@@ -164,6 +164,12 @@ public class CheckpointMarker : MonoBehaviour
             SetColour(completedColour);
             OnOrbCollected?.Invoke();
 
+            // Spawn fish snack if on Path A
+            if (_kittyTransform != null)
+                BranchingManager.Instance?.SpawnFishSnack(
+                    _kittyTransform.position,
+                    _kittyTransform.forward);
+
             if (activationEffect != null)
                 activationEffect.Play();
 
