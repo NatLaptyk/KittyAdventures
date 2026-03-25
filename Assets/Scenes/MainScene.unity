@@ -8049,6 +8049,11 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 2740007642755692909, guid: a621de777ce65b842b8af1117fb305af, type: 3}
   m_PrefabInstance: {fileID: 633910389}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &636165478 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7838527989098842854, guid: 0dbeeabf3be70e64e9320dc902b07609, type: 3}
+  m_PrefabInstance: {fileID: 1315052649}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &637494716
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -11369,14 +11374,14 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 878207558}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0.8183109, z: -0, w: 0.5747758}
-  m_LocalPosition: {x: 95.43, y: 55.48, z: 17.16}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 92.71, y: 55.48, z: 17.16}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 386029054}
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: -109.832, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &878207560
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11394,7 +11399,7 @@ MonoBehaviour:
   readyPrompt: Press E to open the path
   notReadyPrompt: You need {0}/{1} orbs
   activateFX: {fileID: 0}
-  activateSound: {fileID: 0}
+  activateSound: {fileID: 8300000, guid: 7f7dd83268d720a4794d22ee019570e7, type: 3}
   idleAnimTarget: {fileID: 0}
   idleSpinSpeed: 45
 --- !u!135 &878207561
@@ -11412,8 +11417,8 @@ SphereCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 1
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
   m_Radius: 2
@@ -12228,7 +12233,7 @@ MonoBehaviour:
   distance: 5
   sensitivityX: 0.1
   sensitivityY: 0.1
-  pitchMin: -10
+  pitchMin: -1
   pitchMax: 70
   zoomMin: 2
   zoomMax: 10
@@ -12238,7 +12243,7 @@ MonoBehaviour:
   snapBackSpeed: 100
   snapBackSpeedMoving: 200
   followDamping: 8
-  mouseSmoothing: 0.2
+  mouseSmoothing: 0.15
   enableCollision: 1
   collisionRadius: 0.2
   collisionMask:
@@ -15829,7 +15834,13 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 7838527989098842854, guid: 0dbeeabf3be70e64e9320dc902b07609, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1893667773}
+    - targetCorrespondingSourceObject: {fileID: 7838527989098842854, guid: 0dbeeabf3be70e64e9320dc902b07609, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1893667774}
   m_SourcePrefab: {fileID: 100100000, guid: 0dbeeabf3be70e64e9320dc902b07609, type: 3}
 --- !u!114 &1322830946 stripped
 MonoBehaviour:
@@ -16327,7 +16338,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 0}
-  m_AnchoredPosition: {x: -895, y: 134}
+  m_AnchoredPosition: {x: -895, y: 121}
   m_SizeDelta: {x: 200, y: 50}
   m_Pivot: {x: 0, y: 0}
 --- !u!114 &1341897037
@@ -23562,7 +23573,7 @@ Transform:
   m_GameObject: {fileID: 1657702436}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: 0.7311652, z: -0, w: 0.68220055}
-  m_LocalPosition: {x: 24.27, y: 53.079, z: 20.07}
+  m_LocalPosition: {x: 24.27, y: 53.21, z: 20.07}
   m_LocalScale: {x: 0.75251, y: 0.75251, z: 0.75251}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -23879,7 +23890,8 @@ MonoBehaviour:
   maxStamina: 200
   staminaRegenPerSec: 5
   damageVFXPrefab: {fileID: 4306488877223958017, guid: ecb38e0319a6ad44cbca52d7b5add7a6, type: 3}
-  damageVFXDuration: 1
+  damageVFXDuration: 0.5
+  snackConsumeSound: {fileID: 8300000, guid: 16753149fd00cc44c82871920a82da71, type: 3}
 --- !u!114 &1657702450
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -25155,6 +25167,27 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 125d8f6558210964c86d126e3e22d09a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::InventoryHUD
+  orbRow: {fileID: 0}
+  orbText: {fileID: 0}
+  orbIcon: {fileID: 0}
+  spiderRow: {fileID: 0}
+  spiderText: {fileID: 0}
+  spiderIcon: {fileID: 0}
+  announcementText: {fileID: 0}
+  lineDisplayTime: 2.5
+  rowHideDelay: 4
+  popScale: 1.4
+  popDuration: 0.2
+  defaultColour:
+    r: 1
+    g: 1
+    b: 1
+    a: 1
+  completedColour:
+    r: 0.4
+    g: 1
+    b: 0.4
+    a: 1
 --- !u!1001 &1722985841
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -26770,6 +26803,41 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 7647591807855325283, guid: 0dbeeabf3be70e64e9320dc902b07609, type: 3}
   m_PrefabInstance: {fileID: 1315052649}
   m_PrefabAsset: {fileID: 0}
+--- !u!65 &1893667773
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 636165478}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1.3800167, y: 0.46407562, z: 1.6314453}
+  m_Center: {x: 0.4594179, y: 0.235832, z: -0.32079622}
+--- !u!114 &1893667774
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 636165478}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 47111a01fa03dad43bdc8979ff767607, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SpiderCountPrompt
+  notDonePrompt: Defeat {0} more spiders to clear the path!
+  donePrompt: 
 --- !u!4 &1895785020 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2740007642755692909, guid: a621de777ce65b842b8af1117fb305af, type: 3}
@@ -27370,7 +27438,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 0}
-  m_AnchoredPosition: {x: -1033, y: 209}
+  m_AnchoredPosition: {x: -1033, y: 196}
   m_SizeDelta: {x: 169, y: 153}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2001981592

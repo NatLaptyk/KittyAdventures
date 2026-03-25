@@ -152,7 +152,7 @@ public class PlayerCombat : MonoBehaviour
     {
         // TEMP DEBUG — remove once working
         if (Mouse.current != null && Mouse.current.middleButton.wasPressedThisFrame)
-            Debug.Log("[PlayerCombat] Update sees middle mouse!");
+            
 
         TickComboTimer();
         ReadInput();
@@ -385,8 +385,7 @@ public class PlayerCombat : MonoBehaviour
                 CombatFX.Instance?.OnLightHit(hit.transform.position);
         }
 
-        Debug.Log($"[Combat] Hit {hit.gameObject.name} damageable={damageable != null}");
-
+       
         if (applyKnockback)
         {
             var rb = hit.GetComponent<Rigidbody>();

@@ -22,6 +22,10 @@ public class PlayerStats : MonoBehaviour, IDamageable
     [Tooltip("How long before the damage VFX prefab is destroyed.")]
     public float damageVFXDuration = 1f;
 
+    [Header("Snack SFX")]
+    [Tooltip("Sound played when Kitty consumes a snack.")]
+    public AudioClip snackConsumeSound;
+
     public float Health             { get; private set; }
     public float Stamina            { get; private set; }
     public bool  IsStaminaExhausted { get; private set; }
@@ -146,6 +150,9 @@ public class PlayerStats : MonoBehaviour, IDamageable
         Health = maxHealth;
         HealthChanged?.Invoke(Health, maxHealth);
         SnacksChanged?.Invoke(Snacks);
+
+        if (snackConsumeSound != null)
+            AudioSource.PlayClipAtPoint(snackConsumeSound, transform.position);
     }
 
     public void AddSnack(int amount = 1)
