@@ -29,6 +29,8 @@ public class OrbGate : MonoBehaviour, IInteractable
     [Header("Refs")]
     [Tooltip("The TreeObstruction this gate controls.")]
     public TreeObstruction obstruction;
+    [Tooltip("Optional second TreeObstruction to open at the same time.")]
+    public TreeObstruction obstruction2;
 
     [Header("Condition")]
     [Tooltip("How many orbs Kitty must have collected before she can open this gate.")]
@@ -141,6 +143,9 @@ public class OrbGate : MonoBehaviour, IInteractable
             obstruction.OpenPath();
         else
             Debug.LogWarning("[OrbGate] No TreeObstruction assigned!");
+
+        if (obstruction2 != null)
+            obstruction2.OpenPath();
 
         // Stop idle spin
         if (idleAnimTarget != null)

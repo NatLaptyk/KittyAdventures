@@ -130,5 +130,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   inputUI: {fileID: 0}
+  pressEPrompt: {fileID: 0}
   numberInput: {fileID: 0}
+  feedbackText: {fileID: 0}
+  submitButton: {fileID: 0}
   playerMovement: {fileID: 0}
+  correctNumber: 12
+  feedbackDuration: 1.2

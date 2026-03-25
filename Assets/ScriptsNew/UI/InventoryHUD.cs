@@ -58,6 +58,12 @@ public class InventoryHUD : MonoBehaviour
     public Color defaultColour   = Color.white;
     public Color completedColour = new Color(0.4f, 1f, 0.4f);
 
+    [Header("Branching Announcement")]
+    [Tooltip("The MushroomObstruction — subscribe to its OnPathOpened event.")]
+    public MushroomObstruction mushroomObstruction;
+    [Tooltip("The boss arena SlidingTreeObstruction — check if already open.")]
+    public SlidingTreeObstruction bossArenaObstruction;
+
 
 
     // ─────────────────────────────────────────────
@@ -78,6 +84,9 @@ public class InventoryHUD : MonoBehaviour
         GameStats.Instance.OnAllSpidersKilled  += OnAllSpidersKilled;
         GameStats.Instance.OnPotionCollected   += OnPotionCollected;
 
+        if (mushroomObstruction != null)
+            mushroomObstruction.OnPathOpened += OnMushroomPathOpened;
+
         if (announcementText != null)
             announcementText.gameObject.SetActive(false);
 
@@ -93,6 +102,9 @@ public class InventoryHUD : MonoBehaviour
         GameStats.Instance.OnAllOrbsCollected -= OnAllOrbsCollected;
         GameStats.Instance.OnAllSpidersKilled -= OnAllSpidersKilled;
         GameStats.Instance.OnPotionCollected  -= OnPotionCollected;
+
+        if (mushroomObstruction != null)
+            mushroomObstruction.OnPathOpened -= OnMushroomPathOpened;
     }
 
     // ─────────────────────────────────────────────
@@ -147,7 +159,7 @@ public class InventoryHUD : MonoBehaviour
     IEnumerator SpiderCompletionSequence()
     {
         yield return StartCoroutine(ShowAnnouncement("You defeated all the spiders!"));
-        yield return StartCoroutine(ShowAnnouncement("The path is now clear."));
+        yield return StartCoroutine(ShowAnnouncement("The path to the Potion Spirit is now clear."));
 
         yield return new WaitForSeconds(rowHideDelay * 0.3f);
         yield return StartCoroutine(FadeOutRow(spiderRow));
@@ -158,6 +170,16 @@ public class InventoryHUD : MonoBehaviour
     // ─────────────────────────────────────────────
 
     IEnumerator ShowAnnouncement(string message)
+    {
+        yield return StartCoroutine(ShowAnnouncementWithDuration(message, lineDisplayTime));
+    }
+
+    public IEnumerator ShowAnnouncementPublic(string message, float duration)
+    {
+        yield return StartCoroutine(ShowAnnouncementWithDuration(message, duration));
+    }
+
+    IEnumerator ShowAnnouncementWithDuration(string message, float duration)
     {
         if (announcementText == null) yield break;
 
@@ -177,7 +199,7 @@ public class InventoryHUD : MonoBehaviour
             yield return null;
         }
 
-        yield return new WaitForSeconds(lineDisplayTime);
+        yield return new WaitForSeconds(duration);
 
         t = 0f;
         while (t < 1f)
@@ -238,9 +260,20 @@ public class InventoryHUD : MonoBehaviour
         StartCoroutine(PotionSequence());
     }
 
+    void OnMushroomPathOpened()
+    {
+        if (bossArenaObstruction != null && bossArenaObstruction.isOpen)
+            StartCoroutine(SpiritAnnouncementSequence());
+    }
+
     IEnumerator PotionSequence()
     {
         yield return StartCoroutine(ShowAnnouncement("You retrieved the Spirit Potion!"));
         yield return StartCoroutine(ShowAnnouncement("Now bring it back home!"));
+    }
+
+    IEnumerator SpiritAnnouncementSequence()
+    {
+        yield return StartCoroutine(ShowAnnouncement("Find the Spirit at the Potion entrance!"));
     }
 }
