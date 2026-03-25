@@ -7,6 +7,7 @@ TagManager:
   - Enemy
   - Spirit
   - Spider
+  - orb
   layers:
   - Default
   - TransparentFX
