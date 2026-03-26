@@ -138,7 +138,7 @@ public class InventoryHUD : MonoBehaviour
     IEnumerator OrbCompletionSequence()
     {
         yield return StartCoroutine(ShowAnnouncement("All orbs collected!"));
-        yield return StartCoroutine(ShowAnnouncement("Find the green orb and open the path!"));
+        yield return StartCoroutine(ShowAnnouncement("The Forest has granted you an additional Snack!"));
 
         yield return new WaitForSeconds(rowHideDelay * 0.3f);
         yield return StartCoroutine(FadeOutRow(orbRow));

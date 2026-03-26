@@ -45,7 +45,7 @@ public class LoopTracker : MonoBehaviour
     // ─────────────────────────────────────────────
 
     /// <summary>Fired when all checkpoints have been activated.</summary>
-    public event Action OnLoopComplete;
+    public PlayerStats playerStats;
 
     // ─────────────────────────────────────────────
     //  PRIVATE STATE
@@ -70,6 +70,7 @@ public class LoopTracker : MonoBehaviour
 
         if (debugLogs)
             Debug.Log($"[LoopTracker] Initialised with {checkpoints.Count} checkpoints.");
+
     }
 
     // ─────────────────────────────────────────────
@@ -126,7 +127,7 @@ public class LoopTracker : MonoBehaviour
         // Small delay for dramatic effect
         yield return new WaitForSeconds(0.5f);
 
-        OnLoopComplete?.Invoke();
+        playerStats.AddSnack(1);
 
         // Path is now opened manually by OrbGate when Kitty interacts with it.
         // obstruction.OpenPath() is no longer called here.
