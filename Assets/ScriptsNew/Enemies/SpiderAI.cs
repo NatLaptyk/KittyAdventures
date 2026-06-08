@@ -1,5 +1,3 @@
-// ─────────────────────────────────────────────────────────────────────────────
-// SpiderAI.cs  —  Aggressive ground enemy
 // Spiders are aggressive melee enemies:
 // • Patrol their spawn area
 // • Charge at Kitty when she enters chase range
@@ -15,17 +13,17 @@ public class SpiderAI : EnemyAI
     public enum BehaviourType { Charger, Circler }
 
     [Header("Spider — Behaviour")]
-    public BehaviourType behaviour          = BehaviourType.Charger;
-    public bool          randomiseVariation = true;
+    [SerializeField] private BehaviourType behaviour          = BehaviourType.Charger;
+    [SerializeField] private bool          randomiseVariation = true;
 
     [Header("Spider — Aggression")]
     [Tooltip("When this close, spider charges at full speed")]
-    public float chargeRange    = 6f;
-    public float chargeSpeed    = 7f;    // burst speed during charge
-    public float normalSpeed    = 3.5f;
+    [SerializeField] private float chargeRange    = 6f;
+    [SerializeField] private float chargeSpeed    = 7f;    // burst speed during charge
+    [SerializeField] private float normalSpeed    = 3.5f;
 
     [Tooltip("Spider pauses briefly before lunging")]
-    public float lungeWindup    = 0.4f;
+    [SerializeField] private float lungeWindup    = 0.4f;
 
     bool  _isCharging   = false;
     bool  _inWindup     = false;
@@ -33,20 +31,20 @@ public class SpiderAI : EnemyAI
 
     [Header("Spider — Circler")]
     [Tooltip("Distance circler tries to maintain from Kitty")]
-    public float orbitDistance  = 4f;
+    [SerializeField] private float orbitDistance  = 4f;
     [Tooltip("How fast it orbits around Kitty")]
-    public float orbitSpeed     = 2.5f;
+    [SerializeField] private float orbitSpeed     = 2.5f;
     [Tooltip("Circler dashes in to attack at this range")]
-    public float dashInRange    = 2.5f;
+    [SerializeField] private float dashInRange    = 2.5f;
 
     [Header("Spider — Separation")]
     [Tooltip("Spiders push away from each other within this radius.")]
-    public float separationRadius = 2.5f;
+    [SerializeField] private float separationRadius = 2.5f;
     [Tooltip("How strongly spiders push away from each other.")]
-    public float separationForce  = 1.8f;
+    [SerializeField] private float separationForce  = 1.8f;
     [Tooltip("Each spider approaches Kitty from a slightly different angle. " +
              "Higher = more spread out.")]
-    public float approachAngleVariance = 45f;
+    [SerializeField] private float approachAngleVariance = 45f;
 
     // Private state
     float _orbitAngle;

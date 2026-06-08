@@ -1,5 +1,3 @@
-// ─────────────────────────────────────────────────────────────────────────────
-// EnemyStats.cs
 // Shared stats for all enemy types. Attach to any enemy GameObject.
 // Implements IDamageable so PlayerCombat can hit enemies directly.
 
@@ -27,17 +25,17 @@ public class EnemyStats : MonoBehaviour, IDamageable
     public float patrolRadius = 8f;    // how far enemy patrols from spawn
 
     [Header("Death")]
-    public GameObject deathEffectPrefab;
-    public float      deathEffectDuration = 2f;
+    [SerializeField] private GameObject deathEffectPrefab;
+    [SerializeField] private float      deathEffectDuration = 2f;
 
     [Header("Hit Effect")]
     [Tooltip("Particle System on this GameObject that plays on every hit. " +
              "Add a Particle System component to the enemy and set Play On Awake to off.")]
-    public ParticleSystem hitEffect;
+    [SerializeField] private ParticleSystem hitEffect;
     [Tooltip("Optional prefab to instantiate on every hit — assign the same prefab as Death Effect for Spirit.")]
-    public GameObject hitEffectPrefab;
+    [SerializeField] private GameObject hitEffectPrefab;
     [Tooltip("How long before the hit effect prefab is destroyed.")]
-    public float hitEffectDuration = 0.5f;
+    [SerializeField] private float hitEffectDuration = 0.5f;
 
     // ─────────────────────────────────────────────
     //  PUBLIC STATE
@@ -116,7 +114,7 @@ public class EnemyStats : MonoBehaviour, IDamageable
     [Header("Death Timing")]
     [Tooltip("How long to wait after death before destroying the GameObject. " +
              "Set this to match the length of your death animation clip.")]
-    public float destroyDelay = 3f;
+    [SerializeField] private float destroyDelay = 3f;
 
     void Die(Vector3 sourcePosition)
     {

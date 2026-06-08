@@ -1,5 +1,3 @@
-// ─────────────────────────────────────────────────────────────────────────────
-// EnemyAI.cs  —  Base class for all enemies
 // Handles the shared state machine: Patrol → Chase → Attack → Dead
 // SpiderAI and SpiritAI inherit from this and override behaviour hooks.
 
@@ -49,8 +47,8 @@ public abstract class EnemyAI : MonoBehaviour
 
     protected virtual void Awake()
     {
-        _agent    = GetComponent<NavMeshAgent>();
-        _stats    = GetComponent<EnemyStats>();
+        TryGetComponent(out _agent);
+        TryGetComponent(out _stats);
         _animator = GetComponentInChildren<Animator>();
 
         _spawnPoint   = transform.position;

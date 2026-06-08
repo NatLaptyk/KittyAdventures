@@ -1,5 +1,3 @@
-// ─────────────────────────────────────────────────────────────────────────────
-// LoopTracker.cs
 // Manages an ordered sequence of checkpoints. When Kitty activates all
 // checkpoints in order, fires OnLoopComplete which triggers the TreeObstruction.
 
@@ -16,26 +14,26 @@ public class LoopTracker : MonoBehaviour
 
     [Header("Checkpoints — add in order")]
     [Tooltip("Drag CheckpointMarker GameObjects here in the order Kitty must visit them.")]
-    public List<CheckpointMarker> checkpoints = new List<CheckpointMarker>();
+    [SerializeField] private List<CheckpointMarker> checkpoints = new List<CheckpointMarker>();
 
     [Header("Obstruction")]
     [Tooltip("The TreeObstruction to open when the loop is complete.")]
-    public TreeObstruction obstruction;
+    [SerializeField] private TreeObstruction obstruction;
 
     [Header("Settings")]
     [Tooltip("If true, checkpoints must be visited in strict order. " +
              "If false, any order works.")]
-    public bool strictOrder = true;
+    [SerializeField] private bool strictOrder = true;
 
     [Tooltip("Show debug logs in Console.")]
-    public bool debugLogs = true;
+    [SerializeField] private bool debugLogs = true;
 
     // ─────────────────────────────────────────────
     //  EVENTS
     // ─────────────────────────────────────────────
 
     /// <summary>Fired when all checkpoints have been activated.</summary>
-    public PlayerStats playerStats;
+    [SerializeField] private PlayerStats playerStats;
 
     // ─────────────────────────────────────────────
     //  PRIVATE STATE

@@ -5,13 +5,13 @@ using UnityEngine.SceneManagement;
 public class VictorySceneManager : MonoBehaviour
 {
     [Tooltip("Exact name of your end/credits scene in Build Settings.")]
-    public string endSceneName = "End";
+    [SerializeField] private string endSceneName = "End";
 
     [Tooltip("Seconds to wait before automatically loading End scene. Set to 0 to disable auto-load.")]
-    public float sceneDelay = 5f;
+    [SerializeField] private float sceneDelay = 5f;
 
     [Tooltip("Optional fullscreen Image to fade to black before transitioning.")]
-    public UnityEngine.UI.Image fadeImage;
+    [SerializeField] private UnityEngine.UI.Image fadeImage;
 
     void Start()
     {

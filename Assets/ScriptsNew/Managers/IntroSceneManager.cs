@@ -4,10 +4,10 @@ using UnityEngine;
 public class IntroSceneManager : MonoBehaviour
 {
     [Tooltip("Exact name of your main game scene in Build Settings.")]
-    public string mainSceneName = "MainScene";
+    [SerializeField] private string mainSceneName = "MainScene";
 
     [Tooltip("Seconds to wait before automatically loading MainScene. Set to 0 to disable auto-load.")]
-    public float sceneDelay = 5f;
+    [SerializeField] private float sceneDelay = 5f;
 
     void Start()
     {

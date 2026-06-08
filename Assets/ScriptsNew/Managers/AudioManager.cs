@@ -6,7 +6,7 @@ public class AudioManager : MonoBehaviour
     Dictionary<AudioClip, float> lastPlayedTime = new Dictionary<AudioClip, float>();
     public static AudioManager instance;
     public AudioSource sfxSource;
-    public float sfxCooldown = 0.1f;
+    [SerializeField] private float sfxCooldown = 0.1f;
     public float sfxVolume = 0.1f;
 
     [Header("Player SFX")]
@@ -15,7 +15,7 @@ public class AudioManager : MonoBehaviour
     public AudioClip lightAttack;
     public AudioClip heavyAttack;
     public AudioClip playerDamaged;
-    public AudioClip steps;
+    [SerializeField] private AudioClip steps;
     public AudioClip stomps;
 
     [Header("Environment SFX")]
@@ -32,11 +32,11 @@ public class AudioManager : MonoBehaviour
     public AudioClip wispDed;
 
     [Header("Music")]
-    public AudioClip levelMusic;
-    public AudioClip bossMusic;
-    public AudioSource musicSource;
+    [SerializeField] private AudioClip levelMusic;
+    [SerializeField] private AudioClip bossMusic;
+    [SerializeField] private AudioSource musicSource;
     [Range(0f, 1f)]
-    public float musicVolume = 0.3f;
+    [SerializeField] private float musicVolume = 0.3f;
 
     void Awake()
     {

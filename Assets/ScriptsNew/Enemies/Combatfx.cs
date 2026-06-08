@@ -1,5 +1,3 @@
-// ─────────────────────────────────────────────────────────────────────────────
-// CombatFX.cs
 // Centralised combat visual effects manager:
 // • Hit Stop     — freezes time briefly on a heavy hit for satisfying impact
 // • Screen Flash — red/white UI overlay when Kitty takes damage
@@ -23,17 +21,17 @@ public class CombatFX : MonoBehaviour
 
     [Header("Hit Stop")]
     [Tooltip("How long time freezes on a light attack hit (seconds).")]
-    public float lightHitStopDuration  = 0.04f;
+    [SerializeField] private float lightHitStopDuration  = 0.04f;
 
     [Tooltip("How long time freezes on a heavy attack hit (seconds).")]
-    public float heavyHitStopDuration  = 0.08f;
+    [SerializeField] private float heavyHitStopDuration  = 0.08f;
 
     [Tooltip("How long time freezes when Kitty takes damage (seconds).")]
-    public float damageHitStopDuration = 0.05f;
+    [SerializeField] private float damageHitStopDuration = 0.05f;
 
     [Tooltip("timescale during hit stop — 0 = full freeze, 0.05 = near freeze.")]
     [Range(0f, 0.1f)]
-    public float hitStopTimeScale      = 0f;
+    [SerializeField] private float hitStopTimeScale      = 0f;
 
     // ─────────────────────────────────────────────
     //  INSPECTOR — SCREEN FLASH
@@ -41,16 +39,16 @@ public class CombatFX : MonoBehaviour
 
     [Header("Screen Flash")]
     [Tooltip("The fullscreen UI Image used for the damage flash overlay.")]
-    public Image flashImage;
+    [SerializeField] private Image flashImage;
 
     [Tooltip("Colour of the flash when Kitty takes damage.")]
-    public Color damageFlashColour  = new Color(1f, 0f, 0f, 0.45f);
+    [SerializeField] private Color damageFlashColour  = new Color(1f, 0f, 0f, 0.45f);
 
     [Tooltip("Colour of the flash when Kitty lands a heavy hit.")]
-    public Color heavyHitFlashColour = new Color(1f, 1f, 1f, 0.2f);
+    [SerializeField] private Color heavyHitFlashColour = new Color(1f, 1f, 1f, 0.2f);
 
     [Tooltip("How quickly the flash fades out.")]
-    public float flashFadeSpeed     = 6f;
+    [SerializeField] private float flashFadeSpeed     = 6f;
 
     // ─────────────────────────────────────────────
     //  INSPECTOR — HIT SPARKS
@@ -58,13 +56,13 @@ public class CombatFX : MonoBehaviour
 
     [Header("Hit Sparks")]
     [Tooltip("Particle prefab spawned when Kitty's attack lands on an enemy.")]
-    public ParticleSystem hitSparkPrefab;
+    [SerializeField] private ParticleSystem hitSparkPrefab;
 
     [Tooltip("Particle prefab spawned when Kitty takes damage.")]
-    public ParticleSystem damageSparkPrefab;
+    [SerializeField] private ParticleSystem damageSparkPrefab;
 
     [Tooltip("Offset upward from the hit position so sparks don't clip into ground.")]
-    public float sparkHeightOffset = 0.5f;
+    [SerializeField] private float sparkHeightOffset = 0.5f;
 
     // ─────────────────────────────────────────────
     //  PRIVATE STATE

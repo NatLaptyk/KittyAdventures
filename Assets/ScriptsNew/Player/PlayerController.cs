@@ -15,42 +15,42 @@ public class PlayerController : MonoBehaviour
     // ─────────────────────────────────────────────
 
     [Header("Movement")]
-    public float walkSpeed        = 5f;
-    public float sprintSpeed      = 9f;
-    public float sprintStaminaCost = 15f;  // stamina per second while sprinting
-    public float rotateSpeed = 12f;
+    [SerializeField] private float walkSpeed        = 5f;
+    [SerializeField] private float sprintSpeed      = 9f;
+    [SerializeField] private float sprintStaminaCost = 15f;  // stamina per second while sprinting
+    [SerializeField] private float rotateSpeed = 12f;
 
     [Header("Jump")]
-    public float jumpForce = 7f;
+    [SerializeField] private float jumpForce = 7f;
     bool _didJump = false;
 
     [Tooltip("Stamina cost for a regular jump.")]
-    public float jumpStaminaCost   = 10f;
+    [SerializeField] private float jumpStaminaCost   = 10f;
 
     [Header("Stomp Attack")]
     [Tooltip("Damage dealt when Kitty lands on an enemy from above.")]
-    public float stompDamage       = 25f;
+    [SerializeField] private float stompDamage       = 25f;
     [Tooltip("Stamina cost for a stomp.")]
-    public float stompStaminaCost  = 15f;
+    [SerializeField] private float stompStaminaCost  = 15f;
     [Tooltip("How fast Kitty must be falling to trigger a stomp.")]
-    public float stompMinFallSpeed = 2f;
+    [SerializeField] private float stompMinFallSpeed = 2f;
     [Tooltip("Radius around Kitty's feet to check for enemies on landing.")]
-    public float stompRadius       = 0.8f;
+    [SerializeField] private float stompRadius       = 0.8f;
     [Tooltip("Layer mask for enemies.")]
-    public LayerMask enemyLayers;
-    public float gravity   = -25f;
+    [SerializeField] private LayerMask enemyLayers;
+    [SerializeField] private float gravity   = -25f;
 
     [Header("Dodge")]
-    public float dodgeSpeed    = 12f;
-    public float dodgeDuration = 0.25f;
+    [SerializeField] private float dodgeSpeed    = 12f;
+    [SerializeField] private float dodgeDuration = 0.25f;
 
     [Header("Climb")]
-    public float climbSpeed      = 3f;
-    public float climbCheckDist  = 0.5f;
-    public LayerMask climbMask;
+    [SerializeField] private float climbSpeed      = 3f;
+    [SerializeField] private float climbCheckDist  = 0.5f;
+    [SerializeField] private LayerMask climbMask;
 
     [Header("Animation")]
-    public Animator animator;
+    [SerializeField] private Animator animator;
 
     [Header("Footsteps")]
     [SerializeField] private float stepInterval = 0.38f;
@@ -87,8 +87,8 @@ public class PlayerController : MonoBehaviour
 
     void Start()
     {
-        _cc       = GetComponent<CharacterController>();
-        _input    = GetComponent<InputReader>();
+        TryGetComponent(out _cc);
+        TryGetComponent(out _input);
         _cam      = FindFirstObjectByType<CameraController>();
         // Use assigned animator or search children as fallback
         _animator = animator != null ? animator : GetComponentInChildren<Animator>();

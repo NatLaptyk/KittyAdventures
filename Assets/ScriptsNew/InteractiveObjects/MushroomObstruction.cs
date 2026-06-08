@@ -1,4 +1,3 @@
-
 // Blocking trees that transform into small mushrooms when the number puzzle
 // is solved correctly. Each tree scales down, swaps its model for a mushroom
 // prefab, then scales back up — in a randomised order.
@@ -17,39 +16,39 @@ public class MushroomObstruction : MonoBehaviour
 
     [Header("Objects")]
     [Tooltip("All tree GameObjects that will transform into mushrooms.")]
-    public List<GameObject> trees = new List<GameObject>();
+    [SerializeField] private List<GameObject> trees = new List<GameObject>();
 
     [Tooltip("The mushroom prefab to spawn in place of each tree.")]
-    public GameObject mushroomPrefab;
+    [SerializeField] private GameObject mushroomPrefab;
 
     [Header("Animation")]
     [Tooltip("How long each tree takes to scale down to nothing.")]
-    public float shrinkDuration  = 0.5f;
+    [SerializeField] private float shrinkDuration  = 0.5f;
 
     [Tooltip("How long each mushroom takes to scale up from nothing.")]
-    public float growDuration    = 0.6f;
+    [SerializeField] private float growDuration    = 0.6f;
 
     [Tooltip("Pause between a tree disappearing and its mushroom appearing.")]
-    public float swapPause       = 0.1f;
+    [SerializeField] private float swapPause       = 0.1f;
 
     [Tooltip("Delay between each tree starting its transformation.")]
-    public float staggerDelay    = 0.18f;
+    [SerializeField] private float staggerDelay    = 0.18f;
 
     [Tooltip("Final scale of each mushroom. Match to your prefab's intended size.")]
-    public Vector3 mushroomScale = Vector3.one;
+    [SerializeField] private Vector3 mushroomScale = Vector3.one;
 
     [Tooltip("Animation curve for shrink and grow.")]
-    public AnimationCurve transformCurve = AnimationCurve.EaseInOut(0f, 0f, 1f, 1f);
+    [SerializeField] private AnimationCurve transformCurve = AnimationCurve.EaseInOut(0f, 0f, 1f, 1f);
 
     [Header("Effects")]
     [Tooltip("Optional particle effect spawned at each tree's position when it transforms.")]
-    public ParticleSystem transformFX;
+    [SerializeField] private ParticleSystem transformFX;
 
     [Tooltip("Optional audio clip played when the transformation begins.")]
-    public AudioClip transformSound;
+    [SerializeField] private AudioClip transformSound;
 
     [Header("State")]
-    public bool isOpen = false;
+    [SerializeField] private bool isOpen = false;
 
     // ─────────────────────────────────────────────
     //  EVENTS
@@ -69,7 +68,7 @@ public class MushroomObstruction : MonoBehaviour
 
     void Awake()
     {
-        _audio = GetComponent<AudioSource>();
+        TryGetComponent(out _audio);
     }
 
     void Start()
@@ -98,7 +97,7 @@ public class MushroomObstruction : MonoBehaviour
 
     [Header("Invisible Wall")]
     [Tooltip("The invisible wall blocking spiders — disabled when the path opens.")]
-    public GameObject invisibleWall;
+    [SerializeField] private GameObject invisibleWall;
 
     public void OpenPath()
     {

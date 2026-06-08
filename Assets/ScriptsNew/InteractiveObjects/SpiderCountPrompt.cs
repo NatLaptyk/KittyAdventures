@@ -8,10 +8,10 @@ public class SpiderCountPrompt : MonoBehaviour, IInteractable
 {
     [Header("Prompts")]
     [Tooltip("Message shown while spiders remain. {0} = remaining, {1} = total.")]
-    public string notDonePrompt = "Defeat {0} more spiders to clear the path!";
+    [SerializeField] private string notDonePrompt = "Defeat {0} more spiders to clear the path!";
 
     [Tooltip("Message shown when all spiders are defeated.")]
-    public string donePrompt = "The path is now clear!";
+    [SerializeField] private string donePrompt = "The path is now clear!";
 
     // ─────────────────────────────────────────────
     //  IInteractable

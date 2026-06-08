@@ -38,28 +38,28 @@ public class TreeObstruction : MonoBehaviour
     // ─────────────────────────────────────────────
 
     [Header("Trees")]
-    public List<TreeEntry> trees = new List<TreeEntry>();
+    [SerializeField] private List<TreeEntry> trees = new List<TreeEntry>();
 
     [Header("Animation")]
     [Tooltip("How long the trees take to shift aside.")]
-    public float openDuration   = 2f;
+    [SerializeField] private float openDuration   = 2f;
 
     [Tooltip("Delay between each tree starting to move — creates a wave effect.")]
-    public float staggerDelay   = 0.15f;
+    [SerializeField] private float staggerDelay   = 0.15f;
 
     [Tooltip("Animation curve for tree movement — ease in/out by default.")]
-    public AnimationCurve openCurve = AnimationCurve.EaseInOut(0f, 0f, 1f, 1f);
+    [SerializeField] private AnimationCurve openCurve = AnimationCurve.EaseInOut(0f, 0f, 1f, 1f);
 
     [Header("Effects")]
     [Tooltip("Optional particle effect played at the path entrance when it opens.")]
-    public ParticleSystem openEffect;
+    [SerializeField] private ParticleSystem openEffect;
 
     [Tooltip("Optional audio clip played when the path opens.")]
     [Range(0f, 1f)]
-    public float openSoundVolume = 1f;
+    [SerializeField] private float openSoundVolume = 1f;
 
     [Header("State")]
-    public bool isOpen = false;
+    [SerializeField] private bool isOpen = false;
 
     // ─────────────────────────────────────────────
     //  EVENTS

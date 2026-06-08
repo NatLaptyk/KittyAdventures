@@ -1,6 +1,3 @@
-// ─────────────────────────────────────────────────────────────────────────────
-//  SpiritAI.cs  —  Ghost Spirit Enemy
-//
 //  Completely overrides the base Update loop so the Spirit never gets frozen
 //  by EnemyAI's UpdateAttack. The Spirit manages its own state entirely.
 //
@@ -19,40 +16,40 @@ using UnityEngine.AI;
 public class SpiritAI : EnemyAI
 {
     [Header("Spirit — Float")]
-    public float floatHeight   = 1.2f;
-    public float bobAmplitude  = 0.5f;
-    public float bobFrequency  = 1.5f;
+    [SerializeField] private float floatHeight   = 1.2f;
+    [SerializeField] private float bobAmplitude  = 0.5f;
+    [SerializeField] private float bobFrequency  = 1.5f;
 
     [Header("Spirit — Orbit")]
-    public float preferredDist = 5f;
-    public float minDistance   = 3f;
-    public float strafeSpeed   = 8f;
+    [SerializeField] private float preferredDist = 5f;
+    [SerializeField] private float minDistance   = 3f;
+    [SerializeField] private float strafeSpeed   = 8f;
 
     [Header("Spirit — Ghost Dash")]
-    public float dashSpeed       = 20f;
-    public float dashOvershoot   = 3f;
-    public float dashWindup      = 0.5f;
-    public float dashHitRadius   = 1.2f;
-    public float dashCooldown    = 3f;
+    [SerializeField] private float dashSpeed       = 20f;
+    [SerializeField] private float dashOvershoot   = 3f;
+    [SerializeField] private float dashWindup      = 0.5f;
+    [SerializeField] private float dashHitRadius   = 1.2f;
+    [SerializeField] private float dashCooldown    = 3f;
 
     [Header("Spirit — Enraged Phase")]
     [Range(0f, 1f)]
-    public float enragedThreshold    = 0.5f;
-    public float enragedSpeedMult    = 1.8f;
-    public float enragedDashCooldown = 1.6f;
-    public int   enragedMaxChain     = 2;
-    public Color normalGlowColour    = new Color(0.4f, 0.6f, 1.0f);
-    public Color enragedGlowColour   = new Color(1.0f, 0.15f, 0.1f);
-    public Renderer glowRenderer;
+    [SerializeField] private float enragedThreshold    = 0.5f;
+    [SerializeField] private float enragedSpeedMult    = 1.8f;
+    [SerializeField] private float enragedDashCooldown = 1.6f;
+    [SerializeField] private int   enragedMaxChain     = 2;
+    [SerializeField] private Color normalGlowColour    = new Color(0.4f, 0.6f, 1.0f);
+    [SerializeField] private Color enragedGlowColour   = new Color(1.0f, 0.15f, 0.1f);
+    [SerializeField] private Renderer glowRenderer;
 
     [Header("Spirit — Drop")]
     [Tooltip("The SpiritPotion prefab to spawn when the Spirit dies.")]
-    public GameObject potionPrefab;
+    [SerializeField] private GameObject potionPrefab;
     [Tooltip("Height above Spirit position where the potion spawns.")]
-    public float potionDropHeight = 1f;
+    [SerializeField] private float potionDropHeight = 1f;
     [Tooltip("If assigned, the potion spawns here instead of on the Spirit. " +
              "Place an empty GameObject somewhere visible in the arena.")]
-    public Transform potionSpawnPoint;
+    [SerializeField] private Transform potionSpawnPoint;
 
 
     // ─────────────────────────────────────────────

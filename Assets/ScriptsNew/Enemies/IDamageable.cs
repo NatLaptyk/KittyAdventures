@@ -10,10 +10,5 @@
 
 public interface IDamageable
 {
-    /// <summary>
-    /// Apply damage to this object.
-    /// </summary>
-    /// <param name="amount">How much damage to deal.</param>
-    /// <param name="sourcePosition">Where the hit came from — used for knockback direction.</param>
     void TakeDamage(float amount, UnityEngine.Vector3 sourcePosition);
 }

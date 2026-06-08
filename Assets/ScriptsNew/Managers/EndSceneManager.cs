@@ -11,22 +11,22 @@ public class EndSceneManager : MonoBehaviour
     // ─────────────────────────────────────────────
 
     [Header("Buttons")]
-    public Button replayButton;
-    public Button exitButton;
+    [SerializeField] private Button replayButton;
+    [SerializeField] private Button exitButton;
 
     [Header("UI Elements")]
     [Tooltip("The full-screen panel image — used for fade in.")]
-    public Image    panelImage;
-    public TMP_Text titleText;
-    public TMP_Text subtitleText;
+    [SerializeField] private Image    panelImage;
+    [SerializeField] private TMP_Text titleText;
+    [SerializeField] private TMP_Text subtitleText;
 
     [Header("Scenes")]
     [Tooltip("Name of your main game scene to reload on Replay.")]
-    public string gameSceneName = "MainScene";
+    [SerializeField] private string gameSceneName = "MainScene";
 
     [Header("Timing")]
-    public float fadeInDuration  = 1.5f;
-    public float textRevealDelay = 0.8f;
+    [SerializeField] private float fadeInDuration  = 1.5f;
+    [SerializeField] private float textRevealDelay = 0.8f;
 
     // ─────────────────────────────────────────────
     //  LIFECYCLE

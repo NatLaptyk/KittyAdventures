@@ -1,5 +1,3 @@
-// ─────────────────────────────────────────────────────────────────────────────
-// CheckpointMarker.cs
 // A glowing interactable marker that Kitty must activate as part of the loop.
 // Pulses with an idle glow, changes colour when activated.
 
@@ -15,45 +13,45 @@ public class CheckpointMarker : MonoBehaviour
 
     [Header("Visuals")]
     [Tooltip("The renderer that will glow and change colour.")]
-    public Renderer glowRenderer;
+    [SerializeField] private Renderer glowRenderer;
 
     [Tooltip("Colour when idle/waiting to be activated.")]
-    public Color idleColour      = new Color(0.2f, 0.8f, 0.2f, 1f);   // green
+    [SerializeField] private Color idleColour      = new Color(0.2f, 0.8f, 0.2f, 1f);   // green
 
     [Tooltip("Colour when this checkpoint is the next one to activate.")]
-    public Color activeColour    = new Color(1.0f, 0.9f, 0.1f, 1f);   // yellow
+    [SerializeField] private Color activeColour    = new Color(1.0f, 0.9f, 0.1f, 1f);   // yellow
 
     [Tooltip("Colour when successfully activated.")]
-    public Color completedColour = new Color(0.2f, 0.4f, 1.0f, 1f);   // blue
+    [SerializeField] private Color completedColour = new Color(0.2f, 0.4f, 1.0f, 1f);   // blue
 
     [Tooltip("Colour when wrong order — brief red flash.")]
-    public Color wrongColour     = new Color(1.0f, 0.1f, 0.1f, 1f);   // red
+    [SerializeField] private Color wrongColour     = new Color(1.0f, 0.1f, 0.1f, 1f);   // red
 
     [Header("Pulse")]
-    public float pulseSpeed     = 2f;
-    public float pulseMinAlpha  = 0.3f;
-    public float pulseMaxAlpha  = 1.0f;
+    [SerializeField] private float pulseSpeed     = 2f;
+    [SerializeField] private float pulseMinAlpha  = 0.3f;
+    [SerializeField] private float pulseMaxAlpha  = 1.0f;
 
     [Header("Interaction")]
     [Tooltip("How close Kitty needs to be to activate this checkpoint.")]
-    public float activationRadius = 2f;
+    [SerializeField] private float activationRadius = 2f;
 
     [Header("Particles")]
     [Tooltip("Optional particle effect to play when activated.")]
-    public ParticleSystem activationEffect;
+    [SerializeField] private ParticleSystem activationEffect;
 
     [Header("Pickup")]
     [Tooltip("If true, the orb flies toward Kitty and gets collected when she enters the trigger.")]
-    public bool pickupStyle       = true;
+    [SerializeField] private bool pickupStyle       = true;
 
     [Tooltip("How fast the orb flies toward Kitty when picked up.")]
-    public float flySpeed         = 8f;
+    [SerializeField] private float flySpeed         = 8f;
 
     [Tooltip("How long the orb takes to shrink and disappear after being collected.")]
-    public float vanishDuration   = 0.4f;
+    [SerializeField] private float vanishDuration   = 0.4f;
 
     [Tooltip("Optional sound to play on pickup.")]
-    public AudioClip pickupSound;
+    [SerializeField] private AudioClip pickupSound;
 
     // ─────────────────────────────────────────────
     //  PRIVATE STATE
@@ -83,7 +81,7 @@ public class CheckpointMarker : MonoBehaviour
             SetColour(idleColour);
         }
 
-        _audio = GetComponent<AudioSource>();
+        TryGetComponent(out _audio);
         if (_audio == null && pickupSound != null)
             _audio = gameObject.AddComponent<AudioSource>();
     }

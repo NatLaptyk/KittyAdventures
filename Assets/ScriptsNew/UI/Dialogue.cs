@@ -5,16 +5,16 @@ using TMPro;
 public class Dialogue : MonoBehaviour
 {
     public bool IsActive => gameObject.activeSelf;
-    public TextMeshProUGUI textComponent;
-    public string[] lines;
-    public float textSpeed = 0.05f;
+    [SerializeField] private TextMeshProUGUI textComponent;
+    [SerializeField] private string[] lines;
+    [SerializeField] private float textSpeed = 0.05f;
 
     private int index;
     private bool dialogueStarted = false;
 
-    public AudioSource audioSource;
-    public AudioClip voiceBlip;
-    [Range(0.1f, 1f)] public float pitchVariation = 0.1f;
+    [SerializeField] private AudioSource audioSource;
+    [SerializeField] private AudioClip voiceBlip;
+    [Range(0.1f, 1f)] [SerializeField] private float pitchVariation = 0.1f;
 
     void Start()
     {

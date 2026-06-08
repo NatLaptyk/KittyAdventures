@@ -11,21 +11,21 @@ public class MainMenuManager : MonoBehaviour
 
     [Header("Scenes")]
     [Tooltip("Name of the Intro scene to load when Play is pressed.")]
-    public string introSceneName = "Intro";
+    [SerializeField] private string introSceneName = "Intro";
 
     [Header("Buttons")]
-    public Button playButton;
-    public Button exitButton;
+    [SerializeField] private Button playButton;
+    [SerializeField] private Button exitButton;
 
     [Header("UI")]
-    public TMP_Text titleText;
-    public TMP_Text subtitleText;
+    [SerializeField] private TMP_Text titleText;
+    [SerializeField] private TMP_Text subtitleText;
 
     [Header("Music")]
     [Tooltip("Level music clip to play on the main menu.")]
-    public AudioClip levelMusic;
+    [SerializeField] private AudioClip levelMusic;
     [Range(0f, 1f)]
-    public float musicVolume = 0.3f;
+    [SerializeField] private float musicVolume = 0.3f;
 
 
     // ─────────────────────────────────────────────

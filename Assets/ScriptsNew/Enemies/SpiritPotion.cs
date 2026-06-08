@@ -1,5 +1,3 @@
-// ─────────────────────────────────────────────────────────────────────────────
-// SpiritPotion.cs
 // Dropped by the Spirit on death. Kitty auto-collects it by walking over it.
 // Notifies GameStats, which fires OnPotionCollected → InventoryHUD loads EndScene.
 

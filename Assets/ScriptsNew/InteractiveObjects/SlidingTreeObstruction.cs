@@ -16,45 +16,45 @@ public class SlidingTreeObstruction : MonoBehaviour
 
     [Header("Trees")]
     [Tooltip("Trees that will slide LEFT when the path opens.")]
-    public List<Transform> leftTrees  = new List<Transform>();
+    [SerializeField] private List<Transform> leftTrees  = new List<Transform>();
 
     [Tooltip("Trees that will slide RIGHT when the path opens.")]
-    public List<Transform> rightTrees = new List<Transform>();
+    [SerializeField] private List<Transform> rightTrees = new List<Transform>();
 
     [Header("Sliding")]
     [Tooltip("How far each side slides away from centre (world units).")]
-    public float slideDistance = 5f;
+    [SerializeField] private float slideDistance = 5f;
 
     [Tooltip("The axis the trees slide along. Default is right (X). " +
              "Change to Vector3.forward if your path runs along Z.")]
-    public Vector3 slideDirection = Vector3.right;
+    [SerializeField] private Vector3 slideDirection = Vector3.right;
 
     [Tooltip("How long the slide animation takes.")]
-    public float slideDuration = 2f;
+    [SerializeField] private float slideDuration = 2f;
 
     [Tooltip("Delay between each tree starting — creates a wave effect from centre outward.")]
-    public float staggerDelay = 0.12f;
+    [SerializeField] private float staggerDelay = 0.12f;
 
     [Tooltip("Animation curve — ease in/out by default.")]
-    public AnimationCurve slideCurve = AnimationCurve.EaseInOut(0f, 0f, 1f, 1f);
+    [SerializeField] private AnimationCurve slideCurve = AnimationCurve.EaseInOut(0f, 0f, 1f, 1f);
 
     [Header("Trigger")]
     [Tooltip("If assigned, path opens when the Spirit dies.")]
-    public EnemyStats spiritStats;
+    [SerializeField] private EnemyStats spiritStats;
     [Tooltip("If true, path opens when all spiders are killed.")]
-    public bool openOnAllSpidersKilled = false;
+    [SerializeField] private bool openOnAllSpidersKilled = false;
 
     [Header("Effects")]
     [Tooltip("Optional particle effect at the centre when it opens.")]
-    public ParticleSystem openEffect;
+    [SerializeField] private ParticleSystem openEffect;
 
     [Tooltip("Optional audio clip played when trees start sliding.")]
-    public AudioClip openSound;
+    [SerializeField] private AudioClip openSound;
     [Range(0f, 1f)]
-    public float openSoundVolume = 1f;
+    [SerializeField] private float openSoundVolume = 1f;
 
     [Header("State")]
-    public bool isOpen = false;
+    [SerializeField] private bool isOpen = false;
 
     // ─────────────────────────────────────────────
     //  EVENTS
@@ -78,7 +78,7 @@ public class SlidingTreeObstruction : MonoBehaviour
 
     void Awake()
     {
-        _audio = GetComponent<AudioSource>();
+        TryGetComponent(out _audio);
 
         foreach (var t in leftTrees)
             _leftStart.Add(t != null ? t.position : Vector3.zero);
@@ -113,7 +113,7 @@ public class SlidingTreeObstruction : MonoBehaviour
 
     [Header("Invisible Wall")]
     [Tooltip("The invisible wall blocking spiders — disabled when the path opens.")]
-    public GameObject invisibleWall;
+    [SerializeField] private GameObject invisibleWall;
 
     public void OpenPath()
     {

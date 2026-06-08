@@ -14,38 +14,38 @@ public class EnemyHealthBar : MonoBehaviour
 
     [Header("References")]
     [Tooltip("The EnemyStats this bar tracks. Auto-found from parent if not set.")]
-    public EnemyStats stats;
+    [SerializeField] private EnemyStats stats;
 
     [Tooltip("The fill image showing current health.")]
-    public Image fillImage;
+    [SerializeField] private Image fillImage;
 
     [Tooltip("Optional ghost/delayed fill image — lags behind for visual feedback.")]
-    public Image delayedFillImage;
+    [SerializeField] private Image delayedFillImage;
 
     [Header("Behaviour")]
     [Tooltip("Bar is hidden at full health and only appears after first hit.")]
-    public bool hideWhenFull       = true;
+    [SerializeField] private bool hideWhenFull       = true;
 
     [Tooltip("Seconds after last damage before bar fades out.")]
-    public float fadeOutDelay      = 3f;
+    [SerializeField] private float fadeOutDelay      = 3f;
 
     [Tooltip("How fast the bar fades in/out.")]
-    public float fadeSpeed         = 4f;
+    [SerializeField] private float fadeSpeed         = 4f;
 
     [Tooltip("How fast the ghost bar catches up.")]
-    public float delayedLerpSpeed  = 2.5f;
+    [SerializeField] private float delayedLerpSpeed  = 2.5f;
 
     [Tooltip("Seconds before ghost bar starts moving.")]
-    public float delayedBarDelay   = 0.5f;
+    [SerializeField] private float delayedBarDelay   = 0.5f;
 
     [Header("Billboard")]
     [Tooltip("If true, the bar always faces the camera.")]
-    public bool faceCamera         = true;
+    [SerializeField] private bool faceCamera         = true;
 
     [Header("Colours")]
-    public Color highHealthColour  = new Color(0.3f, 0.85f, 0.3f);   // green
-    public Color midHealthColour   = new Color(1.0f, 0.75f, 0.0f);   // yellow
-    public Color lowHealthColour   = new Color(0.9f, 0.15f, 0.15f);  // red
+    [SerializeField] private Color highHealthColour  = new Color(0.3f, 0.85f, 0.3f);   // green
+    [SerializeField] private Color midHealthColour   = new Color(1.0f, 0.75f, 0.0f);   // yellow
+    [SerializeField] private Color lowHealthColour   = new Color(0.9f, 0.15f, 0.15f);  // red
 
     // ─────────────────────────────────────────────
     //  PRIVATE STATE
@@ -67,7 +67,7 @@ public class EnemyHealthBar : MonoBehaviour
 
     void Awake()
     {
-        _canvasGroup = GetComponent<CanvasGroup>();
+        TryGetComponent(out _canvasGroup);
         if (_canvasGroup == null)
             _canvasGroup = gameObject.AddComponent<CanvasGroup>();
 

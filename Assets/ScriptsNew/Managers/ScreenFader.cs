@@ -19,15 +19,15 @@ public class SceneFader : MonoBehaviour
     // ─────────────────────────────────────────────
 
     [Tooltip("The full-screen black Image used for fading.")]
-    public Image fadeImage;
+    [SerializeField] private Image fadeImage;
 
     CanvasGroup _canvasGroup;
 
     [Tooltip("Default duration for fade out (to black).")]
-    public float fadeOutDuration = 0.5f;
+    [SerializeField] private float fadeOutDuration = 0.5f;
 
     [Tooltip("Default duration for fade in (from black).")]
-    public float fadeInDuration  = 0.8f;
+    [SerializeField] private float fadeInDuration  = 0.8f;
 
     // ─────────────────────────────────────────────
     //  PRIVATE

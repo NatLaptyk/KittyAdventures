@@ -18,51 +18,51 @@ public class CameraController : MonoBehaviour
 
     [Header("Target")]
     [Tooltip("Auto-found via Player tag. Drag Kitty in if needed.")]
-    public Transform target;
+    [SerializeField] private Transform target;
 
     [Tooltip("Camera looks at this height above Kitty's feet. 1.2 = chest height.")]
-    public float targetHeightOffset = 1.2f;
+    [SerializeField] private float targetHeightOffset = 1.2f;
 
     [Tooltip("Shifts the orbit centre left/right relative to Kitty. " +
              "Positive = camera sits to Kitty's left (over right shoulder). " +
              "Try 0.4 to 0.6 for a classic over-shoulder feel. 0 = dead centre.")]
-    public float horizontalOffset = 0f;
+    [SerializeField] private float horizontalOffset = 0f;
 
     [Header("Orbit")]
-    public float distance    = 5f;
-    public float sensitivityX = 3f;
-    public float sensitivityY = 2f;
-    public float pitchMin    = -10f;
-    public float pitchMax    =  70f;
+    [SerializeField] private float distance    = 5f;
+    [SerializeField] private float sensitivityX = 3f;
+    [SerializeField] private float sensitivityY = 2f;
+    [SerializeField] private float pitchMin    = -10f;
+    [SerializeField] private float pitchMax    =  70f;
 
     [Header("Zoom")]
-    public float zoomMin     = 2f;
-    public float zoomMax     = 10f;
-    public float zoomSpeed   = 4f;
-    public float zoomDamping = 8f;
+    [SerializeField] private float zoomMin     = 2f;
+    [SerializeField] private float zoomMax     = 10f;
+    [SerializeField] private float zoomSpeed   = 4f;
+    [SerializeField] private float zoomDamping = 8f;
 
     [Header("Snap-Back Behind Kitty")]
     [Tooltip("Seconds of mouse inactivity before snapping back. 0 = disabled.")]
-    public float snapBackDelay          = 2.5f;
-    public float snapBackSpeed          = 80f;
-    public float snapBackSpeedMoving    = 200f;
+    [SerializeField] private float snapBackDelay          = 2.5f;
+    [SerializeField] private float snapBackSpeed          = 80f;
+    [SerializeField] private float snapBackSpeedMoving    = 200f;
 
     [Header("Smoothing")]
     [Tooltip("How smoothly camera follows Kitty. Lower = snappier.")]
-    public float followDamping  = 8f;
+    [SerializeField] private float followDamping  = 8f;
     [Range(0f, 0.9f)]
-    public float mouseSmoothing = 0.08f;
+    [SerializeField] private float mouseSmoothing = 0.08f;
 
     [Header("Collision")]
     [Tooltip("Pulls camera forward when terrain/walls block the view.")]
-    public bool      enableCollision = true;
-    public float     collisionRadius = 0.2f;
+    [SerializeField] private bool      enableCollision = true;
+    [SerializeField] private float     collisionRadius = 0.2f;
     [Tooltip("Set this to everything EXCEPT your Player layer to avoid camera snapping when Kitty jumps.")]
-    public LayerMask collisionMask   = ~0;
+    [SerializeField] private LayerMask collisionMask   = ~0;
 
     [Header("Camera Shake")]
-    public float defaultShakeForce = 0.3f;
-    public float shakeDecay        = 5f;
+    [SerializeField] private float defaultShakeForce = 0.3f;
+    [SerializeField] private float shakeDecay        = 5f;
 
     // ─────────────────────────────────────────────
     //  PRIVATE

@@ -13,24 +13,24 @@ public class MushroomSpawner : MonoBehaviour
 
     [Header("Mushrooms")]
     [Tooltip("Mushroom prefab to spawn.")]
-    public GameObject mushroomPrefab;
+    [SerializeField] private GameObject mushroomPrefab;
 
     [Tooltip("All possible spawn point Transforms. Mushrooms will be placed at a random subset of these.")]
-    public List<Transform> spawnPoints = new List<Transform>();
+    [SerializeField] private List<Transform> spawnPoints = new List<Transform>();
 
     [Tooltip("Minimum number of mushrooms to spawn.")]
-    public int minMushrooms = 5;
+    [SerializeField] private int minMushrooms = 5;
 
     [Tooltip("Maximum number of mushrooms to spawn.")]
-    public int maxMushrooms = 12;
+    [SerializeField] private int maxMushrooms = 12;
 
     [Header("Puzzle")]
     [Tooltip("The NumberTrigger whose correct answer will be set to the mushroom count.")]
-    public NumberTrigger numberTrigger;
+    [SerializeField] private NumberTrigger numberTrigger;
 
     [Header("State")]
     [Tooltip("Read-only — how many mushrooms were spawned this session.")]
-    public int spawnedCount = 0;
+    [SerializeField] private int spawnedCount = 0;
 
     // ─────────────────────────────────────────────
     //  STATIC STATE — survives respawn

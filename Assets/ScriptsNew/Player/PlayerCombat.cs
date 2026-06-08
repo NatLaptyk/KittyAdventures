@@ -29,19 +29,19 @@ public class PlayerCombat : MonoBehaviour
 
     [Header("Light Attack")]
     [Tooltip("Damage dealt per light hit")]
-    public float lightDamage      = 10f;
+    [SerializeField] private float lightDamage      = 10f;
 
     [Tooltip("Radius of the hit detection sphere in front of Kitty")]
-    public float lightRange       = 1.4f;
+    [SerializeField] private float lightRange       = 1.4f;
 
     [Tooltip("Total duration of the light attack animation window")]
-    public float lightDuration    = 0.35f;
+    [SerializeField] private float lightDuration    = 0.35f;
 
     [Tooltip("How many light attacks can chain before resetting")]
-    public int   maxCombo         = 3;
+    [SerializeField] private int   maxCombo         = 3;
 
     [Tooltip("Time after last light attack before combo resets")]
-    public float comboResetTime   = 0.7f;
+    [SerializeField] private float comboResetTime   = 0.7f;
 
     // ─────────────────────────────────────────────
     //  INSPECTOR — HEAVY ATTACK
@@ -49,19 +49,19 @@ public class PlayerCombat : MonoBehaviour
 
     [Header("Heavy Attack")]
     [Tooltip("Damage dealt by a heavy hit")]
-    public float heavyDamage      = 28f;
+    [SerializeField] private float heavyDamage      = 28f;
 
     [Tooltip("Radius of heavy hit detection — wider arc than light")]
-    public float heavyRange       = 1.8f;
+    [SerializeField] private float heavyRange       = 1.8f;
 
     [Tooltip("Arc angle of the heavy attack sweep in degrees")]
-    public float heavyArc         = 130f;
+    [SerializeField] private float heavyArc         = 130f;
 
     [Tooltip("Force applied to knocked-back enemies")]
-    public float knockbackForce   = 8f;
+    [SerializeField] private float knockbackForce   = 8f;
 
     [Tooltip("Total duration of the heavy attack animation window")]
-    public float heavyDuration    = 0.6f;
+    [SerializeField] private float heavyDuration    = 0.6f;
 
     // ─────────────────────────────────────────────
     //  INSPECTOR — PARRY
@@ -69,13 +69,13 @@ public class PlayerCombat : MonoBehaviour
 
     [Header("Parry")]
     [Tooltip("How long the parry window stays active after pressing block")]
-    public float parryWindow      = 0.4f;
+    [SerializeField] private float parryWindow      = 0.4f;
 
     [Tooltip("How long a successfully parried enemy is stunned")]
     public float parryStunTime    = 2f;
 
     [Tooltip("Stamina cost to attempt a parry")]
-    public float parryStaminaCost = 20f;
+    [SerializeField] private float parryStaminaCost = 20f;
 
     // ─────────────────────────────────────────────
     //  INSPECTOR — FEEL
@@ -83,13 +83,13 @@ public class PlayerCombat : MonoBehaviour
 
     [Header("Hit Feel")]
     [Tooltip("Time scale during hit stop — lower = more dramatic freeze")]
-    public float hitStopTimeScale  = 0.05f;
+    [SerializeField] private float hitStopTimeScale  = 0.05f;
 
     [Tooltip("How long the hit stop lasts in real time")]
-    public float hitStopDuration   = 0.06f;
+    [SerializeField] private float hitStopDuration   = 0.06f;
 
     [Tooltip("Camera shake force on heavy hit")]
-    public float heavyShakeForce   = 0.45f;
+    [SerializeField] private float heavyShakeForce   = 0.45f;
 
     // ─────────────────────────────────────────────
     //  INSPECTOR — REFERENCES
@@ -97,10 +97,10 @@ public class PlayerCombat : MonoBehaviour
 
     [Header("References")]
     [Tooltip("Layer mask for enemy detection — set to your Enemy layer")]
-    public LayerMask enemyLayers;
+    [SerializeField] private LayerMask enemyLayers;
 
     [Tooltip("Optional — assign if Kitty has an Animator")]
-    public Animator animator;
+    [SerializeField] private Animator animator;
 
     // ─────────────────────────────────────────────
     //  PRIVATE STATE
@@ -126,7 +126,7 @@ public class PlayerCombat : MonoBehaviour
 
     void Start()
     {
-        _stats = GetComponent<PlayerStats>();
+        TryGetComponent(out _stats);
         _cam   = FindFirstObjectByType<CameraController>();
 
         // Auto-find animator if not assigned

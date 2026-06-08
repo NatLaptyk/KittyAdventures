@@ -14,54 +14,54 @@ public class PlayerHUD : MonoBehaviour
 
     [Header("References")]
     [Tooltip("Drag Kitty's PlayerStats component here.")]
-    public PlayerStats playerStats;
+    [SerializeField] private PlayerStats playerStats;
 
     [Header("Health Bar")]
     [Tooltip("The filled Image that shows current health.")]
-    public Image healthFill;
+    [SerializeField] private Image healthFill;
 
     [Header("Regen Indicator")]
     [Tooltip("Colour the health bar glows when regenerating passively.")]
-    public Color regenColour         = new Color(0.3f, 1f, 0.5f);
+    [SerializeField] private Color regenColour         = new Color(0.3f, 1f, 0.5f);
     [Tooltip("Colour when regenerating fast (out of combat).")]
-    public Color fastRegenColour     = new Color(0f, 1f, 0.3f);
+    [SerializeField] private Color fastRegenColour     = new Color(0f, 1f, 0.3f);
     [Tooltip("How fast the regen glow pulses.")]
-    public float regenPulseSpeed     = 2f;
+    [SerializeField] private float regenPulseSpeed     = 2f;
 
     [Header("Snack UI")]
     [Tooltip("Image showing the snack icon — hide when count is 0.")]
-    public Image   snackIcon;
+    [SerializeField] private Image   snackIcon;
     [Tooltip("TMP text showing snack count e.g. 'x1'.")]
-    public TMPro.TextMeshProUGUI snackText;
+    [SerializeField] private TMPro.TextMeshProUGUI snackText;
     [Tooltip("Key to eat the snack.")]
-    public KeyCode eatKey = KeyCode.F;
+    [SerializeField] private KeyCode eatKey = KeyCode.F;
 
     [Tooltip("The ghost bar that lags behind health loss for dramatic effect.")]
-    public Image healthDelayedFill;
+    [SerializeField] private Image healthDelayedFill;
 
     [Tooltip("Seconds before the ghost bar starts catching up.")]
-    public float healthDelayTime   = 0.6f;
+    [SerializeField] private float healthDelayTime   = 0.6f;
 
     [Tooltip("How fast the ghost bar catches up.")]
-    public float healthLerpSpeed   = 3f;
+    [SerializeField] private float healthLerpSpeed   = 3f;
 
     [Header("Stamina Bar")]
     [Tooltip("The filled Image that shows current stamina.")]
-    public Image staminaFill;
+    [SerializeField] private Image staminaFill;
 
     [Tooltip("How fast the stamina bar animates.")]
-    public float staminaLerpSpeed  = 8f;
+    [SerializeField] private float staminaLerpSpeed  = 8f;
 
     [Header("Low Health Warning")]
     [Tooltip("Health percentage below which the bar pulses red.")]
     [Range(0f, 0.5f)]
-    public float lowHealthThreshold = 0.25f;
+    [SerializeField] private float lowHealthThreshold = 0.25f;
 
     [Tooltip("How fast the low-health pulse animates.")]
-    public float lowHealthPulseSpeed = 3f;
+    [SerializeField] private float lowHealthPulseSpeed = 3f;
 
-    public Color lowHealthColour    = new Color(1f, 0.1f, 0.1f);
-    public Color normalHealthColour = new Color(0.2f, 0.85f, 0.3f);
+    [SerializeField] private Color lowHealthColour    = new Color(1f, 0.1f, 0.1f);
+    [SerializeField] private Color normalHealthColour = new Color(0.2f, 0.85f, 0.3f);
 
     // ─────────────────────────────────────────────
     //  PRIVATE STATE

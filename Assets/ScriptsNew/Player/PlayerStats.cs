@@ -18,13 +18,13 @@ public class PlayerStats : MonoBehaviour, IDamageable
 
     [Header("Hit VFX")]
     [Tooltip("Particle prefab instantiated at Kitty's position when she takes damage.")]
-    public GameObject damageVFXPrefab;
+    [SerializeField] private GameObject damageVFXPrefab;
     [Tooltip("How long before the damage VFX prefab is destroyed.")]
-    public float damageVFXDuration = 1f;
+    [SerializeField] private float damageVFXDuration = 1f;
 
     [Header("Snack SFX")]
     [Tooltip("Sound played when Kitty consumes a snack.")]
-    public AudioClip snackConsumeSound;
+    [SerializeField] private AudioClip snackConsumeSound;
 
     public float Health             { get; private set; }
     public float Stamina            { get; private set; }

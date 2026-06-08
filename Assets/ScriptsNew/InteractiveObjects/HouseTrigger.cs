@@ -1,5 +1,3 @@
-// ─────────────────────────────────────────────────────────────────────────────
-// HouseTrigger.cs
 // Loads the Victory scene when Kitty enters the trigger zone near her house.
 
 using UnityEngine;
@@ -7,10 +5,10 @@ using UnityEngine;
 public class HouseTrigger : MonoBehaviour
 {
     [Tooltip("Exact name of the Victory scene in Build Settings.")]
-    public string victorySceneName = "Victory";
+    [SerializeField] private string victorySceneName = "Victory";
 
     [Tooltip("Optional particle effect when Kitty arrives home.")]
-    public ParticleSystem arrivalEffect;
+    [SerializeField] private ParticleSystem arrivalEffect;
 
     bool _triggered = false;
 

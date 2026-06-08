@@ -13,32 +13,32 @@ public class InventoryHUD : MonoBehaviour
     // ─────────────────────────────────────────────
 
     [Header("Orbs")]
-    public GameObject orbRow;
-    public TMP_Text orbText;
-    public Image orbIcon;
+    [SerializeField] private GameObject orbRow;
+    [SerializeField] private TMP_Text orbText;
+    [SerializeField] private Image orbIcon;
 
     [Header("Spiders")]
-    public GameObject spiderRow;
-    public TMP_Text spiderText;
-    public Image spiderIcon;
+    [SerializeField] private GameObject spiderRow;
+    [SerializeField] private TMP_Text spiderText;
+    [SerializeField] private Image spiderIcon;
 
     [Header("Announcement")]
     [Tooltip("Large centred TMP text for completion messages. Set inactive in scene.")]
-    public TMP_Text announcementText;
+    [SerializeField] private TMP_Text announcementText;
 
     [Header("Timing")]
     [Tooltip("How long each announcement line stays on screen.")]
-    public float lineDisplayTime  = 2.5f;
+    [SerializeField] private float lineDisplayTime  = 2.5f;
     [Tooltip("How long the counter row stays visible after completion before hiding.")]
-    public float rowHideDelay     = 4f;
+    [SerializeField] private float rowHideDelay     = 4f;
 
     [Header("Pop Animation")]
-    public float popScale    = 1.4f;
-    public float popDuration = 0.2f;
+    [SerializeField] private float popScale    = 1.4f;
+    [SerializeField] private float popDuration = 0.2f;
 
     [Header("Colours")]
-    public Color defaultColour   = Color.white;
-    public Color completedColour = new Color(0.4f, 1f, 0.4f);
+    [SerializeField] private Color defaultColour   = Color.white;
+    [SerializeField] private Color completedColour = new Color(0.4f, 1f, 0.4f);
 
 
 

@@ -9,13 +9,13 @@ public class RespawnCheckpoint : MonoBehaviour
 {
     [Tooltip("Where Kitty respawns if she dies after hitting this checkpoint. " +
              "Leave empty to use this GameObject's position.")]
-    public Transform respawnPosition;
+    [SerializeField] private Transform respawnPosition;
 
     [Tooltip("Optional particle effect when checkpoint is activated.")]
-    public ParticleSystem activationEffect;
+    [SerializeField] private ParticleSystem activationEffect;
 
     [Tooltip("Optional audio clip when checkpoint is activated.")]
-    public AudioClip activationSound;
+    [SerializeField] private AudioClip activationSound;
 
     bool _activated = false;
 

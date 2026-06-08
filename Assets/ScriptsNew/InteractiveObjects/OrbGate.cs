@@ -14,31 +14,31 @@ public class OrbGate : MonoBehaviour, IInteractable
 
     [Header("Refs")]
     [Tooltip("The TreeObstruction this gate controls.")]
-    public TreeObstruction obstruction;
+    [SerializeField] private TreeObstruction obstruction;
 
     [Header("Condition")]
     [Tooltip("How many orbs Kitty must have collected before she can open this gate.")]
-    public int requiredOrbs = 5;
+    [SerializeField] private int requiredOrbs = 5;
 
     [Header("Prompts")]
     [Tooltip("Shown when Kitty has enough orbs.")]
-    public string readyPrompt    = "Press E to open the path";
+    [SerializeField] private string readyPrompt    = "Press E to open the path";
 
     [Tooltip("Shown when Kitty doesn't have enough orbs yet.")]
-    public string notReadyPrompt = "You need {0}/{1} orbs";  // {0} = collected, {1} = required
+    [SerializeField] private string notReadyPrompt = "You need {0}/{1} orbs";  // {0} = collected, {1} = required
 
     [Header("Effects")]
     [Tooltip("Optional particle effect played on the gate when activated.")]
-    public ParticleSystem activateFX;
+    [SerializeField] private ParticleSystem activateFX;
 
     [Tooltip("Optional audio clip played on activation.")]
-    public AudioClip activateSound;
+    [SerializeField] private AudioClip activateSound;
 
     [Header("Animation")]
     [Tooltip("Optional Transform to animate (e.g. spin or pulse) while locked.")]
-    public Transform idleAnimTarget;
+    [SerializeField] private Transform idleAnimTarget;
     [Tooltip("Rotation speed while locked (degrees per second).")]
-    public float idleSpinSpeed = 45f;
+    [SerializeField] private float idleSpinSpeed = 45f;
 
     // ─────────────────────────────────────────────
     //  PRIVATE
@@ -93,7 +93,7 @@ public class OrbGate : MonoBehaviour, IInteractable
 
     void Awake()
     {
-        _audio = GetComponent<AudioSource>();
+        TryGetComponent(out _audio);
     }
 
     void Update()

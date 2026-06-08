@@ -14,35 +14,35 @@ public class DeathScreen : MonoBehaviour
     // ─────────────────────────────────────────────
 
     [Header("References")]
-    public PlayerStats  playerStats;
+    [SerializeField] private PlayerStats  playerStats;
 
     [Header("Death Panel")]
     [Tooltip("The root panel GameObject — set inactive in scene, activated on death.")]
-    public GameObject   deathPanel;
-    public CanvasGroup  deathCanvasGroup;
-    public TMP_Text     titleText;
-    public TMP_Text     subText;
-    public Button       respawnButton;
-    public Button       menuButton;
+    [SerializeField] private GameObject   deathPanel;
+    [SerializeField] private CanvasGroup  deathCanvasGroup;
+    [SerializeField] private TMP_Text     titleText;
+    [SerializeField] private TMP_Text     subText;
+    [SerializeField] private Button       respawnButton;
+    [SerializeField] private Button       menuButton;
 
     [Header("Respawn")]
     [Tooltip("Where Kitty respawns. If empty, respawns at her death position.")]
     public Transform    respawnPoint;
 
     [Tooltip("Seconds after death before the death screen fades in.")]
-    public float        deathDelay     = 1.8f;
+    [SerializeField] private float        deathDelay     = 1.8f;
 
     [Tooltip("How fast the death screen fades in.")]
-    public float        fadeInDuration = 1.0f;
+    [SerializeField] private float        fadeInDuration = 1.0f;
 
     [Header("Scenes")]
-    public string       menuSceneName  = "MainMenu";
+    [SerializeField] private string       menuSceneName  = "MainMenu";
 
     [Header("Slow Motion on Death")]
     [Tooltip("If true, time slows briefly when Kitty dies for dramatic effect.")]
-    public bool         slowMotionOnDeath = true;
-    public float        slowMotionScale   = 0.25f;
-    public float        slowMotionDuration = 1.2f;
+    [SerializeField] private bool         slowMotionOnDeath = true;
+    [SerializeField] private float        slowMotionScale   = 0.25f;
+    [SerializeField] private float        slowMotionDuration = 1.2f;
 
     // ─────────────────────────────────────────────
     //  PRIVATE
