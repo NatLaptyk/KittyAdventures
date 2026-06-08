@@ -1,16 +1,6 @@
-// ─────────────────────────────────────────────────────────────────────────────
-//  SpiderCountPrompt.cs
-//
-//  An interactable object that shows the spider kill progress to the player.
-//  Displays "Defeat X more spiders to clear the path!" until all are killed,
-//  then shows a completion message.
-//
-//  SETUP
-//  ─────────────────────────────────────────────────────────────────────────────
-//  1. Attach to any GameObject (a sign, stone, totem, etc.)
-//  2. Add a Collider → check Is Trigger
-//  3. Make sure the Interactor can raycast to it
-// ─────────────────────────────────────────────────────────────────────────────
+// An interactable object that shows the spider kill progress to the player.
+// Displays "Defeat X more spiders to clear the path!" until all are killed,
+// then shows a completion message.
 
 using UnityEngine;
 

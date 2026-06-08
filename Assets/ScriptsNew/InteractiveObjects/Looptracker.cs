@@ -1,17 +1,7 @@
 // ─────────────────────────────────────────────────────────────────────────────
-//  LoopTracker.cs
-//
-//  Manages an ordered sequence of checkpoints. When Kitty activates all
-//  checkpoints in order, fires OnLoopComplete which triggers the TreeObstruction.
-//
-//  SETUP
-//  ─────────────────────────────────────────────────────────────────────────────
-//  1. Create an empty GameObject in the scene, name it "LoopTracker"
-//  2. Attach this script to it
-//  3. In the Inspector, add your CheckpointMarker GameObjects to the
-//     Checkpoints list IN ORDER (first to last)
-//  4. Assign the TreeObstruction GameObject to the Obstruction field
-// ─────────────────────────────────────────────────────────────────────────────
+// LoopTracker.cs
+// Manages an ordered sequence of checkpoints. When Kitty activates all
+// checkpoints in order, fires OnLoopComplete which triggers the TreeObstruction.
 
 using System;
 using System.Collections;

@@ -1,18 +1,5 @@
-// ─────────────────────────────────────────────────────────────────────────────
-//  InputReader.cs
-//
-//  Receives input from PlayerInput (Invoke Unity Events mode) and exposes
-//  clean properties for PlayerController and CameraController to read.
-//
-//  SETUP
-//  ─────────────────────────────────────────────────────────────────────────
-//  1. Attach to Kitty's root GameObject.
-//  2. Add a PlayerInput component to Kitty.
-//     - Actions      → your Input Actions asset
-//     - Behavior     → Invoke Unity Events
-//     - Default Map  → your action map name
-//  3. Wire each action to the matching method below (see wiring guide).
-// ─────────────────────────────────────────────────────────────────────────────
+// Receives input from PlayerInput (Invoke Unity Events mode) and exposes
+// clean properties for PlayerController and CameraController to read.
 
 using UnityEngine;
 using UnityEngine.InputSystem;

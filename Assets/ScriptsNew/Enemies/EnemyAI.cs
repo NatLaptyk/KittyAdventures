@@ -1,19 +1,7 @@
 // ─────────────────────────────────────────────────────────────────────────────
-//  EnemyAI.cs  —  Base class for all enemies
-//
-//  Handles the shared state machine: Patrol → Chase → Attack → Dead
-//  SpiderAI and SpiritAI inherit from this and override behaviour hooks.
-//
-//  SETUP
-//  ─────────────────────────────────────────────────────────────────────────
-//  1. Do NOT attach EnemyAI directly — use SpiderAI or SpiritAI instead.
-//  2. Enemy GameObject needs:
-//       - NavMeshAgent component
-//       - EnemyStats component
-//       - Collider (for player attacks to hit)
-//  3. Bake a NavMesh on your terrain:
-//       Window → AI → Navigation → Bake
-// ─────────────────────────────────────────────────────────────────────────────
+// EnemyAI.cs  —  Base class for all enemies
+// Handles the shared state machine: Patrol → Chase → Attack → Dead
+// SpiderAI and SpiritAI inherit from this and override behaviour hooks.
 
 using System.Collections;
 using UnityEngine;

@@ -1,33 +1,5 @@
-// ─────────────────────────────────────────────────────────────────────────────
-//  SceneFader.cs
-//
-//  A persistent singleton that fades the screen to/from black on every scene
-//  transition. Lives across all scenes via DontDestroyOnLoad.
-//
-//  SETUP (do this ONCE)
-//  ─────────────────────────────────────────────────────────────────────────────
-//  1. Create a new GameObject → name it "SceneFader"
-//  2. Attach this script to it
-//  3. Add a Canvas component:
-//       - Render Mode: Screen Space - Overlay
-//       - Sort Order: 99  (renders on top of everything)
-//  4. Add a child GameObject → name it "FadePanel"
-//       - Add an Image component
-//       - Set color to black (R:0 G:0 B:0 A:255)
-//       - Set RectTransform to stretch-all (anchors Min 0,0 Max 1,1, all offsets 0)
-//       - Uncheck Raycast Target
-//  5. Drag "FadePanel"s Image into the Fade Image field in the Inspector
-//  6. Place the SceneFader prefab in your FIRST scene (MainMenu)
-//     It will carry itself through every scene automatically.
-//
-//  USAGE FROM OTHER SCRIPTS
-//  ─────────────────────────────────────────────────────────────────────────────
-//  // Load a scene with fade:
-//  SceneFader.Instance.FadeTo("MainScene");
-//
-//  // Load with a custom duration:
-//  SceneFader.Instance.FadeTo("Intro", fadeDuration: 1.5f);
-// ─────────────────────────────────────────────────────────────────────────────
+// A persistent singleton that fades the screen to/from black on every scene
+// transition. Lives across all scenes via DontDestroyOnLoad.
 
 using System.Collections;
 using UnityEngine;

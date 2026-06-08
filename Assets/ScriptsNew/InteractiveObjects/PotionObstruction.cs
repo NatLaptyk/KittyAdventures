@@ -1,18 +1,5 @@
-// ─────────────────────────────────────────────────────────────────────────────
-//  PotionObstruction.cs
-//
-//  Potion bottles that slide apart like sliding doors when the Spirit is killed.
-//  Left bottles slide left, right bottles slide right, opening a path.
-//
-//  SETUP
-//  ─────────────────────────────────────────────────────────────────────────────
-//  1. Place your potion bottle GameObjects in the scene.
-//  2. Create an empty GameObject → name it "PotionObstruction" → attach this script.
-//  3. Assign the Spirit's EnemyStats to the Spirit Stats field.
-//  4. Assign bottles to Left Bottles or Right Bottles lists.
-//  5. Set Slide Distance, Slide Direction, and Slide Duration to taste.
-//  6. Optionally assign an Invisible Wall to disable when the path opens.
-// ─────────────────────────────────────────────────────────────────────────────
+// Potion bottles that slide apart like sliding doors when the Spirit is killed.
+// Left bottles slide left, right bottles slide right, opening a path.
 
 using System;
 using System.Collections;

@@ -1,23 +1,5 @@
-// ─────────────────────────────────────────────────────────────────────────────
-//  InventoryHUD.cs
-//
-//  Displays orb and spider counts. Shows completion prompts when all collected
-//  or all killed, then hides the relevant counter.
-//
-//  SETUP
-//  ─────────────────────────────────────────────────────────────────────────────
-//  Canvas
-//    └── InventoryPanel
-//          ├── OrbRow          ← set active, hides after all orbs collected
-//          │     ├── OrbIcon   (Image)
-//          │     └── OrbText   (TMP — "0 / 3")
-//          ├── SpiderRow       ← set active, hides after all spiders killed
-//          │     ├── SpiderIcon (Image)
-//          │     └── SpiderText (TMP — "0 / 2")
-//          └── AnnouncementText (TMP — large centred text, set INACTIVE by default)
-//
-//  Attach InventoryHUD.cs to InventoryPanel and wire all fields.
-// ─────────────────────────────────────────────────────────────────────────────
+// Displays orb and spider counts. Shows completion prompts when all collected
+// or all killed, then hides the relevant counter.
 
 using System.Collections;
 using UnityEngine;

@@ -1,20 +1,7 @@
 // ─────────────────────────────────────────────────────────────────────────────
-//  SpiritPotion.cs
-//
-//  Dropped by the Spirit on death. Kitty auto-collects it by walking over it.
-//  Notifies GameStats, which fires OnPotionCollected → InventoryHUD loads EndScene.
-//
-//  SETUP
-//  ─────────────────────────────────────────────────────────────────────────────
-//  1. Create a Prefab for the potion (e.g. a glowing orb mesh).
-//  2. Attach this script to the prefab root.
-//  3. Add a Collider → check Is Trigger → set to a small sphere radius (~0.6).
-//  4. Tag Kitty as "Player".
-//  5. Assign this prefab to SpiritAI → Potion Prefab field.
-//
-//  Optional: assign a bobSpeed / bobHeight for a floating animation,
-//  and a collectFX ParticleSystem that plays on pickup.
-// ─────────────────────────────────────────────────────────────────────────────
+// SpiritPotion.cs
+// Dropped by the Spirit on death. Kitty auto-collects it by walking over it.
+// Notifies GameStats, which fires OnPotionCollected → InventoryHUD loads EndScene.
 
 using System.Collections;
 using UnityEngine;

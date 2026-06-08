@@ -1,15 +1,3 @@
-// ─────────────────────────────────────────────────────────────────────────────
-//  VictorySceneManager.cs
-//
-//  Waits for the Victory scene to finish then loads the End scene.
-//
-//  SETUP
-//  ─────────────────────────────────────────────────────────────────────────────
-//  1. Attach to any GameObject in the Victory scene
-//  2. Set sceneDelay to match the length of your victory sequence
-//  3. Or call LoadEndScene() from a button or timeline event
-// ─────────────────────────────────────────────────────────────────────────────
-
 using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;

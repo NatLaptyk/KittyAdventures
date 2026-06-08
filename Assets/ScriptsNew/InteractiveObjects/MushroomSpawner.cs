@@ -1,19 +1,6 @@
-// ─────────────────────────────────────────────────────────────────────────────
-//  MushroomSpawner.cs
-//
-//  Randomly spawns a number of mushrooms each playthrough within defined
-//  spawn points. Tells NumberTrigger the correct answer (= mushroom count).
-//  If the puzzle was already solved this session, mushrooms stay as they are.
-//
-//  SETUP
-//  ─────────────────────────────────────────────────────────────────────────────
-//  1. Create an empty GameObject → name it "MushroomSpawner" → attach this script.
-//  2. Create empty GameObjects as spawn points and assign to Spawn Points list.
-//     (Place these where mushrooms can appear in the arena.)
-//  3. Assign your Mushroom Prefab.
-//  4. Assign the NumberTrigger in the scene.
-//  5. Set Min Mushrooms and Max Mushrooms (e.g. 5 and 12).
-// ─────────────────────────────────────────────────────────────────────────────
+// Randomly spawns a number of mushrooms each playthrough within defined
+// spawn points. Tells NumberTrigger the correct answer (= mushroom count).
+// If the puzzle was already solved this session, mushrooms stay as they are.
 
 using System.Collections.Generic;
 using UnityEngine;

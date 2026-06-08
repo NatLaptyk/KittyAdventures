@@ -1,34 +1,3 @@
-// ─────────────────────────────────────────────────────────────────────────────
-//  MainMenuManager.cs
-//
-//  Handles the Main Menu scene — plays music, handles Play and Exit buttons,
-//  and fades in/out on load.
-//
-//  SETUP
-//  ─────────────────────────────────────────────────────────────────────────────
-//  1. Create a new scene: File → New Scene → name it "MainMenu"
-//  2. Add to Build Settings as scene 0 (drag it to the top)
-//     New order: 0 MainMenu → 1 Intro → 2 MainScene → 3 Victory → 4 End
-//  3. Create a Canvas (Screen Space - Overlay) in MainMenu
-//  4. Attach this script to an empty GameObject named "MainMenuManager"
-//
-//  UI HIERARCHY
-//  ─────────────────────────────────────────────────────────────────────────────
-//  Canvas
-//    ├── Background     (UI Image — assign your background sprite)
-//    └── Panel
-//          ├── TitleText      (TextMeshPro — "Whisker in the Woods")
-//          ├── SubtitleText   (TextMeshPro — "A cat's adventure...")
-//          ├── PlayButton     (Button + TextMeshPro child — "Play")
-//          └── ExitButton     (Button + TextMeshPro child — "Exit")
-//
-//  Wire in Inspector:
-//    - Fade Image    → a full-screen black UI Image (put it last in hierarchy so it's on top)
-//    - Play Button   → drag the Button here
-//    - Exit Button   → drag the Button here
-//    - Level Music   → drag your music AudioClip here
-// ─────────────────────────────────────────────────────────────────────────────
-
 using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;

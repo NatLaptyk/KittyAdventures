@@ -1,15 +1,6 @@
-// ─────────────────────────────────────────────────────────────────────────────
-//  GameStats.cs
-//
-//  Central tracker for game statistics — orbs collected, spiders killed.
-//  Listens to events from CheckpointMarker and EnemyStats automatically.
-//  Persists across scenes via DontDestroyOnLoad.
-//
-//  SETUP
-//  ─────────────────────────────────────────────────────────────────────────────
-//  1. Create an empty GameObject → name it "GameStats" → attach this script
-//  2. That's it — it finds enemies and orbs automatically at runtime
-// ─────────────────────────────────────────────────────────────────────────────
+// Central tracker for game statistics — orbs collected, spiders killed.
+// Listens to events from CheckpointMarker and EnemyStats automatically.
+// Persists across scenes via DontDestroyOnLoad.
 
 using System;
 using UnityEngine;

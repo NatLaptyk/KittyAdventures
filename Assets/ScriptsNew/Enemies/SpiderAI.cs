@@ -1,25 +1,10 @@
 // ─────────────────────────────────────────────────────────────────────────────
-//  SpiderAI.cs  —  Aggressive ground enemy
-//
-//  Spiders are aggressive melee enemies:
-//  • Patrol their spawn area
-//  • Charge at Kitty when she enters chase range
-//  • Deal heavy melee damage up close
-//  • High health, slow speed
-//
-//  SETUP
-//  ─────────────────────────────────────────────────────────────────────────
-//  1. Attach to your Spider enemy GameObject.
-//  2. Also attach EnemyStats — set recommended values:
-//       Max Health:    80
-//       Attack Damage: 15
-//       Attack Range:  1.8
-//       Move Speed:    3.5
-//       Chase Range:   10
-//  3. Add NavMeshAgent component.
-//  4. Add a Collider (CapsuleCollider works well).
-//  5. Set GameObject layer to "Enemy".
-// ─────────────────────────────────────────────────────────────────────────────
+// SpiderAI.cs  —  Aggressive ground enemy
+// Spiders are aggressive melee enemies:
+// • Patrol their spawn area
+// • Charge at Kitty when she enters chase range
+// • Deal heavy melee damage up close
+// • High health, slow speed
 
 using System.Collections;
 using UnityEngine;

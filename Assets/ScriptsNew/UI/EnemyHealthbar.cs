@@ -1,36 +1,6 @@
-// ─────────────────────────────────────────────────────────────────────────────
-//  EnemyHealthBar.cs
-//
-//  A world-space health bar that floats above an enemy's head.
-//  Hides when the enemy is at full health, appears on first hit,
-//  and fades out after the enemy hasn't taken damage for a while.
-//
-//  SETUP
-//  ─────────────────────────────────────────────────────────────────────────────
-//  1. CREATE THE HEALTH BAR PREFAB
-//     a. Create a new Canvas → set Render Mode to "World Space"
-//        Scale it down: Scale X/Y/Z = 0.01
-//        Width = 100, Height = 12
-//     b. Add a child Image → name "Background"
-//        Stretch to fill canvas, colour dark grey (30,30,30,200)
-//     c. Add another child Image → name "Fill"
-//        Image Type = Filled, Fill Method = Horizontal, Fill Origin = Left
-//        Colour: green (80, 200, 80, 255)
-//     d. Optionally add another child Image → name "DelayedFill"
-//        Same Filled settings, colour yellow, place between BG and Fill
-//     e. Attach EnemyHealthBar.cs to the Canvas root
-//        Assign the Fill and DelayedFill images in the Inspector
-//     f. Save as a prefab named "EnemyHealthBarPrefab"
-//
-//  2. ON EACH ENEMY
-//     a. Drag EnemyHealthBarPrefab into the scene as a child of the enemy root
-//     b. Position it above the enemy's head (e.g. Y = 2.5)
-//     c. Assign the enemy's EnemyStats to the Stats field
-//
-//  OR — use auto-spawn:
-//     Drag the prefab into EnemyStats' healthBarPrefab field (see EnemyStats)
-//     and it will instantiate automatically.
-// ─────────────────────────────────────────────────────────────────────────────
+// A world-space health bar that floats above an enemy's head.
+// Hides when the enemy is at full health, appears on first hit,
+// and fades out after the enemy hasn't taken damage for a while.
 
 using System.Collections;
 using UnityEngine;

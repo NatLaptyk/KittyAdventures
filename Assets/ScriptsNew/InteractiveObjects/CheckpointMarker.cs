@@ -1,17 +1,7 @@
 // ─────────────────────────────────────────────────────────────────────────────
-//  CheckpointMarker.cs
-//
-//  A glowing interactable marker that Kitty must activate as part of the loop.
-//  Pulses with an idle glow, changes colour when activated.
-//
-//  SETUP
-//  ─────────────────────────────────────────────────────────────────────────────
-//  1. Create a GameObject for each checkpoint (e.g. a glowing orb or rune)
-//  2. Attach this script to it
-//  3. Add a SphereCollider set to Is Trigger
-//  4. Assign a Renderer (the glowing mesh) to the Glow Renderer field
-//  5. Add all CheckpointMarkers to the LoopTracker's Checkpoints list
-// ─────────────────────────────────────────────────────────────────────────────
+// CheckpointMarker.cs
+// A glowing interactable marker that Kitty must activate as part of the loop.
+// Pulses with an idle glow, changes colour when activated.
 
 using System;
 using System.Collections;

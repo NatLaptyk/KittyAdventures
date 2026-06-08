@@ -1,22 +1,8 @@
-// ─────────────────────────────────────────────────────────────────────────────
-//  MushroomObstruction.cs
-//
-//  Blocking trees that transform into small mushrooms when the number puzzle
-//  is solved correctly. Each tree scales down, swaps its model for a mushroom
-//  prefab, then scales back up — in a randomised order.
-//
-//  Listens to NumberTrigger.OnPuzzleSolved automatically — no manual wiring needed.
-//
-//  SETUP
-//  ─────────────────────────────────────────────────────────────────────────────
-//  1. Create an empty GameObject → name it "MushroomObstruction" → attach this script.
-//  2. Assign all blocking tree GameObjects to the Trees list.
-//  3. Assign your mushroom prefab to Mushroom Prefab.
-//     - The mushroom will spawn at the same position as the tree.
-//     - It starts at scale zero and grows up to Mushroom Scale.
-//  4. Tune timing values to taste.
-//  5. Make sure your NumberTrigger has correctNumber = 12.
-// ─────────────────────────────────────────────────────────────────────────────
+
+// Blocking trees that transform into small mushrooms when the number puzzle
+// is solved correctly. Each tree scales down, swaps its model for a mushroom
+// prefab, then scales back up — in a randomised order.
+// Listens to NumberTrigger.OnPuzzleSolved automatically — no manual wiring needed.
 
 using System;
 using System.Collections;

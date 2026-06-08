@@ -1,21 +1,5 @@
-// ─────────────────────────────────────────────────────────────────────────────
-//  TreeObstruction.cs
-//
-//  Controls a group of trees that shift aside to reveal a hidden path
-//  when the loop is completed. Trees animate smoothly to open positions.
-//
-//  SETUP
-//  ─────────────────────────────────────────────────────────────────────────────
-//  1. Place your blocking trees in the scene
-//  2. Create an empty GameObject, name it "TreeObstruction"
-//  3. Attach this script to it
-//  4. For each blocking tree, add a TreeEntry in the Inspector:
-//     - Tree Transform: drag the tree GameObject
-//     - Open Position: where the tree should move to (offset from current pos)
-//       e.g. set to (5, 0, 0) to slide 5 units to the right
-//     - Open Rotation: optional rotation when open (e.g. tilt the tree)
-//  5. Assign this to the LoopTracker's Obstruction field
-// ─────────────────────────────────────────────────────────────────────────────
+// Controls a group of trees that shift aside to reveal a hidden path
+// when the loop is completed. Trees animate smoothly to open positions.
 
 using System;
 using System.Collections;

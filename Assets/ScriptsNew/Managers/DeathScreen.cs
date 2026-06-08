@@ -1,29 +1,5 @@
-// ─────────────────────────────────────────────────────────────────────────────
-//  DeathScreen.cs
-//
-//  Shows a death overlay when Kitty's health reaches zero.
-//  Offers Respawn (restart from checkpoint or spawn point) and Exit to Menu.
-//
-//  SETUP
-//  ─────────────────────────────────────────────────────────────────────────────
-//  1. On your existing Canvas (Screen Space Overlay), create a new child Image
-//     - Name it "DeathPanel"
-//     - Colour: black (0,0,0,200) — semi-transparent dark overlay
-//     - Anchor: stretch all (Alt+click bottom-right preset)
-//     - Add a CanvasGroup component to it
-//
-//  2. Inside DeathPanel add:
-//     - TextMeshPro text → name "DeathTitleText"  → write "You Died"
-//     - TextMeshPro text → name "DeathSubText"    → write "Whisker fell in the woods..."
-//     - Button (TMP) → name "RespawnButton"       → text "Try Again"
-//     - Button (TMP) → name "MenuButton"          → text "Exit to Menu"
-//
-//  3. Create empty GameObject in scene → name "DeathScreen" → attach this script
-//     Drag all references into the Inspector
-//
-//  4. Set DeathPanel to INACTIVE in the scene (untick the checkbox next to its name)
-//     The script will activate it when Kitty dies
-// ─────────────────────────────────────────────────────────────────────────────
+// Shows a death overlay when Kitty's health reaches zero.
+// Offers Respawn (restart from checkpoint or spawn point) and Exit to Menu.
 
 using System.Collections;
 using UnityEngine;

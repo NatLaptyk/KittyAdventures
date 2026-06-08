@@ -1,15 +1,7 @@
 // ─────────────────────────────────────────────────────────────────────────────
-//  EnemyStats.cs
-//
-//  Shared stats for all enemy types. Attach to any enemy GameObject.
-//  Implements IDamageable so PlayerCombat can hit enemies directly.
-//
-//  SETUP
-//  ─────────────────────────────────────────────────────────────────────────
-//  1. Attach to your enemy root GameObject.
-//  2. Configure health, damage, speed in the Inspector.
-//  3. Optionally assign a deathEffect particle prefab.
-// ─────────────────────────────────────────────────────────────────────────────
+// EnemyStats.cs
+// Shared stats for all enemy types. Attach to any enemy GameObject.
+// Implements IDamageable so PlayerCombat can hit enemies directly.
 
 using System;
 using System.Collections;

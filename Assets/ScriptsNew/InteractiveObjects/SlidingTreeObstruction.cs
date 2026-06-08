@@ -1,25 +1,7 @@
-// ─────────────────────────────────────────────────────────────────────────────
-//  SlidingTreeObstruction.cs
-//
-//  A group of trees that split apart like sliding doors when enough spiders
-//  have been killed. Trees in the LEFT list slide left, trees in the RIGHT
-//  list slide right, opening a gap in the centre.
-//
-//  Triggered automatically by GameStats.OnAllSpidersKilled.
-//
-//  SETUP
-//  ─────────────────────────────────────────────────────────────────────────────
-//  1. Place your blocking trees in the scene.
-//  2. Create an empty GameObject → name it "SlidingTreeObstruction" → attach this script.
-//  3. Assign trees to Left Trees or Right Trees lists in the Inspector.
-//     - Left Trees  → will slide in the -X (or custom) direction
-//     - Right Trees → will slide in the +X (or custom) direction
-//  4. Set Slide Distance to how far each side slides (world units).
-//  5. Set Slide Direction to match your path orientation
-//     (default Vector3.right — override if your path runs along Z axis).
-//  6. Set Required Kills to 15 (or however many spiders trigger this).
-//  7. No need to wire to LoopTracker — this listens to GameStats directly.
-// ─────────────────────────────────────────────────────────────────────────────
+// A group of trees that split apart like sliding doors when enough spiders
+// have been killed. Trees in the LEFT list slide left, trees in the RIGHT
+// list slide right, opening a gap in the centre.
+// Triggered automatically by GameStats.OnAllSpidersKilled.
 
 using System;
 using System.Collections;

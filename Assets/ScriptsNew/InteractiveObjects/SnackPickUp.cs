@@ -1,17 +1,5 @@
-// ─────────────────────────────────────────────────────────────────────────────
-//  SnackPickup.cs
-//
-//  A snack Kitty can find in the world. Walk over it to add it to inventory.
-//  Plays a collect sound and particle, then destroys itself.
-//
-//  SETUP
-//  ─────────────────────────────────────────────────────────────────────────────
-//  1. Create a prefab (e.g. a fish, berry, or food mesh).
-//  2. Attach this script to the prefab root.
-//  3. Add a SphereCollider → check Is Trigger.
-//  4. Optionally assign a collectFX ParticleSystem and collectSound.
-//  5. Place in the world wherever you want Kitty to find extra snacks.
-// ─────────────────────────────────────────────────────────────────────────────
+// A snack Kitty can find in the world. Walk over it to add it to inventory.
+// Plays a collect sound and particle, then destroys itself.
 
 using System.Collections;
 using UnityEngine;

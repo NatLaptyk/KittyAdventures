@@ -1,21 +1,7 @@
-// ─────────────────────────────────────────────────────────────────────────────
-//  OrbGate.cs
-//
-//  An interactable object (e.g. a glowing stone, ancient door, totem) that
-//  Kitty can activate after collecting enough orbs. On interaction it calls
-//  TreeObstruction.OpenPath(), making the trees sink into the ground.
-//
-//  Implements IInteractable — works with the existing Interactor / raycast system.
-//
-//  SETUP
-//  ─────────────────────────────────────────────────────────────────────────────
-//  1. Create a GameObject for your gate object (stone, totem, door, etc.).
-//  2. Attach this script to it.
-//  3. Add a Collider — does NOT need to be a trigger (raycast will hit it).
-//  4. Assign the TreeObstruction reference in the Inspector.
-//  5. Set Required Orbs to 5.
-//  6. Optionally assign a particle effect and audio clip for the activation.
-// ─────────────────────────────────────────────────────────────────────────────
+// An interactable object (e.g. a glowing stone, ancient door, totem) that
+// Kitty can activate after collecting enough orbs. On interaction it calls
+// TreeObstruction.OpenPath(), making the trees sink into the ground.
+// Implements IInteractable — works with the existing Interactor / raycast system.
 
 using System.Collections;
 using UnityEngine;

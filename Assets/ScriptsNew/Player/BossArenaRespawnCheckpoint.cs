@@ -1,17 +1,7 @@
 // ─────────────────────────────────────────────────────────────────────────────
-//  RespawnCheckpoint.cs
-//
-//  When Kitty enters this trigger, it updates the DeathScreen's respawn point
-//  so she respawns here if she dies. Perfect for the boss arena entrance.
-//
-//  SETUP
-//  ─────────────────────────────────────────────────────────────────────────────
-//  1. Create an empty GameObject at the boss arena entrance
-//  2. Add a Collider → check Is Trigger
-//  3. Attach this script
-//  4. The respawn position is this GameObject's position by default,
-//     or assign a separate Respawn Position Transform in the Inspector
-// ─────────────────────────────────────────────────────────────────────────────
+// RespawnCheckpoint.cs
+// When Kitty enters this trigger, it updates the DeathScreen's respawn point
+// so she respawns here if she dies. Perfect for the boss arena entrance.
 
 using UnityEngine;
 

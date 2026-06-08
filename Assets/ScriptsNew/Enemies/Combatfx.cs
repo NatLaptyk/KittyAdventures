@@ -1,41 +1,9 @@
 // ─────────────────────────────────────────────────────────────────────────────
-//  CombatFX.cs
-//
-//  Centralised combat visual effects manager:
-//    • Hit Stop     — freezes time briefly on a heavy hit for satisfying impact
-//    • Screen Flash — red/white UI overlay when Kitty takes damage
-//    • Hit Sparks   — particle burst spawned at the point of contact
-//
-//  SETUP
-//  ─────────────────────────────────────────────────────────────────────────────
-//  1. Create an empty GameObject, name it "CombatFX", attach this script
-//
-//  2. HIT SPARKS
-//     a. GameObject → Effects → Particle System
-//     b. Configure it (see recommended settings below)
-//     c. Drag it into the Hit Spark Prefab field in the Inspector
-//     d. Make sure "Play On Awake" is OFF and "Stop Action" = Destroy
-//
-//  3. SCREEN FLASH
-//     a. In your scene's Canvas (Screen Space — Overlay):
-//        Right-click → UI → Image
-//        Name it "DamageFlash"
-//        Set Rect Transform to stretch full screen (Alt+click the anchor preset → stretch all)
-//        Set Image colour to red (R:255 G:0 B:0 A:0)
-//        Make sure Raycast Target is OFF
-//     b. Drag this Image into the Flash Image field
-//
-//  4. Wire up — in PlayerCombat's ApplyHit and PlayerStats' TakeDamage,
-//     call CombatFX.Instance methods (examples shown at bottom of file)
-//
-//  RECOMMENDED PARTICLE SETTINGS FOR HIT SPARKS
-//  ─────────────────────────────────────────────────────────────────────────────
-//  Duration: 0.3   Loop: OFF   Start Lifetime: 0.2–0.4   Start Speed: 4–8
-//  Start Size: 0.05–0.15   Start Colour: orange→yellow gradient
-//  Emission: Burst — Count 12–20 at time 0
-//  Shape: Sphere, Radius 0.1
-//  Renderer: Billboard or Stretched Billboard
-// ─────────────────────────────────────────────────────────────────────────────
+// CombatFX.cs
+// Centralised combat visual effects manager:
+// • Hit Stop     — freezes time briefly on a heavy hit for satisfying impact
+// • Screen Flash — red/white UI overlay when Kitty takes damage
+// • Hit Sparks   — particle burst spawned at the point of contact
 
 using System.Collections;
 using UnityEngine;

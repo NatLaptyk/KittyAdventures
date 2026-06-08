@@ -1,35 +1,21 @@
-// ─────────────────────────────────────────────────────────────────────────────
-//  PlayerCombat.cs
-//
-//  Handles all of Kitty's combat: light attack, heavy attack, and parry.
-//  Reads mouse input directly via the new Input System.
-//
-//  HOW ATTACKS WORK
-//  ─────────────────────────────────────────────────────────────────────────
-//  Rather than using raycasts or projectiles, attacks use an OverlapSphere —
-//  an invisible sphere in front of Kitty that detects any enemy colliders
-//  within range at the moment of impact. This is simple, reliable, and feels
-//  good for a close-quarters action game.
-//
-//  PARRY WINDOW
-//  ─────────────────────────────────────────────────────────────────────────
-//  When the player holds Right Mouse and an enemy hits Kitty within the parry
-//  window, the damage is negated and the attacker is briefly stunned.
-//  Outside the parry window, Right Mouse performs a heavy attack instead.
-//
-//  REQUIRES on the same GameObject:
-//    - PlayerStats  (for stamina checks)
-//    - InputReader  (registered as a component but attacks bypass it —
-//                   mouse is read directly for responsiveness)
-//    - CameraController must exist in the scene (for shake)
-//
-//  SETUP
-//  ─────────────────────────────────────────────────────────────────────────
-//  1. Attach to Kitty's root GameObject.
-//  2. Set enemyLayers to your Enemy layer mask in the Inspector.
-//  3. Optionally assign an Animator.
-//  4. Place Kitty on a layer that does NOT include enemyLayers.
-// ─────────────────────────────────────────────────────────────────────────────
+// Handles all of Kitty's combat: light attack, heavy attack, and parry.
+// Reads mouse input directly via the new Input System.
+// HOW ATTACKS WORK
+// ─────────────────────────────────────────────────────────────────────────
+// Rather than using raycasts or projectiles, attacks use an OverlapSphere —
+// an invisible sphere in front of Kitty that detects any enemy colliders
+// within range at the moment of impact. This is simple, reliable, and feels
+// good for a close-quarters action game.
+// PARRY WINDOW
+// ─────────────────────────────────────────────────────────────────────────
+// When the player holds Right Mouse and an enemy hits Kitty within the parry
+// window, the damage is negated and the attacker is briefly stunned.
+// Outside the parry window, Right Mouse performs a heavy attack instead.
+// REQUIRES on the same GameObject:
+// - PlayerStats  (for stamina checks)
+// - InputReader  (registered as a component but attacks bypass it —
+// mouse is read directly for responsiveness)
+// - CameraController must exist in the scene (for shake)
 
 using System.Collections;
 using UnityEngine;
@@ -363,9 +349,8 @@ public class PlayerCombat : MonoBehaviour
         return hitAny;
     }
 
-    /// <summary>
-    /// Applies damage and optional knockback to a single enemy collider.
-    /// </summary>
+    // Applies damage and optional knockback to a single enemy collider.
+   
     void ApplyHit(Collider hit, float damage, bool applyKnockback)
     {
         // Check the hit collider first, then walk up to parent in case
@@ -416,10 +401,10 @@ public class PlayerCombat : MonoBehaviour
     //  PUBLIC API
     // ─────────────────────────────────────────────
 
-    /// <summary>
-    /// Returns true if Kitty is currently in a parry window.
-    /// Called by EnemyAI when it deals damage to check if the hit is parried.
-    /// </summary>
+   
+    // Returns true if Kitty is currently in a parry window.
+    // Called by EnemyAI when it deals damage to check if the hit is parried.
+    
     public bool IsParrying => _parryActive;
 
     /// <summary>Whether Kitty is currently busy with an attack or parry.</summary>

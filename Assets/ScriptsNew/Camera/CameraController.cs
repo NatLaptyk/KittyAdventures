@@ -1,31 +1,11 @@
 // ─────────────────────────────────────────────────────────────────────────────
-//  CameraController.cs  —  True Orbit Camera
-//
-//  The camera orbits around Kitty like a ball on a string.
-//  No matter where you move the mouse, the camera ALWAYS points at Kitty.
-//
-//  HOW IT WORKS
-//  ─────────────────────────────────────────────────────────────────────────
-//  We don't use CinemachinePanTilt (that rotates the camera itself).
-//  Instead:
-//    1. Kitty's position is the orbit centre
-//    2. Mouse X/Y builds a yaw + pitch rotation
-//    3. Camera is placed at: centre + rotation * (0, 0, -distance)
-//    4. Camera always calls LookAt(Kitty) so it faces inward
-//
-//  SETUP
-//  ─────────────────────────────────────────────────────────────────────────
-//  1. Attach this script to your Main Camera GameObject.
-//     (Not to Kitty — to the camera itself.)
-//
-//  2. Tag Kitty's root GameObject as "Player".
-//
-//  3. Make sure InputReader.cs is on Kitty.
-//
-//  4. Remove CinemachineBrain from the Main Camera if present.
-//     Remove any CinemachineCamera objects from the scene.
-//     This script drives the camera directly — no Cinemachine needed.
-// ─────────────────────────────────────────────────────────────────────────────
+// CameraController.cs  —  True Orbit Camera
+// The camera orbits around Kitty like a ball on a string.
+// No matter where you move the mouse, the camera ALWAYS points at Kitty.
+// HOW IT WORKS
+// ─────────────────────────────────────────────────────────────────────────
+// We don't use CinemachinePanTilt (that rotates the camera itself).
+// Instead:
 
 using UnityEngine;
 

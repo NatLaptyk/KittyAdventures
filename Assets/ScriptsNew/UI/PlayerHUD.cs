@@ -1,33 +1,5 @@
-// ─────────────────────────────────────────────────────────────────────────────
-//  PlayerHUD.cs
-//
-//  Draws Kitty's health and stamina bars on screen.
-//  Listens to PlayerStats events — no polling needed.
-//
-//  SETUP
-//  ─────────────────────────────────────────────────────────────────────────────
-//  1. Create a Canvas (Screen Space — Overlay) if you don't have one
-//
-//  2. BUILD THE HEALTH BAR
-//     a. Right-click Canvas → UI → Image → name it "HealthBarBG"
-//        Colour: dark red (30, 0, 0, 200)
-//     b. Right-click HealthBarBG → UI → Image → name it "HealthBarFill"
-//        Set Image Type to "Filled", Fill Method "Horizontal", Fill Origin "Left"
-//        Colour: bright red (220, 50, 50, 255)
-//     c. Right-click HealthBarBG → UI → Image → name it "HealthBarDelayed"
-//        Same Filled settings — this is the ghost bar that lags behind
-//        Colour: orange (255, 160, 0, 200)
-//        Place this BETWEEN BG and Fill in the hierarchy so Fill draws on top
-//
-//  3. BUILD THE STAMINA BAR — same structure, different colours
-//     Background: dark blue (0, 10, 40, 200)
-//     Fill:       bright yellow (240, 220, 40, 255)
-//     Delayed:    not needed for stamina (optional)
-//
-//  4. Attach PlayerHUD.cs to the Canvas or any persistent GameObject
-//     Drag the Fill images into the Inspector slots
-//     Assign the PlayerStats component (drag Kitty root)
-// ─────────────────────────────────────────────────────────────────────────────
+// Draws Kitty's health and stamina bars on screen.
+// Listens to PlayerStats events — no polling needed.
 
 using System.Collections;
 using UnityEngine;

@@ -1,16 +1,6 @@
 // ─────────────────────────────────────────────────────────────────────────────
-//  HouseTrigger.cs
-//
-//  Loads the Victory scene when Kitty enters the trigger zone near her house.
-//
-//  SETUP
-//  ─────────────────────────────────────────────────────────────────────────────
-//  1. Create an empty GameObject near Kitty's house → name it "HouseTrigger"
-//  2. Add a Collider (BoxCollider or SphereCollider) → check Is Trigger
-//  3. Attach this script
-//  4. Set Victory Scene Name to "Victory" in the Inspector
-//  5. Make sure the Player GameObject (or its root) is on the "Player" layer
-// ─────────────────────────────────────────────────────────────────────────────
+// HouseTrigger.cs
+// Loads the Victory scene when Kitty enters the trigger zone near her house.
 
 using UnityEngine;
 

@@ -1,20 +1,8 @@
-// ─────────────────────────────────────────────────────────────────────────────
-//  PlayerController.cs
-//
-//  Handles Kitty's movement, jumping, dodging and climbing.
-//  Works alongside CameraController.cs (orbit camera).
-//
-//  REQUIRES on same GameObject:
-//    - CharacterController
-//    - InputReader
-//
-//  SETUP
-//  ─────────────────────────────────────────────────────────────────────────
-//  1. Attach to Kitty's root GameObject.
-//  2. Kitty needs a CharacterController:
-//       Height: 1.8  |  Radius: 0.3  |  Center Y: 0.9  |  Skin Width: 0.08
-//  3. For climbing: tag climbable walls with the "Climbable" tag.
-// ─────────────────────────────────────────────────────────────────────────────
+// Handles Kitty's movement, jumping, dodging and climbing.
+// Works alongside CameraController.cs (orbit camera).
+// REQUIRES on same GameObject:
+// - CharacterController
+// - InputReader
 
 using System.Collections;
 using UnityEngine;
